@@ -1,0 +1,793 @@
+# ==============================================================================
+# Tigo (Millicom) LATAM Competitive Intelligence Radar - 12-Market Catalog
+# ==============================================================================
+# Markets covered: GT, SV, HN, NI, CR, PA, CO, BO, PY, UY, EC, CL
+# Segments per operator: HOME_BUNDLES, MOBILE_POSTPAID, VAS_ENTERTAINMENT
+# ==============================================================================
+
+version: "2.1"
+
+default_pre_scrape_actions:
+  - action: "dismiss_cookies"
+  - action: "scroll_lazy_content"
+  - action: "expand_accordions"
+    regex_pattern: "(ver detalle|más info|mas info|términos|terminos|incluye|beneficios|condiciones)"
+
+markets:
+  GT:
+    country_name: "Guatemala"
+    currency: "GTQ"
+    operators:
+      - name: "Tigo"
+        domain: "tigo.com.gt"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tigo.com.gt/residencial"
+              label: "Tigo Hogar Internet + TV Digital"
+            - url: "https://www.tigo.com.gt/personas/hogar"
+              label: "Tigo Planes Hogar Residencial"
+          MOBILE_POSTPAID:
+            - url: "https://www.tigo.com.gt/planes-postpago"
+              label: "Tigo Planes Postpago Móvil"
+          VAS_ENTERTAINMENT:
+            - url: "https://ayuda.tigo.com.gt/"
+              label: "Tigo Entretenimiento Premium & Deportes"
+      - name: "Claro"
+        domain: "claro.com.gt"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.claro.com.gt/personas/servicios/servicios-hogar/"
+              label: "Claro Hogar Doble y Triple Fibra / HFC"
+            - url: "https://tiendaenlinea.claro.com.gt/"
+              label: "Tienda en Línea Claro Hogar GT"
+          MOBILE_POSTPAID:
+            - url: "https://www.claro.com.gt/personas/servicios/servicios-moviles/postpago/"
+              label: "Claro Planes Postpago"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.claro.com.gt/personas/servicios/servicios-hogar/"
+              label: "Claro Video, Universal+, Max y Prime Video"
+
+  SV:
+    country_name: "El Salvador"
+    currency: "USD"
+    operators:
+      - name: "Tigo"
+        domain: "tigo.com.sv"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tigo.com.sv/planes"
+              label: "Tigo Hogar Internet y TV ONEtv"
+            - url: "https://www.tigo.com.sv/"
+              label: "Tigo El Salvador Residencial"
+          MOBILE_POSTPAID:
+            - url: "https://www.tigo.com.sv/planes-pospago"
+              label: "Tigo Planes Pospago"
+          VAS_ENTERTAINMENT:
+            - url: "https://ayuda.tigo.com.sv/hc/es/articles/25667352373773-Addons-Premium-de-Contenido-para-Servicio-Residencial"
+              label: "Addons Premium Contenido Residencial Tigo SV"
+      - name: "Claro"
+        domain: "claro.com.sv"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.claro.com.sv/personas/servicios/servicios-hogar/"
+              label: "Claro Hogar Fibra y Claro TV+"
+            - url: "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/claro-hogar-triple/planes-y-precios/"
+              label: "Claro Hogar Triple Planes y Precios"
+          MOBILE_POSTPAID:
+            - url: "https://www.claro.com.sv/personas/servicios/servicios-moviles/pospago/"
+              label: "Claro Pospago 360"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/"
+              label: "Claro TV+, Universal+ y Max"
+      - name: "Digicel"
+        domain: "digicelgroup.com/sv"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://fibra.digicel.com.sv/"
+              label: "Digicel Fibra Residencial (Cotización Cobertura)"
+          MOBILE_POSTPAID:
+            - url: "https://www.digicelgroup.com/sv/es/mobile/rates.html"
+              label: "Digicel Planes Pospago LTE"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.digicelgroup.com/sv/es.html"
+              label: "Portal Digicel El Salvador"
+
+  HN:
+    country_name: "Honduras"
+    currency: "HNL"
+    operators:
+      - name: "Tigo"
+        domain: "tigo.com.hn"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tigo.com.hn/"
+              label: "Tigo Hogar Internet + ONEtv HD"
+          MOBILE_POSTPAID:
+            - url: "https://www.tigo.com.hn/pospago"
+              label: "Tigo Planes Pospago"
+          VAS_ENTERTAINMENT:
+            - url: "https://ayuda.tigo.com.hn/hc/en-us/articles/6990479155725-VIX-Premium-LaLiga-con-TIGO"
+              label: "Tigo HN Paramount+ ONEtv, ViX Premium, Max y Disney+"
+      - name: "Claro"
+        domain: "claro.com.hn"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.claro.com.hn/personas/servicios/hogar/triple-play/"
+              label: "Claro Hogar Triple Play Fibra Simétrica"
+            - url: "https://www.claro.com.hn/personas/servicios/hogar/doble-play/"
+              label: "Claro Hogar Doble Play"
+          MOBILE_POSTPAID:
+            - url: "https://www.claro.com.hn/personas/servicios/servicios-moviles/postpago/"
+              label: "Claro Planes Postpago"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.claro.com.hn/personas/entretenimiento/hbomax/"
+              label: "Claro HN Max, Universal+, Claro Video y Prime Video"
+
+  NI:
+    country_name: "Nicaragua"
+    currency: "NIO"
+    operators:
+      - name: "Tigo"
+        domain: "tigo.com.ni"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tigo.com.ni/planes"
+              label: "Tigo Hogar Internet y One TV"
+            - url: "https://ha.tigo.com.ni/"
+              label: "Portal Cobertura Tigo Hogar Nicaragua"
+          MOBILE_POSTPAID:
+            - url: "https://www.tigo.com.ni/pospago"
+              label: "Tigo Planes Pospago"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.tigo.com.ni/"
+              label: "Tigo Entretenimiento Premium Nicaragua"
+      - name: "Claro"
+        domain: "claro.com.ni"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.claro.com.ni/personas/servicios/hogar/claro-hogar-triple/"
+              label: "Claro Hogar Triple Fibra y HFC"
+            - url: "https://tiendaenlinea.claro.com.ni/tienda/planes-claro-hogar"
+              label: "Tienda en Línea Claro Hogar NI"
+          MOBILE_POSTPAID:
+            - url: "https://www.claro.com.ni/personas/servicios/servicios-moviles/pospago/"
+              label: "Claro Pospago Móvil"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.claro.com.ni/personas/servicios/entrenamiento/hbo-max/"
+              label: "Claro NI Max, Universal+, Prime Video y Claro Video"
+
+  CR:
+    country_name: "Costa Rica"
+    currency: "CRC"
+    operators:
+      - name: "Tigo"
+        domain: "tigo.cr"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tigo.cr/hogar/internet-y-television"
+              label: "Tigo Hogar Internet y Televisión HD"
+          MOBILE_POSTPAID:
+            - url: "https://www.tigo.cr/"
+              label: "Tigo Costa Rica Residencial"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.tigo.cr/tv/premium"
+              label: "Tigo Sports CR, ViX Premium, Max y Disney+"
+      - name: "Liberty"
+        domain: "libertycr.com"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://libertycr.com/hogar"
+              label: "Liberty Hogar Fibra + Next TV + Pack Entretenimiento"
+          MOBILE_POSTPAID:
+            - url: "https://libertycr.com/movil/planes-postpago"
+              label: "Liberty Postpago Móvil"
+          VAS_ENTERTAINMENT:
+            - url: "https://libertycr.com/hogar"
+              label: "Liberty Pack Entretenimiento (Disney+, Max, Universal+)"
+      - name: "Kolbi"
+        domain: "kolbi.cr"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/internet/fibra-optica"
+              label: "kölbi Fibra Óptica Simétrica Individual"
+            - url: "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/planes-duo"
+              label: "kölbi Planes Dúo Fibra + kölbi TV"
+          MOBILE_POSTPAID:
+            - url: "https://www.kolbi.cr/wps/portal/kolbi/personas/postpago"
+              label: "kölbi Planes Postpago"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/planes-triple"
+              label: "kölbi TV Avanzada y Paquetes HBO/Max"
+      - name: "Claro"
+        domain: "claro.cr"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/internet-fibra-optica"
+              label: "Claro Fibra Óptica Simétrica CR"
+            - url: "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/doble-play-fibra-optica"
+              label: "Claro Doble Play Fibra + Claro TV+"
+          MOBILE_POSTPAID:
+            - url: "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-moviles/postpago/"
+              label: "Claro Postpago CR"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar"
+              label: "Claro Video, Paramount+ y Max CR"
+      - name: "Telecable"
+        domain: "telecablecr.com"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://telecablecr.com/internet-fibra-optica"
+              label: "Telecable Fibra Simétrica y T-Play TV"
+            - url: "https://telecablecr.com/paquete-estandar-con-tv"
+              label: "Telecable Paquetes Fibra + TV 180 Canales"
+          MOBILE_POSTPAID:
+            - url: "https://telecablecr.com/"
+              label: "Telecable Residencial"
+          VAS_ENTERTAINMENT:
+            - url: "https://telecablecr.com/paquete-basico-con-tv"
+              label: "Telecable T-Play Pro y Deportes"
+
+  PA:
+    country_name: "Panamá"
+    currency: "USD"
+    operators:
+      - name: "Tigo"
+        domain: "tigo.com.pa"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tigo.com.pa/hogar/internet"
+              label: "Tigo Panamá Internet Hogar y Combos TV"
+            - url: "https://www.tigo.com.pa/"
+              label: "Tigo Panamá Planes Residenciales y Full Tigo"
+          MOBILE_POSTPAID:
+            - url: "https://www.tigo.com.pa/movil/pospago"
+              label: "Tigo Planes Pospago Panamá"
+          VAS_ENTERTAINMENT:
+            - url: "https://mi.tigo.com.pa/home/premium"
+              label: "Tigo Sports PA, Disney+, ViX Premium, Max y Paramount+"
+      - name: "MasMovil"
+        domain: "masmovilpanama.com"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.masmovilpanama.com/hogar/internet-residencial"
+              label: "+Móvil Internet +Fibra Simétrica"
+            - url: "https://www.masmovilpanama.com/paquete-hogar/combos-hogar"
+              label: "+Móvil Paquetes Hogar +Fibra + TV"
+          MOBILE_POSTPAID:
+            - url: "https://www.masmovilpanama.com/movil/planes-postpago"
+              label: "+Móvil Planes Postpago"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.masmovilpanama.com/paquete-hogar/mas-tv-total"
+              label: "+TV Total, Universal+, Disney+ y Max"
+
+  CO:
+    country_name: "Colombia"
+    currency: "COP"
+    operators:
+      - name: "Tigo"
+        domain: "tigo.com.co"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "select_colombia_city_stratum"
+            city: "Bogotá"
+            stratum: "Estrato 3"
+          - action: "scroll_lazy_content"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tigo.com.co/personas/hogar/paquetes"
+              label: "Tigo Hogar Dúos Internet + TV (Bogotá Estrato 3)"
+            - url: "https://www.tigo.com.co/personas/hogar/internet"
+              label: "Tigo Solo Internet Hogar (Bogotá Estrato 3)"
+            - url: "https://www.tigo.com.co/personas/postpago/full-tigo"
+              label: "Full Tigo Convergente Hogar + Móvil + Paramount+"
+          MOBILE_POSTPAID:
+            - url: "https://www.tigo.com.co/pospago"
+              label: "Tigo Planes Pospago Móvil"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.tigo.com.co/personas/hogar/television/canales-premium"
+              label: "Tigo Canales Premium, Paramount+, Prime Video, Max, Disney+ y Win+"
+      - name: "Movistar"
+        domain: "movistar.co"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "select_colombia_city_stratum"
+            city: "Bogotá"
+            stratum: "Estrato 3"
+          - action: "scroll_lazy_content"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.movistar.co/personas/hogar/internet-bogota"
+              label: "Movistar Fibra Simétrica Bogotá (Estrato 3)"
+            - url: "https://www.movistar.co/personas/hogar"
+              label: "Movistar Hogar Dúos y Movistar Total"
+          MOBILE_POSTPAID:
+            - url: "https://www.movistar.co/pospago"
+              label: "Movistar Pospago Ilimitado"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.movistar.co/entretenimiento"
+              label: "Movistar TV, Netflix, Disney+, Max y Win+ Fútbol"
+      - name: "Claro"
+        domain: "claro.com.co"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "select_colombia_city_stratum"
+            city: "Bogotá"
+            stratum: "Estrato 3"
+          - action: "scroll_lazy_content"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.claro.com.co/personas/servicios/hogar/"
+              label: "Claro Hogar Tripleplay y Fibra (Bogotá Estrato 3)"
+            - url: "https://www.claro.com.co/personas/hogar/planes/internet-hogar/"
+              label: "Claro Planes Internet Hogar"
+          MOBILE_POSTPAID:
+            - url: "https://www.claro.com.co/personas/servicios/servicios-moviles/postpago/"
+              label: "Claro Planes Postpago"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.claro.com.co/personas/hogar/tv-digital/"
+              label: "Claro TV+, Claro Video, Netflix, Disney+, Max y Win+"
+      - name: "WOM"
+        domain: "wom.co"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.wom.co/planes"
+              label: "WOM Colombia Portafolio Conectividad (Solo Móvil 4G/5G)"
+          MOBILE_POSTPAID:
+            - url: "https://www.wom.co/planes"
+              label: "WOM Planes Pospago Móvil"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.wom.co/personas"
+              label: "WOM Personas Beneficios"
+      - name: "ETB"
+        domain: "etb.com"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "select_colombia_city_stratum"
+            city: "Bogotá"
+            stratum: "Estrato 3"
+          - action: "scroll_lazy_content"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://etb.com/hogares/Bogota.aspx?plan=total"
+              label: "ETB Fibra Óptica Simétrica Bogotá (Estrato 3)"
+            - url: "https://etb.com/hogares/comparador.aspx"
+              label: "Comparador Planes ETB Fibra + TV Plus"
+          MOBILE_POSTPAID:
+            - url: "https://etb.com/moviles/pospago/"
+              label: "ETB Móvil Pospago"
+          VAS_ENTERTAINMENT:
+            - url: "https://etb.com/hogares/Bogota.aspx?plan=total"
+              label: "ETB Win Play, DGO Pass, Paramount+, Universal+ y Max"
+
+  BO:
+    country_name: "Bolivia"
+    currency: "BOB"
+    operators:
+      - name: "Tigo"
+        domain: "tigo.com.bo"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tigo.com.bo/"
+              label: "Tigo Hogar Internet Ilimitado, Full Tigo y Addon TV"
+            - url: "https://ayuda.tigo.com.bo/"
+              label: "Tarifario Oficial Planes Tigo Hogar Bolivia"
+          MOBILE_POSTPAID:
+            - url: "https://www.tigo.com.bo/postpago"
+              label: "Tigo Planes Postpago Bolivia"
+          VAS_ENTERTAINMENT:
+            - url: "https://tigosports.com.bo"
+              label: "Tigo Sports Bolivia, Max, Paramount+ y Disney+ Premium"
+      - name: "Entel"
+        domain: "entel.bo"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.entel.bo/hogar/fibra-optica"
+              label: "Entel Internet Fibra Óptica al Hogar"
+            - url: "https://www.entel.bo/hogar/duo-pack"
+              label: "Entel DUO Pack Fibra + Móvil"
+            - url: "https://www.entel.bo/hogar/multiplay"
+              label: "Entel Full Multiplay Fibra + TV + Móvil"
+          MOBILE_POSTPAID:
+            - url: "https://www.entel.bo/"
+              label: "Entel Planes Postpago Móvil"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.entel.bo/hogar/multiplay"
+              label: "Entel TV Smart y Video Premium"
+      - name: "Viva"
+        domain: "viva.com.bo"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.viva.com.bo/personas/hogar/fibra-optica/"
+              label: "Viva Fibra Óptica Hogar y Convergente FO + Móvil"
+          MOBILE_POSTPAID:
+            - url: "https://www.viva.com.bo/"
+              label: "Viva Planes Postpago WOW"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.viva.com.bo/personas/hogar/television-streaming/"
+              label: "Viva V+ Televisión y Streaming"
+      - name: "AXS"
+        domain: "axsbolivia.com"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.axsbolivia.com/axs-net/"
+              label: "AXS Fibra Hogar Pro GPON"
+            - url: "https://www.axsbolivia.com/tarifa/"
+              label: "AXS Tarifario Oficial Internet Fibra"
+          MOBILE_POSTPAID:
+            - url: "https://www.axsbolivia.com/axs-net/"
+              label: "AXS Planes Conectividad"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.axsbolivia.com/tarifas-servicio-de-distribucion-de-senales-iptv-internet/"
+              label: "AXS+ IPTV Box y Combos HBO Max"
+
+  PY:
+    country_name: "Paraguay"
+    currency: "PYG"
+    operators:
+      - name: "Tigo"
+        domain: "tigo.com.py"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tigo.com.py/hogar/internet"
+              label: "Tigo Hogar Internet Fibra + DoblePack TV + Tigo Sports"
+            - url: "https://www.tigo.com.py/hogar"
+              label: "Tigo Planes Hogar Paraguay"
+          MOBILE_POSTPAID:
+            - url: "https://www.tigo.com.py/pospago"
+              label: "Tigo Planes Pospago Paraguay"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.tigo.com.py/tigo-sports"
+              label: "Tigo Sports PY y Plataformas Streaming"
+      - name: "Personal Flow"
+        domain: "personal.com.py"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.personal.com.py/internet/hogar"
+              label: "Personal Fibra Óptica + Flow TV"
+          MOBILE_POSTPAID:
+            - url: "https://www.personal.com.py/planes/"
+              label: "Personal Planes Pospago"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.personal.com.py/flow/"
+              label: "Flow Pass, Disney+ y Pack Premium"
+      - name: "Claro"
+        domain: "claro.com.py"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.claro.com.py/personas/servicios/servicios-hogar/"
+              label: "Claro Hogar Fibra Óptica Paraguay"
+          MOBILE_POSTPAID:
+            - url: "https://www.claro.com.py/personas/servicios/servicios-moviles/pospago/"
+              label: "Claro Pospago Paraguay"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.claro.com.py/personas/servicios/entretenimiento/"
+              label: "Claro Video, Prime Video y Paramount+"
+
+  UY:
+    country_name: "Uruguay"
+    currency: "UYU"
+    operators:
+      - name: "Movistar"
+        domain: "movistar.com.uy"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.movistar.com.uy/hogar/"
+              label: "Movistar Hogar / Conectividad Uruguay"
+          MOBILE_POSTPAID:
+            - url: "https://www.movistar.com.uy/productos-y-servicios/planes/contrato/"
+              label: "Movistar Planes Contrato Móvil"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.movistar.com.uy/productos-y-servicios/entretenimiento/"
+              label: "Movistar Disney+, Prime Video y Netflix"
+      - name: "Antel"
+        domain: "antel.com.uy"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://tienda.antel.com.uy/categoria/internet/hogar"
+              label: "Antel Fibra en tu Hogar (Disney+ & Netflix Bundles)"
+          MOBILE_POSTPAID:
+            - url: "https://tienda.antel.com.uy/categoria/movil/planes"
+              label: "Antel Planes Móviles Contrato"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.antel.com.uy/personas/entretenimiento"
+              label: "Antel TV, Disney+ y Netflix"
+      - name: "Claro"
+        domain: "claro.com.uy"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.claro.com.uy/personas/servicios/servicios-hogar/"
+              label: "Claro Hogar Uruguay"
+          MOBILE_POSTPAID:
+            - url: "https://www.claro.com.uy/personas/servicios/servicios-moviles/planes/"
+              label: "Claro Planes Postpago UY"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.claro.com.uy/personas/servicios/entretenimiento/"
+              label: "Claro Video, Universal+, Prime Video y Crunchyroll UY"
+
+  EC:
+    country_name: "Ecuador"
+    currency: "USD"
+    operators:
+      - name: "Movistar"
+        domain: "movistar.com.ec"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.movistar.com.ec/hogar"
+              label: "Movistar (Tigo EC) Conectividad Ecuador"
+          MOBILE_POSTPAID:
+            - url: "https://www.movistar.com.ec/productos-y-servicios/pospago/planes"
+              label: "Movistar (Tigo EC) Planes Pospago Móvil"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.movistar.com.ec/entretenimiento"
+              label: "Movistar Entretenimiento y Spotify EC"
+      - name: "Claro"
+        domain: "claro.com.ec"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.claro.com.ec/personas/servicios/servicios-hogar/"
+              label: "Claro Hogar Fibra 2 Play y 3 Play"
+          MOBILE_POSTPAID:
+            - url: "https://www.claro.com.ec/personas/servicios/servicios-moviles/pospago/"
+              label: "Claro Planes Pospago EC"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.claro.com.ec/personas/servicios/entretenimiento/"
+              label: "Claro Video, Paramount+ y Max EC"
+      - name: "Netlife"
+        domain: "netlife.ec"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.netlife.ec/planes/"
+              label: "Netlife XGPON WiFi 7 Ultra Alta Velocidad"
+          MOBILE_POSTPAID:
+            - url: "https://www.netlife.ec/promociones/"
+              label: "Netlife Promociones Vigentes"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.netlife.ec/servicios-adicionales/"
+              label: "Netlife Paramount+, Zapping y Addons"
+      - name: "Xtrim"
+        domain: "xtrim.com.ec"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.xtrim.com.ec/planes/"
+              label: "Xtrim Internet Fibra y Combos Zapping TV"
+          MOBILE_POSTPAID:
+            - url: "https://www.xtrim.com.ec/combos/"
+              label: "Xtrim Combos Hogar"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.xtrim.com.ec/entretenimiento/"
+              label: "Xtrim Max, Disney+ Premium y Paramount+"
+      - name: "CNT"
+        domain: "cnt.gob.ec"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.cnt.gob.ec/planes/internet-fijo/"
+              label: "CNT Fibra Óptica GO! Hogar"
+          MOBILE_POSTPAID:
+            - url: "https://www.cnt.gob.ec/productos/planes-moviles"
+              label: "CNT Planes Móviles"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.cnt.gob.ec/productos/television"
+              label: "CNT TV y Paquetes Adicionales"
+
+  CL:
+    country_name: "Chile"
+    currency: "CLP"
+    operators:
+      - name: "Movistar"
+        domain: "movistar.cl"
+        is_millicom: true
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.movistar.cl/hogar/fibra"
+              label: "Movistar Fibra Simétrica + Movistar TV"
+            - url: "https://www.movistar.cl/hogar"
+              label: "Movistar Hogar Chile"
+          MOBILE_POSTPAID:
+            - url: "https://ww2.movistar.cl/movil/planes-portabilidad/"
+              label: "Movistar Planes Móviles 5G"
+          VAS_ENTERTAINMENT:
+            - url: "https://ww2.movistar.cl/hogar/entretenimiento/"
+              label: "Movistar Disney+, Max, Netflix y TNT Sports"
+      - name: "Entel"
+        domain: "entel.cl"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.entel.cl/hogar/internet/"
+              label: "Entel Fibra Hogar y Dúo Pack TV Full+"
+          MOBILE_POSTPAID:
+            - url: "https://www.entel.cl/planes/"
+              label: "Entel Planes Móviles 5G"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.entel.cl/hogar/television/"
+              label: "Entel TV, Disney+ Premium, Max, Apple TV+ y TNT Sports"
+      - name: "ClaroVTR"
+        domain: "clarochile.cl"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.clarochile.cl/portal/cl/sc/personas/servicios-hogar/"
+              label: "ClaroVTR Hogar Fibra, Dúos y Tríos"
+          MOBILE_POSTPAID:
+            - url: "https://www.clarochile.cl/personas/servicios/servicios-moviles/postpago/"
+              label: "ClaroVTR Planes Móviles"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.clarochile.cl/personas/servicios/entretenimiento/"
+              label: "ClaroVTR Max, Disney+, Universal+ y TNT Sports"
+      - name: "WOM"
+        domain: "wom.cl"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.wom.cl/fibra-optica/"
+              label: "WOM Fibra Óptica y Zapping TV Fútbol"
+          MOBILE_POSTPAID:
+            - url: "https://www.wom.cl/planes/"
+              label: "WOM Planes Móviles 5G"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.wom.cl/wom-tv/"
+              label: "WOM TV, Max y TNT Sports Premium"
+      - name: "Mundo"
+        domain: "tumundo.cl"
+        is_millicom: false
+        pre_scrape_actions:
+          - action: "dismiss_cookies"
+          - action: "expand_accordions"
+        targets:
+          HOME_BUNDLES:
+            - url: "https://www.tumundo.cl/fibra-optica/"
+              label: "Mundo Fibra 800M / 1000M y Mundo GO! TV"
+          MOBILE_POSTPAID:
+            - url: "https://www.tumundo.cl/movil/"
+              label: "Mundo Móvil Planes"
+          VAS_ENTERTAINMENT:
+            - url: "https://www.tumundo.cl/tv/"
+              label: "Mundo GO! TV y Canales Premium"

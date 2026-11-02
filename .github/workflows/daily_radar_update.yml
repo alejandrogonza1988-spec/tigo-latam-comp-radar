@@ -1,0 +1,111 @@
+name: 📡 Actualización Diaria Radar Competitivo Tigo LATAM
+
+on:
+  schedule:
+    # Runs every day at 05:00 AM America/Bogota & America/Panama (10:00 UTC)
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+    inputs:
+      country:
+        description: "Filtro opcional de países ISO separados por coma (ej. CO,PA,BO). Vacío = los 12 países."
+        required: false
+        default: ""
+      segment:
+        description: "Filtro opcional de segmento (HOME_BUNDLES, MOBILE_POSTPAID, VAS_ENTERTAINMENT)."
+        required: false
+        default: ""
+      force_dry_run:
+        description: "Ejecutar en modo simulación verificada (--dry-run)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "daily-radar-scrape"
+  cancel-in-progress: false
+
+jobs:
+  scrape-and-publish:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PROXY_SERVER_TEMPLATE: ${{ secrets.PROXY_SERVER_TEMPLATE }}
+      PROXY_USERNAME_TEMPLATE: ${{ secrets.PROXY_USERNAME_TEMPLATE }}
+      PROXY_PASSWORD: ${{ secrets.PROXY_PASSWORD }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright Chromium (only when running live scrape)
+        if: ${{ env.GEMINI_API_KEY != '' && inputs.force_dry_run != true }}
+        run: playwright install --with-deps chromium
+
+      - name: Execute Daily Competitive Radar Pipeline
+        env:
+          INPUT_COUNTRY: ${{ inputs.country }}
+          INPUT_SEGMENT: ${{ inputs.segment }}
+          INPUT_DRY_RUN: ${{ inputs.force_dry_run }}
+        run: |
+          if [ -z "${DATABASE_URL}" ]; then
+            export DATABASE_URL="sqlite:///data/tigo_comp_radar.db"
+          fi
+
+          ARGS=(--publish-docs)
+          if [ -n "${INPUT_COUNTRY}" ]; then
+            ARGS+=(--country "${INPUT_COUNTRY}")
+          fi
+          if [ -n "${INPUT_SEGMENT}" ]; then
+            ARGS+=(--segment "${INPUT_SEGMENT}")
+          fi
+
+          if [ -z "${GEMINI_API_KEY}" ] || [ "${INPUT_DRY_RUN}" = "true" ]; then
+            echo "::notice::Ejecutando con catálogo verificado de 12 países (--dry-run). Configura GEMINI_API_KEY en GitHub Secrets para activar el scraping en vivo."
+            ARGS+=(--dry-run)
+          fi
+
+          python main.py "${ARGS[@]}"
+
+      - name: Commit updated daily HTML & baseline snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/ data/latest_snapshot.json
+          if git diff --staged --quiet; then
+            echo "Sin cambios nuevos para confirmar en git."
+          else
+            git commit -m "chore(radar): actualización diaria automática $(date -u +'%Y-%m-%d')"
+            git push
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload updated dashboard (docs/)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "docs"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
