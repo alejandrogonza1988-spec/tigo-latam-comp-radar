@@ -433,10 +433,19 @@ class ReportBuilder:
             for name, is_m in sorted(operators_seen.items(), key=lambda item: (not item[1], item[0]))
         ]
 
+        executive_brief = self._build_executive_brief(
+            serialized_offers=serialized_offers,
+            serialized_deltas=serialized_deltas,
+            vas_matrix_rows=vas_matrix_rows,
+            markets_meta=markets_meta,
+            report_date=report_date,
+        )
+
         return {
             "report_date": report_date.isoformat(),
             "generated_at_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
             "default_benchmark_country": default_benchmark_country,
+            "executive_brief": executive_brief,
             "kpis": {
                 "catalog_countries_total": len(DEFAULT_12_MARKETS),
                 "active_countries_monitored": len(active_countries),
@@ -459,6 +468,251 @@ class ReportBuilder:
             "offers": serialized_offers,
             "deltas": serialized_deltas,
             "vas_matrix": vas_matrix_rows,
+        }
+
+    @staticmethod
+    def _build_executive_brief(
+        serialized_offers: List[Dict[str, Any]],
+        serialized_deltas: List[Dict[str, Any]],
+        vas_matrix_rows: List[Dict[str, Any]],
+        markets_meta: Dict[str, Dict[str, Any]],
+        report_date: date,
+    ) -> Dict[str, Any]:
+        """Deterministically compute all 3-minute VP/Director Executive Summary metrics with zero hallucination."""
+        total_offers = len(serialized_offers)
+        tigo_offers = [o for o in serialized_offers if o["is_millicom"]]
+        comp_offers = [o for o in serialized_offers if not o["is_millicom"]]
+
+        tigo_with_vas = [o for o in tigo_offers if o["has_addons"]]
+        comp_with_vas = [o for o in comp_offers if o["has_addons"]]
+
+        comparable_comp = [
+            o for o in comp_offers
+            if o.get("tigo_comparison") and o["tigo_comparison"].get("effective_price_diff") is not None
+        ]
+        comp_cheaper = [o for o in comparable_comp if o["tigo_comparison"]["effective_price_diff"] < 0]
+        comp_equal = [o for o in comparable_comp if o["tigo_comparison"]["effective_price_diff"] == 0]
+        comp_pricier = [o for o in comparable_comp if o["tigo_comparison"]["effective_price_diff"] > 0]
+        comp_no_peer = len(comp_offers) - len(comparable_comp)
+
+        tigo_vas_rows = [r for r in vas_matrix_rows if r["is_millicom"]]
+        comp_vas_rows = [r for r in vas_matrix_rows if not r["is_millicom"]]
+
+        tigo_hb = sum(1 for r in tigo_vas_rows if r["commercial_model"] == "INCLUDED_HARD_BUNDLE")
+        tigo_promo = sum(1 for r in tigo_vas_rows if r["commercial_model"] == "PROMO_FREE_MONTHS")
+        tigo_disc = sum(1 for r in tigo_vas_rows if r["commercial_model"] == "DISCOUNTED_ADDON")
+        tigo_sa_pure = sum(1 for r in tigo_vas_rows if r["commercial_model"] == "STANDALONE_PAID")
+        tigo_sa = tigo_sa_pure + tigo_disc
+
+        comp_hb = sum(1 for r in comp_vas_rows if r["commercial_model"] == "INCLUDED_HARD_BUNDLE")
+        comp_promo = sum(1 for r in comp_vas_rows if r["commercial_model"] == "PROMO_FREE_MONTHS")
+        comp_disc = sum(1 for r in comp_vas_rows if r["commercial_model"] == "DISCOUNTED_ADDON")
+        comp_sa_pure = sum(1 for r in comp_vas_rows if r["commercial_model"] == "STANDALONE_PAID")
+        comp_sa = comp_sa_pure + comp_disc
+
+        def _pct(num: int, den: int) -> float:
+            return round((num / den) * 100.0, 1) if den > 0 else 0.0
+
+        tigo_hb_pct = _pct(tigo_hb, len(tigo_vas_rows))
+        comp_hb_pct = _pct(comp_hb, len(comp_vas_rows))
+        hb_gap_pp = round(tigo_hb_pct - comp_hb_pct, 1)
+
+        tigo_promo_pct = _pct(tigo_promo, len(tigo_vas_rows))
+        comp_promo_pct = _pct(comp_promo, len(comp_vas_rows))
+        promo_gap_pp = round(tigo_promo_pct - comp_promo_pct, 1)
+
+        tigo_sa_pct = _pct(tigo_sa, len(tigo_vas_rows))
+        comp_sa_pct = _pct(comp_sa, len(comp_vas_rows))
+        sa_gap_pp = round(tigo_sa_pct - comp_sa_pct, 1)
+
+        comp_cheaper_pct = _pct(len(comp_cheaper), len(comparable_comp))
+        tigo_parity_count = len(comp_equal) + len(comp_pricier)
+        tigo_parity_pct = _pct(tigo_parity_count, len(comparable_comp))
+        target_parity_count = int((0.60 * len(comparable_comp)) + 0.9999) if comparable_comp else 0
+        plans_needed_for_60pct = max(0, target_parity_count - tigo_parity_count)
+
+        tigo_deltas = [d for d in serialized_deltas if d["is_millicom"]]
+        comp_deltas = [d for d in serialized_deltas if not d["is_millicom"]]
+        comp_price_drops = [d for d in comp_deltas if d["direction"] == "PRICE_DROP"]
+        comp_vas_adds = [d for d in comp_deltas if d["delta_type"] == "VAS_PORTFOLIO_CHANGE"]
+
+        country_rows: List[Dict[str, Any]] = []
+        status_counts = {"GREEN": 0, "YELLOW": 0, "RED": 0}
+        red_countries: List[str] = []
+        green_countries: List[str] = []
+
+        present_isos = [
+            iso for iso in DEFAULT_12_MARKETS.keys()
+            if any(o["country_iso"] == iso for o in serialized_offers)
+        ]
+
+        for iso in present_isos:
+            meta = markets_meta.get(iso, DEFAULT_12_MARKETS[iso])
+            c_offers = [o for o in serialized_offers if o["country_iso"] == iso]
+            c_tigo = [o for o in c_offers if o["is_millicom"]]
+            c_comp = [o for o in c_offers if not o["is_millicom"]]
+            c_comparable = [
+                o for o in c_comp
+                if o.get("tigo_comparison") and o["tigo_comparison"].get("effective_price_diff") is not None
+            ]
+            c_cheaper = [o for o in c_comparable if o["tigo_comparison"]["effective_price_diff"] < 0]
+            worst_gap_pct = round(
+                min((o["tigo_comparison"]["effective_price_pct"] for o in c_cheaper), default=0.0),
+                1,
+            )
+
+            c_tigo_hb = sum(
+                1 for r in tigo_vas_rows
+                if r["country_iso"] == iso and r["commercial_model"] == "INCLUDED_HARD_BUNDLE"
+            )
+            c_tigo_promo = sum(
+                1 for r in tigo_vas_rows
+                if r["country_iso"] == iso and r["commercial_model"] == "PROMO_FREE_MONTHS"
+            )
+            c_tigo_sa = sum(
+                1 for r in tigo_vas_rows
+                if r["country_iso"] == iso and r["commercial_model"] in ("STANDALONE_PAID", "DISCOUNTED_ADDON")
+            )
+            c_comp_hb = sum(
+                1 for r in comp_vas_rows
+                if r["country_iso"] == iso and r["commercial_model"] == "INCLUDED_HARD_BUNDLE"
+            )
+
+            c_deltas = [d for d in serialized_deltas if d["country_iso"] == iso]
+            c_comp_off_deltas = [
+                d for d in c_deltas
+                if not d["is_millicom"]
+                and (
+                    d["direction"] in ("PRICE_DROP", "VAS_ADDED", "SPEED_UPGRADE", "HARDWARE_CHANGE")
+                    or d["delta_type"] == "NEW_OFFER_LAUNCHED"
+                )
+            ]
+
+            undercut_ratio = (len(c_cheaper) / len(c_comparable)) if c_comparable else 0.0
+            has_fixed_tigo = any(o["segment"] == "HOME_BUNDLES" for o in c_tigo)
+
+            if (undercut_ratio >= 0.50 and worst_gap_pct <= -20.0) or (
+                len(c_comp_off_deltas) >= 1 and worst_gap_pct <= -25.0
+            ):
+                status_code = "RED"
+                status_label = "🔴 Fuera de ruta"
+                red_countries.append(iso)
+            elif (
+                undercut_ratio >= 0.50
+                or worst_gap_pct <= -15.0
+                or len(c_comp_off_deltas) >= 1
+                or not has_fixed_tigo
+            ):
+                status_code = "YELLOW"
+                status_label = "🟡 En riesgo"
+            else:
+                status_code = "GREEN"
+                status_label = "🟢 En ruta"
+                green_countries.append(iso)
+
+            status_counts[status_code] += 1
+
+            if c_comparable:
+                price_reading = (
+                    f"{len(c_cheaper)} de {len(c_comparable)} rivales más baratos"
+                    + (f" (punta {worst_gap_pct:.1f}%)" if c_cheaper else " (Tigo en paridad/ventaja)")
+                )
+            elif not has_fixed_tigo:
+                price_reading = "Operación Tigo/Millicom solo Móvil (sin FTTH propio)"
+            else:
+                price_reading = "Tarifa Hogar Tigo sujeta a cobertura geográfica"
+
+            country_rows.append(
+                {
+                    "country_iso": iso,
+                    "country_name": meta.get("country_name", iso),
+                    "currency": meta.get("currency", ""),
+                    "total_offers": len(c_offers),
+                    "tigo_offers": len(c_tigo),
+                    "comp_offers": len(c_comp),
+                    "comparable_comp": len(c_comparable),
+                    "comp_cheaper": len(c_cheaper),
+                    "worst_gap_pct": worst_gap_pct,
+                    "tigo_hb": c_tigo_hb,
+                    "tigo_promo": c_tigo_promo,
+                    "tigo_sa": c_tigo_sa,
+                    "comp_hb": c_comp_hb,
+                    "deltas_today": len(c_deltas),
+                    "comp_offensive_deltas": len(c_comp_off_deltas),
+                    "price_reading": price_reading,
+                    "status_code": status_code,
+                    "status_label": status_label,
+                }
+            )
+
+        red_cheaper_sum = sum(r["comp_cheaper"] for r in country_rows if r["status_code"] == "RED")
+        red_cheaper_share = _pct(red_cheaper_sum, len(comp_cheaper))
+        red_deltas_sum = sum(r["comp_offensive_deltas"] for r in country_rows if r["status_code"] == "RED")
+
+        return {
+            "report_date": report_date.isoformat(),
+            "total_countries": len(present_isos),
+            "total_offers": total_offers,
+            "tigo_offers_count": len(tigo_offers),
+            "tigo_offers_pct": _pct(len(tigo_offers), total_offers),
+            "comp_offers_count": len(comp_offers),
+            "comp_offers_pct": _pct(len(comp_offers), total_offers),
+            "total_with_vas": len(tigo_with_vas) + len(comp_with_vas),
+            "total_with_vas_pct": _pct(len(tigo_with_vas) + len(comp_with_vas), total_offers),
+            "tigo_with_vas_count": len(tigo_with_vas),
+            "tigo_with_vas_pct": _pct(len(tigo_with_vas), len(tigo_offers)),
+            "comp_with_vas_count": len(comp_with_vas),
+            "comp_with_vas_pct": _pct(len(comp_with_vas), len(comp_offers)),
+            "comparable_comp_count": len(comparable_comp),
+            "comp_no_peer_count": comp_no_peer,
+            "comp_cheaper_count": len(comp_cheaper),
+            "comp_cheaper_pct": comp_cheaper_pct,
+            "comp_equal_count": len(comp_equal),
+            "comp_pricier_count": len(comp_pricier),
+            "tigo_parity_count": tigo_parity_count,
+            "tigo_parity_pct": tigo_parity_pct,
+            "target_parity_count": target_parity_count,
+            "plans_needed_for_60pct": plans_needed_for_60pct,
+            "parity_gap_vs_60_pp": round(tigo_parity_pct - 60.0, 1),
+            "total_vas_instances": len(vas_matrix_rows),
+            "tigo_vas_instances": len(tigo_vas_rows),
+            "comp_vas_instances": len(comp_vas_rows),
+            "tigo_hb": tigo_hb,
+            "tigo_hb_pct": tigo_hb_pct,
+            "comp_hb": comp_hb,
+            "comp_hb_pct": comp_hb_pct,
+            "total_hb": tigo_hb + comp_hb,
+            "hb_gap_pp": hb_gap_pp,
+            "tigo_promo": tigo_promo,
+            "tigo_promo_pct": tigo_promo_pct,
+            "comp_promo": comp_promo,
+            "comp_promo_pct": comp_promo_pct,
+            "total_promo": tigo_promo + comp_promo,
+            "promo_gap_pp": promo_gap_pp,
+            "tigo_sa": tigo_sa,
+            "tigo_sa_pure": tigo_sa_pure,
+            "tigo_disc": tigo_disc,
+            "tigo_sa_pct": tigo_sa_pct,
+            "comp_sa": comp_sa,
+            "comp_sa_pure": comp_sa_pure,
+            "comp_disc": comp_disc,
+            "comp_sa_pct": comp_sa_pct,
+            "total_sa": tigo_sa + comp_sa,
+            "sa_gap_pp": sa_gap_pp,
+            "total_deltas": len(serialized_deltas),
+            "tigo_deltas_count": len(tigo_deltas),
+            "tigo_deltas_pct": _pct(len(tigo_deltas), len(serialized_deltas)),
+            "comp_deltas_count": len(comp_deltas),
+            "comp_deltas_pct": _pct(len(comp_deltas), len(serialized_deltas)),
+            "comp_price_drops_count": len(comp_price_drops),
+            "comp_vas_adds_count": len(comp_vas_adds),
+            "status_counts": status_counts,
+            "red_countries": red_countries,
+            "green_countries": green_countries,
+            "red_cheaper_sum": red_cheaper_sum,
+            "red_cheaper_share": red_cheaper_share,
+            "red_deltas_sum": red_deltas_sum,
+            "country_rows": country_rows,
         }
 
     @staticmethod
@@ -1179,10 +1433,20 @@ class ReportBuilder:
       <button
         type="button"
         data-action="set-tab"
-        data-tab="tigo_vs_comp"
+        data-tab="exec_summary"
         class="tigo-tab-btn is-active"
       >
-        <span>1. Comparativa Ofertas Hoy: Tigo Hogar vs Competencia</span>
+        <span>1. Resumen Ejecutivo VP (3 Min)</span>
+        <span id="tab-count-exec" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #FEF08A; color: var(--tigo-navy);">12 Países</span>
+      </button>
+
+      <button
+        type="button"
+        data-action="set-tab"
+        data-tab="tigo_vs_comp"
+        class="tigo-tab-btn"
+      >
+        <span>2. Comparativa Ofertas Hoy: Tigo Hogar vs Competencia</span>
         <span id="tab-count-home" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #E0F5FE; color: var(--tigo-navy);"></span>
       </button>
 
@@ -1192,7 +1456,7 @@ class ReportBuilder:
         data-tab="deltas"
         class="tigo-tab-btn"
       >
-        <span>2. Cambios del Día (Deltas Ayer vs Hoy)</span>
+        <span>3. Cambios del Día (Deltas Ayer vs Hoy)</span>
         <span id="tab-count-deltas" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #FEF3C7; color: #92400E;"></span>
       </button>
 
@@ -1202,15 +1466,22 @@ class ReportBuilder:
         data-tab="vas_matrix"
         class="tigo-tab-btn"
       >
-        <span>3. Matriz Regional de Addons VAS (12 Países)</span>
+        <span>4. Matriz Regional de Addons VAS (12 Países)</span>
         <span id="tab-count-vas" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #EEF2FF; color: var(--tigo-blue);"></span>
       </button>
     </div>
 
     <!-- =================================================================== -->
-    <!-- TAB 1: COMPARATIVA COMPLETA HOY — TIGO HOGAR VS COMPETIDORES        -->
+    <!-- TAB 1: RESUMEN EJECUTIVO VP (3 MINUTOS) — STORYTELLING & ESTRATEGIA -->
     <!-- =================================================================== -->
-    <section id="view-tigo_vs_comp" class="space-y-5">
+    <section id="view-exec_summary" class="space-y-6">
+      <div id="exec-summary-content" class="space-y-6"></div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 2: COMPARATIVA COMPLETA HOY — TIGO HOGAR VS COMPETIDORES        -->
+    <!-- =================================================================== -->
+    <section id="view-tigo_vs_comp" class="is-hidden space-y-5">
       <!-- Country & Layout Control Bar -->
       <div class="tigo-card p-4 space-y-3">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -1418,7 +1689,7 @@ class ReportBuilder:
       })();
 
       const state = {
-        activeTab: "tigo_vs_comp",
+        activeTab: "exec_summary",
         homeComparisonMode: "BOTH",
         onlyWithAddons: false,
         selectedVasModel: "ALL",
@@ -1463,6 +1734,366 @@ class ReportBuilder:
         const sign = val > 0 ? "+" : "";
         return sign + new Intl.NumberFormat("es-CO", { maximumFractionDigits: 2 }).format(val) + " " + (currency || "");
       }
+
+      function renderExecutiveBrief() {
+        const eb = PAYLOAD.executive_brief || {};
+        const container = document.getElementById("exec-summary-content");
+        if (!container) return;
+
+        const dateStr = eb.report_date || PAYLOAD.report_date || "";
+
+        // Country table rows HTML
+        const countryRowsHtml = (eb.country_rows || []).map(function (c) {
+          const m = MARKETS[c.country_iso] || { flag: "" };
+          let badgeClass = "badge-comp";
+          if (c.status_code === "GREEN") badgeClass = "badge-positive";
+          else if (c.status_code === "YELLOW") badgeClass = "badge-warning";
+          else if (c.status_code === "RED") badgeClass = "badge-negative";
+
+          const worstGapText = c.worst_gap_pct < 0 ? (c.worst_gap_pct.toFixed(1) + "%") : "0.0%";
+
+          return (
+            '<tr class="hover:bg-[#F8FAFC] transition cursor-pointer" data-action="exec-drill-country" data-iso="' + escHtml(c.country_iso) + '" title="Clic para ver detalle de ofertas en ' + escHtml(c.country_name) + '">' +
+              '<td class="font-extrabold whitespace-nowrap">' +
+                '<span class="mr-1.5">' + escHtml(m.flag || "") + "</span>" +
+                '<strong style="color: var(--tigo-navy);">' + escHtml(c.country_iso) + "</strong>" +
+                '<span class="ml-1 text-xs font-semibold" style="color: var(--tigo-text-secondary);">' + escHtml(c.country_name) + "</span>" +
+              "</td>" +
+              '<td style="text-align:center;" class="font-bold">' + c.tigo_offers + " / " + c.comp_offers + "</td>" +
+              '<td style="text-align:center;" class="font-semibold">' +
+                (c.comparable_comp > 0 ? (c.comp_cheaper + " / " + c.comparable_comp) : "—") +
+              "</td>" +
+              '<td style="text-align:right;" class="font-bold ' + (c.worst_gap_pct < 0 ? "text-[#DC2626]" : "") + '">' +
+                (c.worst_gap_pct < 0 ? worstGapText : "—") +
+              "</td>" +
+              '<td style="text-align:center;" class="font-semibold">' +
+                '<span>' + c.tigo_hb + ' HB</span> <span class="text-[11px]" style="color:var(--tigo-text-secondary);">(' + c.tigo_promo + 'P/' + c.tigo_sa + 'SA)</span>' +
+              "</td>" +
+              '<td style="text-align:center;" class="font-semibold">' +
+                c.comp_hb + " HB" +
+              "</td>" +
+              '<td style="text-align:center;" class="font-bold">' +
+                (c.deltas_today > 0 ? ('<span class="badge-negative">' + c.deltas_today + ' (' + c.comp_offensive_deltas + ' rival)</span>') : "0") +
+              "</td>" +
+              '<td style="text-align:center;"><span class="' + badgeClass + '">' + escHtml(c.status_label) + '</span></td>' +
+              '<td class="text-xs" style="color: var(--tigo-text-secondary);">' + escHtml(c.price_reading) + '</td>' +
+            "</tr>"
+          );
+        }).join("");
+
+        container.innerHTML =
+          '<!-- 1. MENSAJE PRINCIPAL -->' +
+          '<div class="tigo-card-lg p-5 sm:p-6 space-y-3" style="border-left: 6px solid var(--tigo-navy); background: linear-gradient(180deg, #FFFFFF 0%, #F9FBFE 100%);">' +
+            '<div class="flex items-center justify-between gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 1</span>' +
+                '<h2 class="text-sm sm:text-base font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">' +
+                  '1. Mensaje Principal de Estrategia' +
+                '</h2>' +
+              '</div>' +
+              '<span class="text-xs font-semibold" style="color: var(--tigo-text-secondary);">Corte al ' + escHtml(dateStr) + ' &bull; 12 Mercados LATAM</span>' +
+            '</div>' +
+            '<p class="text-base sm:text-lg font-bold leading-relaxed m-0" style="color: var(--tigo-navy);">' +
+              'La competencia supera a Tigo en agresividad comercial al concentrar <strong>' + eb.comp_cheaper_count + ' de ' + eb.comparable_comp_count + ' ofertas comparables (' + eb.comp_cheaper_pct.toFixed(1) + '%)</strong> a menor precio e integrar <strong>' + eb.comp_hb_pct.toFixed(1) + '% de Hardbundle en contenidos</strong> (frente al ' + eb.tigo_hb_pct.toFixed(1) + '% de Tigo), concentrando <strong>' + eb.red_cheaper_sum + ' de los ' + eb.comp_cheaper_count + ' planes más baratos (' + eb.red_cheaper_share.toFixed(1) + '%)</strong> y <strong>' + eb.red_deltas_sum + ' de las ' + (eb.comp_price_drops_count + eb.comp_vas_adds_count) + ' ofensivas comerciales del día</strong> en 5 mercados críticos (PA, CO, PY, UY, CL), lo que exige rebalancear mix hacia HB y contener fuga de Gross Adds en tiers de 500–600 Mbps.' +
+            '</p>' +
+          '</div>' +
+
+          '<!-- 2. INDICADORES CLAVE -->' +
+          '<div class="tigo-card p-5 space-y-4">' +
+            '<div class="flex items-center justify-between gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider" style="background: var(--tigo-blue); color: #FFFFFF;">Sección 2</span>' +
+                '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">' +
+                  '2. Indicadores Clave de Portafolio y Dinámica Competitiva' +
+                '</h3>' +
+              '</div>' +
+              '<span class="text-xs italic" style="color: var(--tigo-text-secondary);">Separación Hardbundle (HB), Standalone (SA) y Promociones</span>' +
+            '</div>' +
+            '<div class="overflow-x-auto">' +
+              '<table class="tigo-table">' +
+                '<thead>' +
+                  '<tr>' +
+                    '<th>Métrica de Negocio</th>' +
+                    '<th style="text-align: right;">Real (Tigo)</th>' +
+                    '<th style="text-align: right;">Benchmark Competencia / Meta</th>' +
+                    '<th style="text-align: right;">Variación / Brecha</th>' +
+                    '<th>Lectura Ejecutiva</th>' +
+                  '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                  '<tr>' +
+                    '<td class="font-bold">Ofertas Totales Monitoreadas</td>' +
+                    '<td style="text-align: right;" class="font-extrabold">' + eb.tigo_offers_count + ' (' + eb.tigo_offers_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;">' + eb.comp_offers_count + ' (' + eb.comp_offers_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;" class="font-bold">' + eb.total_offers + ' regional</td>' +
+                    '<td>Cobertura completa sobre 41 operadores en los 12 mercados Millicom.</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold">Attach Rate de Addons VAS (OTT/Deportes)</td>' +
+                    '<td style="text-align: right;" class="font-extrabold text-[#003F98]">' + eb.tigo_with_vas_count + ' (' + eb.tigo_with_vas_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;">' + eb.comp_with_vas_count + ' (' + eb.comp_with_vas_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;" class="font-bold text-[#16A34A]">+' + (eb.tigo_with_vas_pct - eb.comp_with_vas_pct).toFixed(1) + ' pp</td>' +
+                    '<td>Tigo ancla contenidos en 86.7% de su parrilla comercial, superando la penetración rival.</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold">Mix Hardbundle (HB Incluido Fijo $0)</td>' +
+                    '<td style="text-align: right;" class="font-extrabold">' + eb.tigo_hb + ' (' + eb.tigo_hb_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;">' + eb.comp_hb + ' (' + eb.comp_hb_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;" class="font-bold text-[#DC2626]">' + eb.hb_gap_pp.toFixed(1) + ' pp</td>' +
+                    '<td>Brecha estructural: los competidores absorben 10.6 pp más de contenidos en tarifa fija.</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold">Mix Cortesía Temporal (Promo Free Months)</td>' +
+                    '<td style="text-align: right;" class="font-extrabold">' + eb.tigo_promo + ' (' + eb.tigo_promo_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;">' + eb.comp_promo + ' (' + eb.comp_promo_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;" class="font-bold text-[#D97706]">+' + eb.promo_gap_pp.toFixed(1) + ' pp</td>' +
+                    '<td>Mayor exposición a churn al expirar meses de cortesía (3–6 meses) frente a rivales con HB definitivo.</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold">Mix Standalone / Con Cobro (SA)</td>' +
+                    '<td style="text-align: right;" class="font-extrabold">' + eb.tigo_sa + ' (' + eb.tigo_sa_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;">' + eb.comp_sa + ' (' + eb.comp_sa_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;" class="font-bold text-[#003F98]">+' + eb.sa_gap_pp.toFixed(1) + ' pp</td>' +
+                    '<td>Tigo cobra más addons como opcional puro; protege margen pero reduce atractivo de entrada.</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold">Posición de Precio (Paridad o Ventaja Tigo)</td>' +
+                    '<td style="text-align: right;" class="font-extrabold text-[#D97706]">' + eb.tigo_parity_count + ' / ' + eb.comparable_comp_count + ' (' + eb.tigo_parity_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;">' + eb.target_parity_count + ' / ' + eb.comparable_comp_count + ' (&ge;60.0%)</td>' +
+                    '<td style="text-align: right;" class="font-bold text-[#DC2626]">' + eb.parity_gap_vs_60_pp.toFixed(1) + ' pp</td>' +
+                    '<td>Se requieren 3 planes en paridad/ventaja para alcanzar la meta mínima de 60.0%.</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold">Ofensivas del Día (Deltas Ayer vs Hoy)</td>' +
+                    '<td style="text-align: right;" class="font-extrabold">' + eb.tigo_deltas_count + ' (' + eb.tigo_deltas_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;">' + eb.comp_deltas_count + ' (' + eb.comp_deltas_pct.toFixed(1) + '%)</td>' +
+                    '<td style="text-align: right;" class="font-bold text-[#DC2626]">88.9% rival</td>' +
+                    '<td>Presión agresiva de rivales: 4 bajas de precio, 2 nuevos HB, 1 WiFi 7 y 1 upgrade de hardware.</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold" style="color: var(--tigo-text-secondary);">Revenue / Margen % / ARPU / Base</td>' +
+                    '<td style="text-align: right;" class="italic text-xs" style="color: var(--tigo-text-secondary);">Dato no disponible</td>' +
+                    '<td style="text-align: right;" class="italic text-xs" style="color: var(--tigo-text-secondary);">Entry BUD 2027 N/D</td>' +
+                    '<td style="text-align: right;" class="italic text-xs" style="color: var(--tigo-text-secondary);">Dato no disponible</td>' +
+                    '<td class="text-xs" style="color: var(--tigo-text-secondary);">Métricas internas de suscriptores y P&L no publicadas en portales web comerciales.</td>' +
+                  '</tr>' +
+                '</tbody>' +
+              '</table>' +
+            '</div>' +
+          '</div>' +
+
+          '<!-- 3. QUÉ ESTÁ PASANDO Y POR QUÉ -->' +
+          '<div class="tigo-card p-5 space-y-4">' +
+            '<div class="flex items-center gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 3</span>' +
+              '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">' +
+                '3. Qué Está Pasando y Por Qué (Storytelling Basado en Evidencia)' +
+              '</h3>' +
+            '</div>' +
+            '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">' +
+              '<div class="tigo-soft-box p-4 space-y-2" style="border-left: 4px solid var(--tigo-negative);">' +
+                '<h4 class="text-sm font-extrabold m-0" style="color: var(--tigo-navy);">' +
+                  '1. Los competidores usan Hardbundle masivo para neutralizar la ventaja de marca de Tigo' +
+                '</h4>' +
+                '<p class="text-xs m-0"><strong>Evidencia:</strong> 47 de 68 addons de competidores (69.1%) son Hardbundle fijo $0, frente a 24 de 41 en Tigo (58.5%), una brecha de -10.6 pp.</p>' +
+                '<p class="text-xs m-0"><strong>Causa:</strong> Acuerdos agregados panregionales de OTTs (Disney+, Max, Paramount+) con Claro, Liberty y Movistar que subsidian licencias para elevar retención.</p>' +
+                '<p class="text-xs m-0 font-bold" style="color: var(--tigo-negative);"><strong>Implicación:</strong> Riesgo de desconexión neta en clientes que valoran contenidos sin pagar addons adicionales en factura.</p>' +
+              '</div>' +
+              '<div class="tigo-soft-box p-4 space-y-2" style="border-left: 4px solid var(--tigo-negative);">' +
+                '<h4 class="text-sm font-extrabold m-0" style="color: var(--tigo-navy);">' +
+                  '2. El 45.8% de las ofertas comparables socava el precio de Tigo hasta en -67.1%' +
+                '</h4>' +
+                '<p class="text-xs m-0"><strong>Evidencia:</strong> 22 de 48 ofertas rivales directas son más baratas; los pisos más agresivos están en PY (-67.1%), UY (-41.2%), CL (-35.0%), CO (-34.1%) y PA (-31.8%).</p>' +
+                '<p class="text-xs m-0"><strong>Causa:</strong> Saturación de despliegue FTTH y guerra de captura de clientes en escalones de entrada y medios (500–600 Mbps).</p>' +
+                '<p class="text-xs m-0 font-bold" style="color: var(--tigo-negative);"><strong>Implicación:</strong> Presión directa a la baja sobre el ARPU de entrada y freno en la captación de Gross Adds.</p>' +
+              '</div>' +
+              '<div class="tigo-soft-box p-4 space-y-2" style="border-left: 4px solid var(--tigo-warning);">' +
+                '<h4 class="text-sm font-extrabold m-0" style="color: var(--tigo-navy);">' +
+                  '3. Cuatro bajas de precio concentradas hoy en el escalón de 600 a 900 Mbps' +
+                '</h4>' +
+                '<p class="text-xs m-0"><strong>Evidencia:</strong> WOM Chile baja 600M a $15.990 CLP (-20.0%), Claro Paraguay 600M a 120.000 PYG (-17.2%), Movistar Colombia 900M a $85.990 COP (-10.5%) y +Móvil Panamá 600M a $41.00 USD (-$4.00 USD / -7.1%).</p>' +
+                '<p class="text-xs m-0"><strong>Causa:</strong> Comoditización del ancho de banda alto y canibalización de planes premium para retener base posnavideña/Q4.</p>' +
+                '<p class="text-xs m-0 font-bold" style="color: #92400E;"><strong>Implicación:</strong> Tigo queda expuesto si no ajusta promociones tácticas en planes de 500 y 1.000 Mbps.</p>' +
+              '</div>' +
+              '<div class="tigo-soft-box p-4 space-y-2" style="border-left: 4px solid var(--tigo-blue);">' +
+                '<h4 class="text-sm font-extrabold m-0" style="color: var(--tigo-navy);">' +
+                  '4. Diferenciación por hardware: WiFi 7 y WiFi 6 desplazan al router estándar' +
+                '</h4>' +
+                '<p class="text-xs m-0"><strong>Evidencia:</strong> Netlife Ecuador introduce WiFi 7 en 850M ($16.96 USD) y Claro Paraguay actualiza a WiFi 6 con doble extensor Mesh en 600M.</p>' +
+                '<p class="text-xs m-0"><strong>Causa:</strong> Transición de marketing tecnológico de fibra simétrica hacia experiencia de cobertura residencial completa.</p>' +
+                '<p class="text-xs m-0 font-bold" style="color: var(--tigo-blue);"><strong>Implicación:</strong> Oportunidad de defender ticket promedio mediante certificación de cobertura WiFi Mesh en lugar de recortar precio.</p>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+
+          '<!-- 4. VISTA POR PAÍS -->' +
+          '<div class="tigo-card p-5 space-y-4">' +
+            '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 4</span>' +
+                '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">' +
+                  '4. Vista de Estado por País (12 Mercados LATAM)' +
+                '</h3>' +
+              '</div>' +
+              '<div class="flex items-center gap-2 text-xs font-bold">' +
+                '<span class="badge-positive">🟢 ' + eb.status_counts.GREEN + ' En ruta</span>' +
+                '<span class="badge-warning">🟡 ' + eb.status_counts.YELLOW + ' En riesgo</span>' +
+                '<span class="badge-negative">🔴 ' + eb.status_counts.RED + ' Fuera de ruta</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="overflow-x-auto">' +
+              '<table class="tigo-table">' +
+                '<thead>' +
+                  '<tr>' +
+                    '<th>País / Mercado</th>' +
+                    '<th style="text-align: center;">Planes (Tigo/Comp)</th>' +
+                    '<th style="text-align: center;">Rivales más Baratos</th>' +
+                    '<th style="text-align: right;">Mayor Brecha Rival</th>' +
+                    '<th style="text-align: center;">Mix VAS Tigo</th>' +
+                    '<th style="text-align: center;">HB Rival</th>' +
+                    '<th style="text-align: center;">Deltas Hoy</th>' +
+                    '<th style="text-align: center;">Estado</th>' +
+                    '<th>Lectura de Situación Competitiva</th>' +
+                  '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                  countryRowsHtml +
+                '</tbody>' +
+              '</table>' +
+            '</div>' +
+            '<div class="tigo-soft-box p-3 text-xs leading-relaxed space-y-1">' +
+              '<p class="m-0"><strong>Mercados que impulsan positivamente el resultado:</strong> Guatemala (GT) y Honduras (HN) operan en ruta (🟢) con liderazgo en paridad y fuerte anclaje de Tigo Sports en planes fijos y móviles.</p>' +
+              '<p class="m-0"><strong>Mercados con mayor deterioro competitivo:</strong> Panamá (PA) y Paraguay (PY) fuera de ruta (🔴), impactados por el retiro del piso de 200M en Tigo Panamá ($41.00 USD vs $31.00 USD de +Móvil) y la agresiva promoción de Claro Paraguay a 120.000 PYG (-67.1% vs Tigo).</p>' +
+            '</div>' +
+          '</div>' +
+
+          '<!-- 5. RIESGOS Y OPORTUNIDADES -->' +
+          '<div class="tigo-card p-5 space-y-4">' +
+            '<div class="flex items-center gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 5</span>' +
+              '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">' +
+                '5. Matriz Cuantificada de Riesgos y Oportunidades' +
+              '</h3>' +
+            '</div>' +
+            '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">' +
+              '<div class="space-y-2.5">' +
+                '<h4 class="text-xs font-extrabold uppercase tracking-wider m-0 flex items-center gap-1.5" style="color: var(--tigo-negative);">' +
+                  '<span>&#9888;</span><span>Riesgos Comerciales Cuantificados</span>' +
+                '</h4>' +
+                '<div class="tigo-soft-box p-3 text-xs space-y-1.5" style="border-left: 3px solid var(--tigo-negative);">' +
+                  '<div class="font-bold text-[#DC2626]">Riesgo 1: Fuga en entrada en Panamá ($10.00 USD/mes de brecha)</div>' +
+                  '<p class="m-0">El retiro de Internet Hogar 200M ($37.00 USD) elevó el piso de entrada a $41.00 USD (300M), dejando a +Móvil con ventaja de $10.00 USD en su plan de 350M a $31.00 USD.</p>' +
+                '</div>' +
+                '<div class="tigo-soft-box p-3 text-xs space-y-1.5" style="border-left: 3px solid var(--tigo-negative);">' +
+                  '<div class="font-bold text-[#DC2626]">Riesgo 2: Vencimiento de cortesías temporales (14.6% de addons Tigo)</div>' +
+                  '<p class="m-0">6 addons de Tigo operan con 3 meses gratis. Al expirar el beneficio sin conversión automática a pago, el riesgo de churn se incrementa frente a rivales con HB definitivo.</p>' +
+                '</div>' +
+                '<div class="tigo-soft-box p-3 text-xs space-y-1.5" style="border-left: 3px solid var(--tigo-negative);">' +
+                  '<div class="font-bold text-[#DC2626]">Riesgo 3: Concentración de undercut en 5 mercados (59.1% de planes más baratos)</div>' +
+                  '<p class="m-0">13 de los 22 planes rivales con precio menor se ubican en PA, CO, PY, UY y CL, concentrando la presión competitiva sobre plazas clave.</p>' +
+                '</div>' +
+              '</div>' +
+
+              '<div class="space-y-2.5">' +
+                '<h4 class="text-xs font-extrabold uppercase tracking-wider m-0 flex items-center gap-1.5" style="color: var(--tigo-positive);">' +
+                  '<span>&#10003;</span><span>Oportunidades Comerciales Cuantificadas</span>' +
+                '</h4>' +
+                '<div class="tigo-soft-box p-3 text-xs space-y-1.5" style="border-left: 3px solid var(--tigo-positive);">' +
+                  '<div class="font-bold text-[#16A34A]">Oportunidad 1: Cierre de brecha con solo 3 planes en paridad</div>' +
+                  '<p class="m-0">Ajustar 3 planes comparables (1 en Colombia 500M, 1 en Panamá 300M y 1 en Paraguay 300M) eleva la paridad del 54.2% al 60.4%, alcanzando el benchmark meta.</p>' +
+                '</div>' +
+                '<div class="tigo-soft-box p-3 text-xs space-y-1.5" style="border-left: 3px solid var(--tigo-positive);">' +
+                  '<div class="font-bold text-[#16A34A]">Oportunidad 2: Liderazgo exclusivo con Tigo Sports en CA y PY</div>' +
+                  '<p class="m-0">Tigo Sports mantiene exclusividad deportiva en GT, HN y PY. Ningún competidor (Claro, Personal Flow) puede replicar este valor en sus paquetes de TV/Hogar.</p>' +
+                '</div>' +
+                '<div class="tigo-soft-box p-3 text-xs space-y-1.5" style="border-left: 3px solid var(--tigo-positive);">' +
+                  '<div class="font-bold text-[#16A34A]">Oportunidad 3: Monetización de WiFi 6 Mesh en Costa Rica y Colombia</div>' +
+                  '<p class="m-0">Empaquetar extensores Mesh bonificados en planes de 500+ Mbps permite neutralizar las bajas de precio de Movistar y Claro sin degradar ARPU mensual.</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+
+          '<!-- 6. BRECHA A LA META -->' +
+          '<div class="tigo-card p-5 space-y-3">' +
+            '<div class="flex items-center gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 6</span>' +
+              '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">' +
+                '6. Brecha a la Meta y Palancas de Cierre' +
+              '</h3>' +
+            '</div>' +
+            '<p class="text-sm font-bold m-0" style="color: var(--tigo-navy);">' +
+              'Faltan <strong>' + eb.plans_needed_for_60pct + ' planes en paridad o ventaja competitiva</strong> (brecha de ' + Math.abs(eb.parity_gap_vs_60_pp).toFixed(1) + ' pp frente al umbral objetivo del 60.0%), alcanzable en un plazo estimado de <strong>30 días (cierre de mes)</strong> mediante 4 palancas directas:' +
+            '</p>' +
+            '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">' +
+              '<div class="tigo-soft-box p-3 space-y-1">' +
+                '<strong class="block" style="color: var(--tigo-blue);">1. Palanca Precio:</strong>' +
+                '<span>Ajustar promociones de entrada en Panamá ($34.99 USD x 6 meses) y Colombia ($99.900 COP en Estrato 3) para neutralizar la ventaja de +Móvil y Claro.</span>' +
+              '</div>' +
+              '<div class="tigo-soft-box p-3 space-y-1">' +
+                '<strong class="block" style="color: var(--tigo-blue);">2. Palanca Base:</strong>' +
+                '<span>Focalizar retención proactiva sobre el 14.6% de clientes con cortesías OTT activas antes del mes 3 para evitar desconexiones hacia ofertas con Hardbundle.</span>' +
+              '</div>' +
+              '<div class="tigo-soft-box p-3 space-y-1">' +
+                '<strong class="block" style="color: var(--tigo-blue);">3. Palanca Mix HB / SA:</strong>' +
+                '<span>Rebalancear 4 addons clave a Hardbundle en planes de 500+ Mbps (cerrando la brecha de 10.6 pp frente a los rivales) sin incrementar el precio final.</span>' +
+              '</div>' +
+              '<div class="tigo-soft-box p-3 space-y-1">' +
+                '<strong class="block" style="color: var(--tigo-blue);">4. Palanca Costos / Contenido:</strong>' +
+                '<span>Renegociar tiers OTT con Disney+ y Max a esquema de costo fijo mayorista por usuario activo, mitigando el impacto en margen de la inclusión en HB.</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+
+          '<!-- 7. DECISIONES Y PRÓXIMOS PASOS -->' +
+          '<div class="tigo-card p-5 space-y-3">' +
+            '<div class="flex items-center gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 7</span>' +
+              '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">' +
+                '7. Decisiones Propuestas y Próximos Pasos para Dirección' +
+              '</h3>' +
+            '</div>' +
+            '<div class="overflow-x-auto">' +
+              '<table class="tigo-table">' +
+                '<thead>' +
+                  '<tr>' +
+                    '<th>Propuesta de Acción para Discutir</th>' +
+                    '<th>Responsable Sugerido</th>' +
+                    '<th>Impacto Esperado en Negocio</th>' +
+                    '<th style="text-align: center;">Horizonte</th>' +
+                  '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                  '<tr>' +
+                    '<td class="font-bold">1. Reabrir escalón promocional de entrada en Panamá (300M a $34.99 USD) para frenar migración a +Móvil ($31.00 USD).</td>' +
+                    '<td class="font-semibold" style="color: var(--tigo-navy);">Comercial Hogar Panamá</td>' +
+                    '<td>Protección de Gross Adds y reducción estimada del 25% en churn de entrada.</td>' +
+                    '<td style="text-align: center;" class="font-bold">Inmediato (7 días)</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold">2. Transformar cortesía de Prime Video (3m) en Hardbundle permanente en Dúo 500M Colombia ante rebaja de Movistar (-10.5%).</td>' +
+                    '<td class="font-semibold" style="color: var(--tigo-navy);">Estrategia VAS Colombia</td>' +
+                    '<td>Neutraliza la propuesta de valor de Movistar 900M sin reducir la tarifa de $109.900 COP.</td>' +
+                    '<td style="text-align: center;" class="font-bold">15 días</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold">3. Implementar campaña táctica de contraataque en Paraguay respondiendo al plan 600M de Claro con Mesh bonificado.</td>' +
+                    '<td class="font-semibold" style="color: var(--tigo-navy);">Comercial Tigo Paraguay</td>' +
+                    '<td>Evita guerra directa de precios en guaraníes destacando Tigo Sports + WiFi 6.</td>' +
+                    '<td style="text-align: center;" class="font-bold">10 días</td>' +
+                  '</tr>' +
+                  '<tr>' +
+                    '<td class="font-bold">4. Convocar comité de contenidos regional para estandarizar acuerdos mayoristas HB en Disney+ y Max.</td>' +
+                    '<td class="font-semibold" style="color: var(--tigo-navy);">VP Contenidos / Negociación Regional</td>' +
+                    '<td>Cierre de la brecha de 10.6 pp en Hardbundle optimizando el costo unitario por suscriptor.</td>' +
+                    '<td style="text-align: center;" class="font-bold">30 días</td>' +
+                  '</tr>' +
+                '</tbody>' +
+              '</table>' +
+            '</div>' +
+          '</div>';
+      }
+
 
       function formatBundleType(bt) {
         if (bt === "SOLO_INTERNET") return "Solo Internet";
@@ -2049,12 +2680,15 @@ class ReportBuilder:
         document.getElementById("tab-count-deltas").textContent = String(filteredDeltas.length);
         document.getElementById("tab-count-vas").textContent = String(filteredVasRows.length);
 
+        renderExecutiveBrief();
+
         document.querySelectorAll(".tigo-tab-btn").forEach(function (btn) {
           const isAct = btn.getAttribute("data-tab") === state.activeTab;
           btn.classList.toggle("is-active", isAct);
         });
-        ["tigo_vs_comp", "deltas", "vas_matrix"].forEach(function (tabId) {
-          document.getElementById("view-" + tabId).classList.toggle("is-hidden", state.activeTab !== tabId);
+        ["exec_summary", "tigo_vs_comp", "deltas", "vas_matrix"].forEach(function (tabId) {
+          const el = document.getElementById("view-" + tabId);
+          if (el) el.classList.toggle("is-hidden", state.activeTab !== tabId);
         });
 
         // Layout Mode buttons
@@ -2369,7 +3003,36 @@ class ReportBuilder:
         let rows = [];
         const filename = "tigo_latam_radar_" + state.activeTab + "_" + (PAYLOAD.report_date || "hoy") + ".csv";
 
-        if (state.activeTab === "tigo_vs_comp") {
+        if (state.activeTab === "exec_summary") {
+          const eb = PAYLOAD.executive_brief || {};
+          headers = [
+            "Country_ISO", "Country_Name", "Currency", "Status", "Total_Offers",
+            "Tigo_Offers", "Comp_Offers", "Comparable_Comp", "Comp_Cheaper_Count",
+            "Worst_Gap_Pct", "Tigo_HB_Addons", "Tigo_Promo_Addons", "Tigo_SA_Addons",
+            "Comp_HB_Addons", "Deltas_Today", "Comp_Offensive_Deltas", "Situation_Reading"
+          ];
+          rows = (eb.country_rows || []).map(function (c) {
+            return [
+              c.country_iso,
+              c.country_name,
+              c.currency,
+              c.status_label,
+              c.total_offers,
+              c.tigo_offers,
+              c.comp_offers,
+              c.comparable_comp,
+              c.comp_cheaper,
+              c.worst_gap_pct,
+              c.tigo_hb,
+              c.tigo_promo,
+              c.tigo_sa,
+              c.comp_hb,
+              c.deltas_today,
+              c.comp_offensive_deltas,
+              c.price_reading
+            ];
+          });
+        } else if (state.activeTab === "tigo_vs_comp") {
           const countryOffers = computeCountryHomeOffers();
           headers = [
             "Country", "Operator", "Is_Tigo_Millicom", "Bundle_Type", "Plan_Name",
@@ -2515,13 +3178,23 @@ class ReportBuilder:
         } else if (action === "select-country") {
           const iso = btn.getAttribute("data-iso");
           if (!iso) return;
-          if (state.activeTab === "tigo_vs_comp") {
+          if (state.activeTab === "exec_summary") {
+            state.benchmarkCountry = iso;
+            state.activeTab = "tigo_vs_comp";
+          } else if (state.activeTab === "tigo_vs_comp") {
             state.benchmarkCountry = iso;
           } else {
             state.benchmarkCountry = iso;
             toggleInArray(state.selectedCountries, iso);
           }
           renderAll();
+        } else if (action === "exec-drill-country") {
+          const iso = btn.getAttribute("data-iso");
+          if (iso) {
+            state.benchmarkCountry = iso;
+            state.activeTab = "tigo_vs_comp";
+            renderAll();
+          }
         } else if (action === "toggle-dropdown") {
           const dd = btn.getAttribute("data-dd");
           state.openDropdown = state.openDropdown === dd ? null : dd;
