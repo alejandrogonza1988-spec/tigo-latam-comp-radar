@@ -1,0 +1,5999 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radar Diario de Ofertas LATAM — Tigo vs. Competencia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --tigo-navy: #001E60;
+      --tigo-blue: #003F98;
+      --tigo-bright-blue: #00AEEF;
+      --tigo-cyan: #00C8F8;
+      --tigo-yellow: #FFCB05;
+      --tigo-bg: #F4F7FB;
+      --tigo-surface: #FFFFFF;
+      --tigo-surface-soft: #F8FAFD;
+      --tigo-border: #DDE5EF;
+      --tigo-text: #0F172A;
+      --tigo-text-secondary: #475569;
+      --tigo-positive: #16A34A;
+      --tigo-negative: #DC2626;
+      --tigo-warning: #D97706;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--tigo-bg);
+      color: var(--tigo-text);
+      -webkit-font-smoothing: antialiased;
+    }
+    .is-hidden { display: none !important; }
+    .tigo-header {
+      background: linear-gradient(135deg, var(--tigo-navy) 0%, var(--tigo-blue) 68%, #0056B8 100%);
+      border-bottom: 4px solid var(--tigo-yellow);
+      color: #FFFFFF;
+    }
+    .tigo-card {
+      background: var(--tigo-surface);
+      border: 1px solid var(--tigo-border);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 30, 96, 0.05);
+    }
+    .tigo-card-lg {
+      background: var(--tigo-surface);
+      border: 1px solid var(--tigo-border);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 30, 96, 0.08);
+    }
+    .tigo-soft-box {
+      background: var(--tigo-surface-soft);
+      border: 1px solid var(--tigo-border);
+      border-radius: 10px;
+    }
+    .tigo-kpi {
+      background: var(--tigo-surface);
+      border: 1px solid var(--tigo-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 2px 6px rgba(0, 30, 96, 0.04);
+    }
+    .tigo-tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-bottom: 2px solid var(--tigo-border);
+    }
+    .tigo-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 18px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--tigo-text-secondary);
+      background: #EBF1F8;
+      border: 1px solid var(--tigo-border);
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .tigo-tab-btn.is-active {
+      background: var(--tigo-surface);
+      color: var(--tigo-navy);
+      border-top: 3px solid var(--tigo-bright-blue);
+      margin-bottom: -2px;
+      padding-bottom: 13px;
+    }
+    .tigo-country-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 11px;
+      border-radius: 9999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border: 1px solid var(--tigo-border);
+      background: var(--tigo-surface);
+      color: var(--tigo-text);
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+    .tigo-country-pill.is-active {
+      background: var(--tigo-navy);
+      color: #FFFFFF;
+      border-color: var(--tigo-navy);
+    }
+    .tigo-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.8rem;
+    }
+    .tigo-table th {
+      background: #F1F5F9;
+      color: var(--tigo-navy);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-size: 0.69rem;
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--tigo-border);
+      text-align: left;
+      white-space: nowrap;
+    }
+    .tigo-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #EDF2F7;
+      vertical-align: middle;
+    }
+    .tigo-table tr.is-tigo-row td {
+      background-color: #F0F7FF;
+    }
+    .tigo-table tr:hover td {
+      background-color: #F8FAFD;
+    }
+    .badge-tigo {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--tigo-navy);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+    .badge-tigo-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background: var(--tigo-yellow);
+    }
+    .badge-positive {
+      background: #DCFCE7;
+      color: #15803D;
+      font-weight: 800;
+      border-radius: 9999px;
+      padding: 2px 9px;
+      font-size: 0.71rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-negative {
+      background: #FEE2E2;
+      color: #B91C1C;
+      font-weight: 800;
+      border-radius: 9999px;
+      padding: 2px 9px;
+      font-size: 0.71rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-warning {
+      background: #FEF3C7;
+      color: #92400E;
+      font-weight: 800;
+      border-radius: 9999px;
+      padding: 2px 9px;
+      font-size: 0.71rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-info {
+      background: #E0F2FE;
+      color: #0369A1;
+      font-weight: 800;
+      border-radius: 9999px;
+      padding: 2px 9px;
+      font-size: 0.71rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-comp {
+      background: #E2E8F0;
+      color: #334155;
+      font-weight: 700;
+      border-radius: 9999px;
+      padding: 2px 8px;
+      font-size: 0.71rem;
+    }
+    .tigo-select {
+      border: 1px solid var(--tigo-border);
+      background: #FFFFFF;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      color: var(--tigo-text);
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #FFFFFF; }
+    }
+  </style>
+</head>
+<body>
+  <!-- BANNER CONDICIONAL DE DATOS DE EJEMPLO (OCULTO EN PRODUCCIÓN CUANDO is_sample === false) -->
+  <div id="sample-banner" class="is-hidden bg-amber-400 text-slate-900 text-center py-2 px-4 text-xs font-black uppercase tracking-wider">
+    ⚠️ DATOS DE EJEMPLO — MODO DEMOSTRACIÓN
+  </div>
+
+  <!-- BLOQUE DE DATOS OBLIGATORIO (ÚNICA SECCIÓN REEMPLAZADA POR EL BUILD DIARIO) -->
+  <script id="RADAR_DATA" type="application/json">
+{
+  "meta": {
+    "schema_version": "1.0",
+    "is_sample": true,
+    "run_date": "2026-11-04",
+    "prev_date": "2026-11-03",
+    "generated_at": "2026-11-04T06:15:00-05:00",
+    "tolerance_pct": 15,
+    "fx_usd": {
+      "USD": 1,
+      "PAB": 1,
+      "GTQ": 7.7,
+      "HNL": 24.8,
+      "NIO": 36.6,
+      "CRC": 510,
+      "COP": 4000,
+      "BOB": 6.96,
+      "PYG": 6500,
+      "UYU": 40,
+      "CLP": 940
+    },
+    "markets": [
+      {
+        "code": "GT",
+        "name": "Guatemala",
+        "flag": "🇬🇹",
+        "currency": "GTQ",
+        "capital": "Ciudad de Guatemala"
+      },
+      {
+        "code": "SV",
+        "name": "El Salvador",
+        "flag": "🇸🇻",
+        "currency": "USD",
+        "capital": "San Salvador"
+      },
+      {
+        "code": "HN",
+        "name": "Honduras",
+        "flag": "🇭🇳",
+        "currency": "HNL",
+        "capital": "Tegucigalpa"
+      },
+      {
+        "code": "NI",
+        "name": "Nicaragua",
+        "flag": "🇳🇮",
+        "currency": "NIO",
+        "capital": "Managua"
+      },
+      {
+        "code": "CR",
+        "name": "Costa Rica",
+        "flag": "🇨🇷",
+        "currency": "CRC",
+        "capital": "San José"
+      },
+      {
+        "code": "PA",
+        "name": "Panamá",
+        "flag": "🇵🇦",
+        "currency": "USD",
+        "capital": "Ciudad de Panamá"
+      },
+      {
+        "code": "CO",
+        "name": "Colombia",
+        "flag": "🇨🇴",
+        "currency": "COP",
+        "capital": "Bogotá (Estrato 3)"
+      },
+      {
+        "code": "BO",
+        "name": "Bolivia",
+        "flag": "🇧🇴",
+        "currency": "BOB",
+        "capital": "La Paz"
+      },
+      {
+        "code": "PY",
+        "name": "Paraguay",
+        "flag": "🇵🇾",
+        "currency": "PYG",
+        "capital": "Asunción"
+      },
+      {
+        "code": "UY",
+        "name": "Uruguay",
+        "flag": "🇺🇾",
+        "currency": "UYU",
+        "capital": "Montevideo"
+      },
+      {
+        "code": "EC",
+        "name": "Ecuador",
+        "flag": "🇪🇨",
+        "currency": "USD",
+        "capital": "Quito"
+      },
+      {
+        "code": "CL",
+        "name": "Chile",
+        "flag": "🇨🇱",
+        "currency": "CLP",
+        "capital": "Santiago"
+      }
+    ],
+    "hb_billable_markets": [
+      "CR",
+      "PA"
+    ],
+    "hb_excluded_markets": [
+      "UY"
+    ]
+  },
+  "history": [
+    {
+      "date": "2026-11-01",
+      "changes": 4
+    },
+    {
+      "date": "2026-11-02",
+      "changes": 6
+    },
+    {
+      "date": "2026-11-03",
+      "changes": 5
+    },
+    {
+      "date": "2026-11-04",
+      "changes": 8
+    }
+  ],
+  "offers_today": [
+    {
+      "id": "GT|TIGO|HOGAR|INTERNET|100",
+      "country": "GT",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Residencial 100 Megas + TV HD",
+      "speed_mbps": 100,
+      "currency": "GTQ",
+      "price_local": 259.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.gt/residencial",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "GT|TIGO|HOGAR|INTERNET|200",
+      "country": "GT",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Residencial 200 Megas + TV HD + Telefonía",
+      "speed_mbps": 200,
+      "currency": "GTQ",
+      "price_local": 309.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "VIX",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 3
+        }
+      ],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.gt/residencial",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "GT|TIGO|HOGAR|DUO|500",
+      "country": "GT",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Residencial 500 Megas + ONEtv",
+      "speed_mbps": 500,
+      "currency": "GTQ",
+      "price_local": 609.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "SA",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Plus",
+      "source_url": "https://www.tigo.com.gt/residencial",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "GT|CLARO|HOGAR|DUO|150",
+      "country": "GT",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Claro Hogar Doble 150 Megas",
+      "speed_mbps": 150,
+      "currency": "GTQ",
+      "price_local": 229.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 6
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 1
+        }
+      ],
+      "hardware": "ONT WiFi Dual",
+      "source_url": "https://www.claro.com.gt/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "GT|CLARO|HOGAR|TRIO|250",
+      "country": "GT",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple 250 Megas + Claro TV+",
+      "speed_mbps": 250,
+      "currency": "GTQ",
+      "price_local": 309.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 6
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 1
+        }
+      ],
+      "hardware": "ONT WiFi Dual",
+      "source_url": "https://www.claro.com.gt/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "GT|CLARO|HOGAR|TRIO|750",
+      "country": "GT",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple Fibra 750 Megas + Claro TV+",
+      "speed_mbps": 750,
+      "currency": "GTQ",
+      "price_local": 679.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 6
+        }
+      ],
+      "hardware": "Router Fibra GPON WiFi",
+      "source_url": "https://www.claro.com.gt/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "SV|TIGO|HOGAR|INTERNET|100",
+      "country": "SV",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Residencial 100 Megas",
+      "speed_mbps": 100,
+      "currency": "USD",
+      "price_local": 34.99,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 1
+        }
+      ],
+      "hardware": "Router WiFi Residencial",
+      "source_url": "https://www.tigo.com.sv/planes",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "SV|TIGO|HOGAR|DUO|100",
+      "country": "SV",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Internet 100 Megas + TV Digital HD",
+      "speed_mbps": 100,
+      "currency": "USD",
+      "price_local": 44.99,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "VIX",
+          "model": "SA",
+          "price_local": 5.99,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "SA",
+          "price_local": 10.99,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi + Tigo ONEtv App",
+      "source_url": "https://www.tigo.com.sv/planes",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "SV|CLARO|HOGAR|INTERNET|80",
+      "country": "SV",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Claro Hogar Solo Internet 80 Megas",
+      "speed_mbps": 80,
+      "currency": "USD",
+      "price_local": 25.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Cablemódem WiFi",
+      "source_url": "https://www.claro.com.sv/personas/servicios/servicios-hogar/internet/planes-y-precios/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "SV|CLARO|HOGAR|TRIO|300",
+      "country": "SV",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple Fibra 300 Megas + Claro TV+",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 45.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "DESC",
+          "price_local": 3.0,
+          "months": null
+        }
+      ],
+      "hardware": "Fibra + Ultra WiFi Mesh",
+      "source_url": "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/claro-hogar-triple/planes-y-precios/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "SV|CLARO|HOGAR|DUO|500",
+      "country": "SV",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Claro Hogar Doble 500 Megas + Claro TV",
+      "speed_mbps": 500,
+      "currency": "USD",
+      "price_local": 86.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Ultra WiFi Mesh",
+      "source_url": "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/claro-hogar-doble/planes-y-precios/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "SV|DIGICEL|HOGAR|INTERNET|100",
+      "country": "SV",
+      "operator": "Digicel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Pospago LTE Ilimitado (Operación Móvil SV)",
+      "speed_mbps": 100,
+      "currency": "USD",
+      "price_local": 24.99,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.digicelgroup.com/sv/es/mobile/rates.html",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "HN|TIGO|HOGAR|DUO|120",
+      "country": "HN",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Tigo Hogar 120 Mbps + ONEtv HD",
+      "speed_mbps": 120,
+      "currency": "HNL",
+      "price_local": 1000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "VIX",
+          "model": "SA",
+          "price_local": 165.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Dual",
+      "source_url": "https://www.tigo.com.hn/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "HN|TIGO|HOGAR|DUO|400",
+      "country": "HN",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Tigo Hogar Alta Velocidad 400 Mbps + ONEtv",
+      "speed_mbps": 400,
+      "currency": "HNL",
+      "price_local": 1000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Alta Velocidad",
+      "source_url": "https://www.tigo.com.hn/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "HN|CLARO|HOGAR|TRIO|150",
+      "country": "HN",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Paquete Triple Play Fibra 150 Megas",
+      "speed_mbps": 150,
+      "currency": "HNL",
+      "price_local": 700.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 1
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.com.hn/personas/servicios/hogar/triple-play/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "HN|CLARO|HOGAR|TRIO|300",
+      "country": "HN",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Paquete Triple Play 300 Megas Simétrico",
+      "speed_mbps": 300,
+      "currency": "HNL",
+      "price_local": 850.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "SA",
+          "price_local": 110.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra Simétrica",
+      "source_url": "https://www.claro.com.hn/personas/servicios/hogar/triple-play/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "HN|CLARO|HOGAR|TRIO|1000",
+      "country": "HN",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Paquete Triple Play 1000 Megas + Max & Universal+",
+      "speed_mbps": 1000,
+      "currency": "HNL",
+      "price_local": 2110.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router Fibra Gigabit",
+      "source_url": "https://www.claro.com.hn/personas/servicios/hogar/triple-play/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "NI|TIGO|HOGAR|INTERNET|100",
+      "country": "NI",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Residencial Básico 100 Mbps",
+      "speed_mbps": 100,
+      "currency": "NIO",
+      "price_local": 700.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi Residencial",
+      "source_url": "https://www.tigo.com.ni/planes",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "NI|TIGO|HOGAR|DUO|200",
+      "country": "NI",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Combo Tigo Hogar 200 Mbps + One TV HD",
+      "speed_mbps": 200,
+      "currency": "NIO",
+      "price_local": 1210.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi + One TV Box",
+      "source_url": "https://www.tigo.com.ni/planes",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "NI|CLARO|HOGAR|TRIO|120",
+      "country": "NI",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple 120 Mbps",
+      "speed_mbps": 120,
+      "currency": "NIO",
+      "price_local": 955.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT WiFi",
+      "source_url": "https://www.claro.com.ni/personas/servicios/hogar/claro-hogar-triple/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "NI|CLARO|HOGAR|TRIO|220",
+      "country": "NI",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple 220 Mbps",
+      "speed_mbps": 220,
+      "currency": "NIO",
+      "price_local": 1100.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT WiFi",
+      "source_url": "https://www.claro.com.ni/personas/servicios/hogar/claro-hogar-triple/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "NI|CLARO|HOGAR|TRIO|320",
+      "country": "NI",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple 320 Mbps Fibra + Max & Universal+",
+      "speed_mbps": 320,
+      "currency": "NIO",
+      "price_local": 1280.0,
+      "promo_price_local": 1170.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "SA",
+          "price_local": 256.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra + Claro TV+ Box",
+      "source_url": "https://tiendaenlinea.claro.com.ni/tienda/planes-claro-hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|TIGO|HOGAR|DUO|150",
+      "country": "CR",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Hogar 150 Mbps + TV HD + Tigo Sports",
+      "speed_mbps": 150,
+      "currency": "CRC",
+      "price_local": 25640.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi+",
+      "source_url": "https://www.tigo.cr/hogar/internet-y-television",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|TIGO|HOGAR|DUO|250",
+      "country": "CR",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Dúo 250 Mbps + TV HD + 2do Deco Gratis",
+      "speed_mbps": 250,
+      "currency": "CRC",
+      "price_local": 26640.0,
+      "promo_price_local": 24990.0,
+      "promo_months": 4,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi+",
+      "source_url": "https://www.tigo.cr/hogar/internet-y-television",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|TIGO|HOGAR|DUO|500",
+      "country": "CR",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Dúo 500 Mbps + TV HD + Tigo Sports",
+      "speed_mbps": 500,
+      "currency": "CRC",
+      "price_local": 34640.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi+",
+      "source_url": "https://www.tigo.cr/hogar/internet-y-television",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|LIBERTY|HOGAR|DUO|120",
+      "country": "CR",
+      "operator": "Liberty",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Doble Play Mega 120 + Next TV + Pack Entretenimiento",
+      "speed_mbps": 120,
+      "currency": "CRC",
+      "price_local": 29080.74,
+      "promo_price_local": 19941.8,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Liberty",
+      "source_url": "https://libertycr.com/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|LIBERTY|HOGAR|DUO|300",
+      "country": "CR",
+      "operator": "Liberty",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan 300 Megas Internet + Next TV + Pack Entretenimiento",
+      "speed_mbps": 300,
+      "currency": "CRC",
+      "price_local": 40200.9,
+      "promo_price_local": 27951.03,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi + Next TV",
+      "source_url": "https://libertycr.com/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|KOLBI|HOGAR|INTERNET|300",
+      "country": "CR",
+      "operator": "Kölbi",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Óptica Simétrica 300 Mbps Individual",
+      "speed_mbps": 300,
+      "currency": "CRC",
+      "price_local": 25900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Súper WiFi Mesh",
+      "source_url": "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/internet/fibra-optica",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|KOLBI|HOGAR|DUO|500",
+      "country": "CR",
+      "operator": "Kölbi",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Dúo Fibra Simétrica 500 Mbps + kölbi TV",
+      "speed_mbps": 500,
+      "currency": "CRC",
+      "price_local": 72800.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Súper WiFi Mesh",
+      "source_url": "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/planes-duo",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|CLARO|HOGAR|DUO|150",
+      "country": "CR",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Doble Play Fibra Simétrica 150 Mbps + TV Ultra HD",
+      "speed_mbps": 150,
+      "currency": "CRC",
+      "price_local": 27081.0,
+      "promo_price_local": 24681.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "DESC",
+          "price_local": 3800.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/doble-play-fibra-optica",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|CLARO|HOGAR|INTERNET|500",
+      "country": "CR",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Simétrico Fibra 500 Mbps + Paramount+",
+      "speed_mbps": 500,
+      "currency": "CRC",
+      "price_local": 29376.0,
+      "promo_price_local": 26495.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/internet-fibra-optica",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|TELECABLE|HOGAR|DUO|300",
+      "country": "CR",
+      "operator": "Telecable",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Paquete Estándar Fibra Simétrica 300 Mbps + TV 180 Canales",
+      "speed_mbps": 300,
+      "currency": "CRC",
+      "price_local": 29990.0,
+      "promo_price_local": 25990.0,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Módem Fibra WiFi",
+      "source_url": "https://telecablecr.com/paquete-estandar-con-tv",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CR|TELECABLE|HOGAR|DUO|1000",
+      "country": "CR",
+      "operator": "Telecable",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Experto Fibra Simétrica 1000 Mbps + T-Play Pro",
+      "speed_mbps": 1000,
+      "currency": "CRC",
+      "price_local": 55990.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router eero 6+ Mesh",
+      "source_url": "https://telecablecr.com/internet-fibra-optica",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PA|TIGO|HOGAR|DUO|300",
+      "country": "PA",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Internet + TV 300 Megas + Tigo Sports",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 44.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "SA",
+          "price_local": 12.49,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Dual",
+      "source_url": "https://www.tigo.com.pa/hogar/internet",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PA|TIGO|HOGAR|INTERNET|500",
+      "country": "PA",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Solo Internet Hogar 500 Megas",
+      "speed_mbps": 500,
+      "currency": "USD",
+      "price_local": 40.0,
+      "promo_price_local": 33.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "VIX",
+          "model": "SA",
+          "price_local": 6.99,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi+",
+      "source_url": "https://www.tigo.com.pa/hogar/internet",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PA|TIGO|HOGAR|DUO|500",
+      "country": "PA",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Internet + TV 500 Megas + WiFi+ Mesh",
+      "speed_mbps": 500,
+      "currency": "USD",
+      "price_local": 56.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi+ con Extensor Mesh",
+      "source_url": "https://www.tigo.com.pa/hogar/internet",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PA|TIGO|HOGAR|DUO|750",
+      "country": "PA",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Internet + TV 750 Megas + WiFi+ Mesh",
+      "speed_mbps": 750,
+      "currency": "USD",
+      "price_local": 59.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi+ con Extensor Mesh",
+      "source_url": "https://www.tigo.com.pa/hogar/internet",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PA|MASMOVIL|HOGAR|INTERNET|300",
+      "country": "PA",
+      "operator": "+Móvil",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet +Fibra Simétrica 300 Mbps",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 33.0,
+      "promo_price_local": 30.0,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT +Fibra WiFi",
+      "source_url": "https://www.masmovilpanama.com/hogar/internet-residencial",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PA|MASMOVIL|HOGAR|DUO|300",
+      "country": "PA",
+      "operator": "+Móvil",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Paquete Hogar +Fibra 300 Megas + TV + Universal+",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 53.0,
+      "promo_price_local": 44.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT +Fibra WiFi",
+      "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PA|MASMOVIL|HOGAR|DUO|600",
+      "country": "PA",
+      "operator": "+Móvil",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Paquete Hogar +Fibra 600 Megas + TV + Universal+",
+      "speed_mbps": 600,
+      "currency": "USD",
+      "price_local": 56.0,
+      "promo_price_local": 52.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT +Fibra Dual Band",
+      "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PA|MASMOVIL|HOGAR|DUO|1000",
+      "country": "PA",
+      "operator": "+Móvil",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Paquete Hogar Un GIGA 1000 Megas + TV + Disney+ Premium",
+      "speed_mbps": 1000,
+      "currency": "USD",
+      "price_local": 60.0,
+      "promo_price_local": 55.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router +Fibra Gigabit",
+      "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|TIGO|HOGAR|INTERNET|500",
+      "country": "CO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Solo Internet 500 Megas",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 84900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.co/personas/hogar/internet",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|TIGO|HOGAR|DUO|500",
+      "country": "CO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Internet 500 Megas + Televisión Digital Avanzada",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 109200.0,
+      "promo_price_local": 106900.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "SA",
+          "price_local": 33200.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.co/personas/hogar/paquetes",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|TIGO|HOGAR|CONVERGENTE|500",
+      "country": "CO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Convergente",
+      "plan_name": "Full Tigo+ 500 Megas + TV Avanzada + Móvil Ilimitado",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 149900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 12
+        }
+      ],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.co/personas/postpago/full-tigo",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|MOVISTAR|HOGAR|INTERNET|900",
+      "country": "CO",
+      "operator": "Movistar",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Óptica Simétrica 900 Megas Solo Internet",
+      "speed_mbps": 900,
+      "currency": "COP",
+      "price_local": 84900.0,
+      "promo_price_local": 75992.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "NETFLIX",
+          "model": "SA",
+          "price_local": 29900.0,
+          "months": null
+        }
+      ],
+      "hardware": "Smart WiFi Router",
+      "source_url": "https://www.movistar.co/personas/hogar/internet-bogota",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|MOVISTAR|HOGAR|DUO|900",
+      "country": "CO",
+      "operator": "Movistar",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Fibra Simétrica 900 Megas + Movistar TV",
+      "speed_mbps": 900,
+      "currency": "COP",
+      "price_local": 109155.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "DESC",
+          "price_local": 33900.0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Smart WiFi 6",
+      "source_url": "https://www.movistar.co/personas/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|CLARO|HOGAR|INTERNET|300",
+      "country": "CO",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Hogar 300 Megas",
+      "speed_mbps": 300,
+      "currency": "COP",
+      "price_local": 89900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi Dual",
+      "source_url": "https://www.claro.com.co/personas/hogar/planes/internet-hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|CLARO|HOGAR|TRIO|500",
+      "country": "CO",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Tripleplay Fibra 500 Megas + Claro TV+ + Voz",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 104900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "DESC",
+          "price_local": 30900.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.claro.com.co/personas/servicios/hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|CLARO|HOGAR|TRIO|900",
+      "country": "CO",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Tripleplay Fibra 900 Megas + Claro TV+",
+      "speed_mbps": 900,
+      "currency": "COP",
+      "price_local": 116900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.claro.com.co/personas/servicios/hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|WOM|HOGAR|INTERNET|100",
+      "country": "CO",
+      "operator": "WOM",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Pospago Móvil WOM Ilimitado 4G/5G (Sin Fibra Fija en CO)",
+      "speed_mbps": 100,
+      "currency": "COP",
+      "price_local": 54990.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.wom.co/planes",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|ETB|HOGAR|INTERNET|500",
+      "country": "CO",
+      "operator": "ETB",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Fibra Simétrica Solo 500 Mb",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 69900.0,
+      "promo_price_local": 55920.0,
+      "promo_months": 6,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "DESC",
+          "price_local": 17900.0,
+          "months": null
+        },
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "SA",
+          "price_local": 19990.0,
+          "months": null
+        },
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "SA",
+          "price_local": 24900.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://etb.com/hogares/Bogota.aspx?plan=total",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CO|ETB|HOGAR|DUO|910",
+      "country": "CO",
+      "operator": "ETB",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Fibra Simétrica 910 Mb + TV Plus (Estrato 3)",
+      "speed_mbps": 910,
+      "currency": "COP",
+      "price_local": 164900.0,
+      "promo_price_local": 131920.0,
+      "promo_months": 6,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "DESC",
+          "price_local": 17900.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://etb.com/hogares/Bogota.aspx?plan=total",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|TIGO|HOGAR|INTERNET|60",
+      "country": "BO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Wifi Hogar Esencial 60 Mbps",
+      "speed_mbps": 60,
+      "currency": "BOB",
+      "price_local": 179.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "SA",
+          "price_local": 20.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Tigo",
+      "source_url": "https://www.tigo.com.bo/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|TIGO|HOGAR|INTERNET|60_2",
+      "country": "BO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Tigo Hogar Básico 60 Mbps",
+      "speed_mbps": 60,
+      "currency": "BOB",
+      "price_local": 249.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "SA",
+          "price_local": 41.0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "SA",
+          "price_local": 49.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Tigo",
+      "source_url": "https://www.tigo.com.bo/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|TIGO|HOGAR|CONVERGENTE|100",
+      "country": "BO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Convergente",
+      "plan_name": "Full Tigo + TV Avanzado (129 Canales + Tigo Sports)",
+      "speed_mbps": 100,
+      "currency": "BOB",
+      "price_local": 399.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 12
+        }
+      ],
+      "hardware": "Router WiFi Hogar",
+      "source_url": "https://www.tigo.com.bo/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|ENTEL|HOGAR|INTERNET|60",
+      "country": "BO",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Fibra 60 Mbps",
+      "speed_mbps": 60,
+      "currency": "BOB",
+      "price_local": 169.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON WiFi",
+      "source_url": "https://www.entel.bo/hogar/fibra-optica",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|ENTEL|HOGAR|DUO|150",
+      "country": "BO",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "DUO Intermedio Fibra 150 Mbps + Móvil Ilimitado",
+      "speed_mbps": 150,
+      "currency": "BOB",
+      "price_local": 239.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON WiFi",
+      "source_url": "https://www.entel.bo/hogar/duo-pack",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|ENTEL|HOGAR|DUO|300",
+      "country": "BO",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "DUO Premium Fibra 300 Mbps + Móvil",
+      "speed_mbps": 300,
+      "currency": "BOB",
+      "price_local": 379.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON WiFi",
+      "source_url": "https://www.entel.bo/hogar/duo-pack",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|VIVA|HOGAR|INTERNET|60",
+      "country": "BO",
+      "operator": "Viva",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Óptica FO 60 Mbps",
+      "speed_mbps": 60,
+      "currency": "BOB",
+      "price_local": 179.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.viva.com.bo/personas/hogar/fibra-optica/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|VIVA|HOGAR|CONVERGENTE|150",
+      "country": "BO",
+      "operator": "Viva",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Convergente",
+      "plan_name": "Convergente FO + Inicial 150 Mbps + Móvil WOW",
+      "speed_mbps": 150,
+      "currency": "BOB",
+      "price_local": 229.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.viva.com.bo/personas/hogar/fibra-optica/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|VIVA|HOGAR|INTERNET|200",
+      "country": "BO",
+      "operator": "Viva",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Óptica FO 200 Mbps",
+      "speed_mbps": 200,
+      "currency": "BOB",
+      "price_local": 349.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.viva.com.bo/personas/hogar/fibra-optica/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|AXS|HOGAR|INTERNET|70",
+      "country": "BO",
+      "operator": "AXS",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Hogar Pro 70 Mbps",
+      "speed_mbps": 70,
+      "currency": "BOB",
+      "price_local": 219.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON WiFi",
+      "source_url": "https://www.axsbolivia.com/axs-net/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|AXS|HOGAR|DUO|135",
+      "country": "BO",
+      "operator": "AXS",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "AXS+ Fibra Hogar Pro 135 Mbps + IPTV + HBO Max",
+      "speed_mbps": 135,
+      "currency": "BOB",
+      "price_local": 324.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT GPON + AXS+ Box",
+      "source_url": "https://www.axsbolivia.com/tarifas-servicio-de-distribucion-de-senales-iptv-internet/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "BO|AXS|HOGAR|INTERNET|250",
+      "country": "BO",
+      "operator": "AXS",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Hogar Pro 250 Mbps",
+      "speed_mbps": 250,
+      "currency": "BOB",
+      "price_local": 459.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON Dual Band",
+      "source_url": "https://www.axsbolivia.com/tarifa/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PY|TIGO|HOGAR|INTERNET|200",
+      "country": "PY",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Hogar 200 Mbps",
+      "speed_mbps": 200,
+      "currency": "PYG",
+      "price_local": 170000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi Tigo",
+      "source_url": "https://www.tigo.com.py/hogar/internet",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PY|TIGO|HOGAR|DUO|300",
+      "country": "PY",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "DoblePack 300 Mbps + TV Familiar + Tigo Sports & Disney+",
+      "speed_mbps": 300,
+      "currency": "PYG",
+      "price_local": 255000.0,
+      "promo_price_local": 215000.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 12
+        }
+      ],
+      "hardware": "Router WiFi Plus",
+      "source_url": "https://www.tigo.com.py/hogar/internet",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PY|TIGO|HOGAR|DUO|600",
+      "country": "PY",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "DoblePack 600 Mbps + TV Familiar + Tigo Sports & Disney+",
+      "speed_mbps": 600,
+      "currency": "PYG",
+      "price_local": 365000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 12
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.tigo.com.py/hogar/internet",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PY|PERSONALFLOW|HOGAR|DUO|400",
+      "country": "PY",
+      "operator": "Personal Flow",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Combo Fibra 400 Mbps + Flow TV",
+      "speed_mbps": 400,
+      "currency": "PYG",
+      "price_local": 220000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "FLOW_PASS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT WiFi Dual",
+      "source_url": "https://www.personal.com.py/internet/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PY|PERSONALFLOW|HOGAR|INTERNET|1000",
+      "country": "PY",
+      "operator": "Personal Flow",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Fibra 1000 Mbps",
+      "speed_mbps": 1000,
+      "currency": "PYG",
+      "price_local": 500000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.personal.com.py/internet/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PY|CLARO|HOGAR|INTERNET|200",
+      "country": "PY",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Claro Fibra Simétrica 200 Mbps + Paramount+ & Prime Video",
+      "speed_mbps": 200,
+      "currency": "PYG",
+      "price_local": 95000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 3
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.com.py/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "PY|CLARO|HOGAR|INTERNET|600",
+      "country": "PY",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Claro Fibra Simétrica 600 Mbps + Paramount+",
+      "speed_mbps": 600,
+      "currency": "PYG",
+      "price_local": 120000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi 6",
+      "source_url": "https://www.claro.com.py/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "UY|MOVISTAR|HOGAR|INTERNET|100",
+      "country": "UY",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Móvil Contrato GIGAnte Plus M 100 GB (Millicom UY)",
+      "speed_mbps": 100,
+      "currency": "UYU",
+      "price_local": 1190.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "SA",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.movistar.com.uy/productos-y-servicios/planes/contrato/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "UY|ANTEL|HOGAR|INTERNET|400",
+      "country": "UY",
+      "operator": "Antel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Básico 400 Mbps + Antel TV",
+      "speed_mbps": 400,
+      "currency": "UYU",
+      "price_local": 1650.0,
+      "promo_price_local": 825.0,
+      "promo_months": 4,
+      "addons": [],
+      "hardware": "ONT Fibra Antel",
+      "source_url": "https://tienda.antel.com.uy/categoria/internet/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "UY|ANTEL|HOGAR|INTERNET|550",
+      "country": "UY",
+      "operator": "Antel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Entretenimiento 550 Mbps + Disney+ Estándar",
+      "speed_mbps": 550,
+      "currency": "UYU",
+      "price_local": 2370.0,
+      "promo_price_local": 1185.0,
+      "promo_months": 4,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router Fibra WiFi",
+      "source_url": "https://tienda.antel.com.uy/categoria/internet/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "UY|ANTEL|HOGAR|INTERNET|900",
+      "country": "UY",
+      "operator": "Antel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Super Entretenimiento 900 Mbps + Disney+ Premium & Netflix",
+      "speed_mbps": 900,
+      "currency": "UYU",
+      "price_local": 3420.0,
+      "promo_price_local": 1710.0,
+      "promo_months": 4,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "NETFLIX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router Fibra Plus",
+      "source_url": "https://tienda.antel.com.uy/categoria/internet/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "UY|CLARO|HOGAR|INTERNET|100",
+      "country": "UY",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Móvil Postpago 70 GB + Universal+ (Claro Video)",
+      "speed_mbps": 100,
+      "currency": "UYU",
+      "price_local": 700.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "SA",
+          "price_local": 359.0,
+          "months": null
+        },
+        {
+          "ott": "CRUNCHYROLL",
+          "model": "SA",
+          "price_local": 99.0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.claro.com.uy/personas/servicios/servicios-moviles/planes/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "EC|MOVISTAR|HOGAR|INTERNET|100",
+      "country": "EC",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Móvil Infinity Plus 65 GB + Spotify (Tigo/Millicom EC)",
+      "speed_mbps": 100,
+      "currency": "USD",
+      "price_local": 45.99,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "SPOTIFY",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.movistar.com.ec/productos-y-servicios/pospago/planes",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "EC|CLARO|HOGAR|TRIO|550",
+      "country": "EC",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "3 Play Fibra Simétrica 550 Mbps + TV 91 Canales + Paramount+ & Max",
+      "speed_mbps": 550,
+      "currency": "USD",
+      "price_local": 27.6,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.com.ec/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "EC|CLARO|HOGAR|TRIO|1000",
+      "country": "EC",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "3 Play Fibra Simétrica 1000 Mbps + Mesh + Paramount+ & Max",
+      "speed_mbps": 1000,
+      "currency": "USD",
+      "price_local": 37.95,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router Fibra + Extensor Mesh",
+      "source_url": "https://www.claro.com.ec/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "EC|NETLIFE|HOGAR|INTERNET|850",
+      "country": "EC",
+      "operator": "Netlife",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Starter Defense XGPON 850 Mbps Simétrico WiFi 7",
+      "speed_mbps": 850,
+      "currency": "USD",
+      "price_local": 33.93,
+      "promo_price_local": 16.96,
+      "promo_months": 9,
+      "addons": [],
+      "hardware": "Router XGPON WiFi 7",
+      "source_url": "https://www.netlife.ec/planes/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "EC|XTRIM|HOGAR|INTERNET|300",
+      "country": "EC",
+      "operator": "Xtrim",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Fibra 300 Mbps Simétrico WiFi 6",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 18.4,
+      "promo_price_local": 17.85,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.xtrim.com.ec/planes/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "EC|XTRIM|HOGAR|INTERNET|800",
+      "country": "EC",
+      "operator": "Xtrim",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Elite Plus 800 Mbps + Zapping TV + Disney+ Premium & Paramount+",
+      "speed_mbps": 800,
+      "currency": "USD",
+      "price_local": 40.0,
+      "promo_price_local": 25.5,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.xtrim.com.ec/planes/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "EC|CNT|HOGAR|INTERNET|600",
+      "country": "EC",
+      "operator": "CNT",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Fibra GO! 600 Mbps Simétrico",
+      "speed_mbps": 600,
+      "currency": "USD",
+      "price_local": 29.91,
+      "promo_price_local": 14.6,
+      "promo_months": 8,
+      "addons": [],
+      "hardware": "ONT Fibra Dual Band",
+      "source_url": "https://www.cnt.gob.ec/planes/internet-fijo/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CL|MOVISTAR|HOGAR|INTERNET|600",
+      "country": "CL",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Simétrica 600 Mbps WiFi 6",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 21990.0,
+      "promo_price_local": 14990.0,
+      "promo_months": 12,
+      "addons": [],
+      "hardware": "Smart WiFi 6",
+      "source_url": "https://www.movistar.cl/hogar/fibra",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CL|MOVISTAR|HOGAR|DUO|600",
+      "country": "CL",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Fibra 600 Mbps + Movistar TV + Disney+ & Max",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 32990.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Smart WiFi 6",
+      "source_url": "https://www.movistar.cl/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CL|MOVISTAR|HOGAR|DUO|940",
+      "country": "CL",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Movistar Giga 940 Mbps + TV + Disney+ & Max",
+      "speed_mbps": 940,
+      "currency": "CLP",
+      "price_local": 39990.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Smart WiFi 6",
+      "source_url": "https://www.movistar.cl/hogar",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CL|ENTEL|HOGAR|DUO|600",
+      "country": "CL",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Pack Fibra 600 Mbps + TV Full+ (Disney+ Premium, Max & Apple TV+)",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 49490.0,
+      "promo_price_local": 34990.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "APPLE_TV",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.entel.cl/hogar/internet/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CL|ENTEL|HOGAR|DUO|1000",
+      "country": "CL",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Pack Fibra Giga 1000 Mbps + TV Full+",
+      "speed_mbps": 1000,
+      "currency": "CLP",
+      "price_local": 60490.0,
+      "promo_price_local": 39990.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "APPLE_TV",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6 + Extensor",
+      "source_url": "https://www.entel.cl/hogar/internet/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CL|CLAROVTR|HOGAR|DUO|600",
+      "country": "CL",
+      "operator": "ClaroVTR",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Doble Pack Fibra 600 Mbps + TV + Max & Disney+",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 41990.0,
+      "promo_price_local": 29990.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "TNT_SPORTS",
+          "model": "SA",
+          "price_local": 13990.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.clarochile.cl/portal/cl/sc/personas/servicios-hogar/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CL|WOM|HOGAR|INTERNET|600",
+      "country": "CL",
+      "operator": "WOM",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Simétrica 600 Mbps WiFi 6",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 21990.0,
+      "promo_price_local": 11990.0,
+      "promo_months": 12,
+      "addons": [],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.wom.cl/fibra-optica/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CL|WOM|HOGAR|DUO|600",
+      "country": "CL",
+      "operator": "WOM",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Fibra 600 Mbps + TV Fútbol Zapping + TNT Sports Premium & Max",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 40890.0,
+      "promo_price_local": 30890.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "TNT_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.wom.cl/fibra-optica/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    },
+    {
+      "id": "CL|MUNDO|HOGAR|INTERNET|1000",
+      "country": "CL",
+      "operator": "Mundo",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Simétrica 1000 Mbps + Mundo GO! TV",
+      "speed_mbps": 1000,
+      "currency": "CLP",
+      "price_local": 46150.0,
+      "promo_price_local": 25990.0,
+      "promo_months": 6,
+      "addons": [],
+      "hardware": "Router Fibra WiFi 6",
+      "source_url": "https://www.tumundo.cl/fibra-optica/",
+      "captured_at": "2026-11-04T06:12:00-05:00"
+    }
+  ],
+  "offers_prev": [
+    {
+      "id": "GT|TIGO|HOGAR|INTERNET|100",
+      "country": "GT",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Residencial 100 Megas + TV HD",
+      "speed_mbps": 100,
+      "currency": "GTQ",
+      "price_local": 259.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.gt/residencial",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "GT|TIGO|HOGAR|INTERNET|200",
+      "country": "GT",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Residencial 200 Megas + TV HD + Telefonía",
+      "speed_mbps": 200,
+      "currency": "GTQ",
+      "price_local": 309.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "VIX",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 3
+        }
+      ],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.gt/residencial",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "GT|TIGO|HOGAR|DUO|500",
+      "country": "GT",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Residencial 500 Megas + ONEtv",
+      "speed_mbps": 500,
+      "currency": "GTQ",
+      "price_local": 609.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "SA",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Plus",
+      "source_url": "https://www.tigo.com.gt/residencial",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "GT|CLARO|HOGAR|DUO|150",
+      "country": "GT",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Claro Hogar Doble 150 Megas",
+      "speed_mbps": 150,
+      "currency": "GTQ",
+      "price_local": 229.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 6
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 1
+        }
+      ],
+      "hardware": "ONT WiFi Dual",
+      "source_url": "https://www.claro.com.gt/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "GT|CLARO|HOGAR|TRIO|250",
+      "country": "GT",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple 250 Megas + Claro TV+",
+      "speed_mbps": 250,
+      "currency": "GTQ",
+      "price_local": 309.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 6
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 1
+        }
+      ],
+      "hardware": "ONT WiFi Dual",
+      "source_url": "https://www.claro.com.gt/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "GT|CLARO|HOGAR|TRIO|750",
+      "country": "GT",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple Fibra 750 Megas + Claro TV+",
+      "speed_mbps": 750,
+      "currency": "GTQ",
+      "price_local": 679.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 6
+        }
+      ],
+      "hardware": "Router Fibra GPON WiFi",
+      "source_url": "https://www.claro.com.gt/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "SV|TIGO|HOGAR|INTERNET|100",
+      "country": "SV",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Residencial 100 Megas",
+      "speed_mbps": 100,
+      "currency": "USD",
+      "price_local": 34.99,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 1
+        }
+      ],
+      "hardware": "Router WiFi Residencial",
+      "source_url": "https://www.tigo.com.sv/planes",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "SV|TIGO|HOGAR|DUO|100",
+      "country": "SV",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Internet 100 Megas + TV Digital HD",
+      "speed_mbps": 100,
+      "currency": "USD",
+      "price_local": 44.99,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "VIX",
+          "model": "SA",
+          "price_local": 5.99,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "SA",
+          "price_local": 10.99,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi + Tigo ONEtv App",
+      "source_url": "https://www.tigo.com.sv/planes",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "SV|CLARO|HOGAR|INTERNET|80",
+      "country": "SV",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Claro Hogar Solo Internet 80 Megas",
+      "speed_mbps": 80,
+      "currency": "USD",
+      "price_local": 25.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Cablemódem WiFi",
+      "source_url": "https://www.claro.com.sv/personas/servicios/servicios-hogar/internet/planes-y-precios/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "SV|CLARO|HOGAR|TRIO|300",
+      "country": "SV",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple Fibra 300 Megas + Claro TV+",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 45.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "DESC",
+          "price_local": 3.0,
+          "months": null
+        }
+      ],
+      "hardware": "Fibra + Ultra WiFi Mesh",
+      "source_url": "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/claro-hogar-triple/planes-y-precios/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "SV|CLARO|HOGAR|DUO|500",
+      "country": "SV",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Claro Hogar Doble 500 Megas + Claro TV",
+      "speed_mbps": 500,
+      "currency": "USD",
+      "price_local": 86.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Ultra WiFi Mesh",
+      "source_url": "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/claro-hogar-doble/planes-y-precios/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "SV|DIGICEL|HOGAR|INTERNET|100",
+      "country": "SV",
+      "operator": "Digicel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Pospago LTE Ilimitado (Operación Móvil SV)",
+      "speed_mbps": 100,
+      "currency": "USD",
+      "price_local": 24.99,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.digicelgroup.com/sv/es/mobile/rates.html",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "HN|TIGO|HOGAR|DUO|120",
+      "country": "HN",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Tigo Hogar 120 Mbps + ONEtv HD",
+      "speed_mbps": 120,
+      "currency": "HNL",
+      "price_local": 1000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "VIX",
+          "model": "SA",
+          "price_local": 165.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Dual",
+      "source_url": "https://www.tigo.com.hn/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "HN|TIGO|HOGAR|DUO|400",
+      "country": "HN",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Tigo Hogar Alta Velocidad 400 Mbps + ONEtv",
+      "speed_mbps": 400,
+      "currency": "HNL",
+      "price_local": 1000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Alta Velocidad",
+      "source_url": "https://www.tigo.com.hn/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "HN|CLARO|HOGAR|TRIO|150",
+      "country": "HN",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Paquete Triple Play Fibra 150 Megas",
+      "speed_mbps": 150,
+      "currency": "HNL",
+      "price_local": 700.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 1
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.com.hn/personas/servicios/hogar/triple-play/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "HN|CLARO|HOGAR|TRIO|300",
+      "country": "HN",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Paquete Triple Play 300 Megas Simétrico",
+      "speed_mbps": 300,
+      "currency": "HNL",
+      "price_local": 850.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "SA",
+          "price_local": 110.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra Simétrica",
+      "source_url": "https://www.claro.com.hn/personas/servicios/hogar/triple-play/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "HN|CLARO|HOGAR|TRIO|1000",
+      "country": "HN",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Paquete Triple Play 1000 Megas + Max & Universal+",
+      "speed_mbps": 1000,
+      "currency": "HNL",
+      "price_local": 2110.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router Fibra Gigabit",
+      "source_url": "https://www.claro.com.hn/personas/servicios/hogar/triple-play/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "NI|TIGO|HOGAR|INTERNET|100",
+      "country": "NI",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Residencial Básico 100 Mbps",
+      "speed_mbps": 100,
+      "currency": "NIO",
+      "price_local": 700.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi Residencial",
+      "source_url": "https://www.tigo.com.ni/planes",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "NI|TIGO|HOGAR|DUO|200",
+      "country": "NI",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Combo Tigo Hogar 200 Mbps + One TV HD",
+      "speed_mbps": 200,
+      "currency": "NIO",
+      "price_local": 1210.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi + One TV Box",
+      "source_url": "https://www.tigo.com.ni/planes",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "NI|CLARO|HOGAR|TRIO|120",
+      "country": "NI",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple 120 Mbps",
+      "speed_mbps": 120,
+      "currency": "NIO",
+      "price_local": 955.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT WiFi",
+      "source_url": "https://www.claro.com.ni/personas/servicios/hogar/claro-hogar-triple/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "NI|CLARO|HOGAR|TRIO|220",
+      "country": "NI",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple 220 Mbps",
+      "speed_mbps": 220,
+      "currency": "NIO",
+      "price_local": 1100.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT WiFi",
+      "source_url": "https://www.claro.com.ni/personas/servicios/hogar/claro-hogar-triple/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "NI|CLARO|HOGAR|TRIO|320",
+      "country": "NI",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Claro Hogar Triple 320 Mbps Fibra + Max & Universal+",
+      "speed_mbps": 320,
+      "currency": "NIO",
+      "price_local": 1280.0,
+      "promo_price_local": 1170.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "SA",
+          "price_local": 256.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra + Claro TV+ Box",
+      "source_url": "https://tiendaenlinea.claro.com.ni/tienda/planes-claro-hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|TIGO|HOGAR|DUO|150",
+      "country": "CR",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Hogar 150 Mbps + TV HD + Tigo Sports",
+      "speed_mbps": 150,
+      "currency": "CRC",
+      "price_local": 25640.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi+",
+      "source_url": "https://www.tigo.cr/hogar/internet-y-television",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|TIGO|HOGAR|DUO|250",
+      "country": "CR",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Dúo 250 Mbps + TV HD + 2do Deco Gratis",
+      "speed_mbps": 250,
+      "currency": "CRC",
+      "price_local": 26640.0,
+      "promo_price_local": 24990.0,
+      "promo_months": 4,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi+",
+      "source_url": "https://www.tigo.cr/hogar/internet-y-television",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|TIGO|HOGAR|DUO|500",
+      "country": "CR",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Dúo 500 Mbps + TV HD + Tigo Sports",
+      "speed_mbps": 500,
+      "currency": "CRC",
+      "price_local": 34640.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi+",
+      "source_url": "https://www.tigo.cr/hogar/internet-y-television",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|LIBERTY|HOGAR|DUO|120",
+      "country": "CR",
+      "operator": "Liberty",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Doble Play Mega 120 + Next TV + Pack Entretenimiento",
+      "speed_mbps": 120,
+      "currency": "CRC",
+      "price_local": 29080.74,
+      "promo_price_local": 19941.8,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Liberty",
+      "source_url": "https://libertycr.com/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|LIBERTY|HOGAR|DUO|300",
+      "country": "CR",
+      "operator": "Liberty",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan 300 Megas Internet + Next TV + Pack Entretenimiento",
+      "speed_mbps": 300,
+      "currency": "CRC",
+      "price_local": 40200.9,
+      "promo_price_local": 27951.03,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi + Next TV",
+      "source_url": "https://libertycr.com/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|KOLBI|HOGAR|INTERNET|300",
+      "country": "CR",
+      "operator": "Kölbi",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Óptica Simétrica 300 Mbps Individual",
+      "speed_mbps": 300,
+      "currency": "CRC",
+      "price_local": 25900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Súper WiFi Mesh",
+      "source_url": "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/internet/fibra-optica",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|KOLBI|HOGAR|DUO|500",
+      "country": "CR",
+      "operator": "Kölbi",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Dúo Fibra Simétrica 500 Mbps + kölbi TV",
+      "speed_mbps": 500,
+      "currency": "CRC",
+      "price_local": 72800.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Súper WiFi Mesh",
+      "source_url": "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/planes-duo",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|CLARO|HOGAR|DUO|150",
+      "country": "CR",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Doble Play Fibra Simétrica 150 Mbps + TV Ultra HD",
+      "speed_mbps": 150,
+      "currency": "CRC",
+      "price_local": 27081.0,
+      "promo_price_local": 24681.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "DESC",
+          "price_local": 3800.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/doble-play-fibra-optica",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|CLARO|HOGAR|INTERNET|500",
+      "country": "CR",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Simétrico Fibra 500 Mbps + Paramount+",
+      "speed_mbps": 500,
+      "currency": "CRC",
+      "price_local": 29376.0,
+      "promo_price_local": 26495.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/internet-fibra-optica",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|TELECABLE|HOGAR|DUO|300",
+      "country": "CR",
+      "operator": "Telecable",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Paquete Estándar Fibra Simétrica 300 Mbps + TV 180 Canales",
+      "speed_mbps": 300,
+      "currency": "CRC",
+      "price_local": 29990.0,
+      "promo_price_local": 25990.0,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Módem Fibra WiFi",
+      "source_url": "https://telecablecr.com/paquete-estandar-con-tv",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CR|TELECABLE|HOGAR|DUO|1000",
+      "country": "CR",
+      "operator": "Telecable",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Plan Experto Fibra Simétrica 1000 Mbps + T-Play Pro",
+      "speed_mbps": 1000,
+      "currency": "CRC",
+      "price_local": 55990.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router eero 6+ Mesh",
+      "source_url": "https://telecablecr.com/internet-fibra-optica",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PA|TIGO|HOGAR|DUO|300",
+      "country": "PA",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Internet + TV 300 Megas + Tigo Sports",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 44.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "SA",
+          "price_local": 12.49,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Dual",
+      "source_url": "https://www.tigo.com.pa/hogar/internet",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PA|TIGO|HOGAR|INTERNET|500",
+      "country": "PA",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Solo Internet Hogar 500 Megas",
+      "speed_mbps": 500,
+      "currency": "USD",
+      "price_local": 40.0,
+      "promo_price_local": 33.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "VIX",
+          "model": "SA",
+          "price_local": 6.99,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi+",
+      "source_url": "https://www.tigo.com.pa/hogar/internet",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PA|TIGO|HOGAR|DUO|500",
+      "country": "PA",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Internet + TV 500 Megas + WiFi+ Mesh",
+      "speed_mbps": 500,
+      "currency": "USD",
+      "price_local": 56.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi+ con Extensor Mesh",
+      "source_url": "https://www.tigo.com.pa/hogar/internet",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PA|TIGO|HOGAR|DUO|750",
+      "country": "PA",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Internet + TV 750 Megas + WiFi+ Mesh",
+      "speed_mbps": 750,
+      "currency": "USD",
+      "price_local": 59.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi+ con Extensor Mesh",
+      "source_url": "https://www.tigo.com.pa/hogar/internet",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PA|MASMOVIL|HOGAR|INTERNET|300",
+      "country": "PA",
+      "operator": "+Móvil",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet +Fibra Simétrica 300 Mbps",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 33.0,
+      "promo_price_local": 30.0,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT +Fibra WiFi",
+      "source_url": "https://www.masmovilpanama.com/hogar/internet-residencial",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PA|MASMOVIL|HOGAR|DUO|300",
+      "country": "PA",
+      "operator": "+Móvil",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Paquete Hogar +Fibra 300 Megas + TV + Universal+",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 53.0,
+      "promo_price_local": 44.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT +Fibra WiFi",
+      "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PA|MASMOVIL|HOGAR|DUO|600",
+      "country": "PA",
+      "operator": "+Móvil",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Paquete Hogar +Fibra 600 Megas + TV + Universal+",
+      "speed_mbps": 600,
+      "currency": "USD",
+      "price_local": 56.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT +Fibra Dual Band",
+      "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PA|MASMOVIL|HOGAR|DUO|1000",
+      "country": "PA",
+      "operator": "+Móvil",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Paquete Hogar Un GIGA 1000 Megas + TV + Disney+ Premium",
+      "speed_mbps": 1000,
+      "currency": "USD",
+      "price_local": 60.0,
+      "promo_price_local": 55.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router +Fibra Gigabit",
+      "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|TIGO|HOGAR|INTERNET|500",
+      "country": "CO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Solo Internet 500 Megas",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 84900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.co/personas/hogar/internet",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|TIGO|HOGAR|DUO|500",
+      "country": "CO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Internet 500 Megas + Televisión Digital Avanzada",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 109200.0,
+      "promo_price_local": 106900.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "SA",
+          "price_local": 33200.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.co/personas/hogar/paquetes",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|TIGO|HOGAR|CONVERGENTE|500",
+      "country": "CO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Convergente",
+      "plan_name": "Full Tigo+ 500 Megas + TV Avanzada + Móvil Ilimitado",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 149900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 12
+        }
+      ],
+      "hardware": "Router WiFi Dual Band",
+      "source_url": "https://www.tigo.com.co/personas/postpago/full-tigo",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|MOVISTAR|HOGAR|INTERNET|900",
+      "country": "CO",
+      "operator": "Movistar",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Óptica Simétrica 900 Megas Solo Internet",
+      "speed_mbps": 900,
+      "currency": "COP",
+      "price_local": 84900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "NETFLIX",
+          "model": "SA",
+          "price_local": 29900.0,
+          "months": null
+        }
+      ],
+      "hardware": "Smart WiFi Router",
+      "source_url": "https://www.movistar.co/personas/hogar/internet-bogota",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|MOVISTAR|HOGAR|DUO|900",
+      "country": "CO",
+      "operator": "Movistar",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Fibra Simétrica 900 Megas + Movistar TV",
+      "speed_mbps": 900,
+      "currency": "COP",
+      "price_local": 109155.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "DESC",
+          "price_local": 33900.0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Smart WiFi 6",
+      "source_url": "https://www.movistar.co/personas/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|CLARO|HOGAR|INTERNET|300",
+      "country": "CO",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Hogar 300 Megas",
+      "speed_mbps": 300,
+      "currency": "COP",
+      "price_local": 89900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi Dual",
+      "source_url": "https://www.claro.com.co/personas/hogar/planes/internet-hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|CLARO|HOGAR|TRIO|500",
+      "country": "CO",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Tripleplay Fibra 500 Megas + Claro TV+ + Voz",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 104900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "DESC",
+          "price_local": 30900.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.claro.com.co/personas/servicios/hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|CLARO|HOGAR|TRIO|900",
+      "country": "CO",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "Tripleplay Fibra 900 Megas + Claro TV+",
+      "speed_mbps": 900,
+      "currency": "COP",
+      "price_local": 116900.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.claro.com.co/personas/servicios/hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|WOM|HOGAR|INTERNET|100",
+      "country": "CO",
+      "operator": "WOM",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Pospago Móvil WOM Ilimitado 4G/5G (Sin Fibra Fija en CO)",
+      "speed_mbps": 100,
+      "currency": "COP",
+      "price_local": 54990.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.wom.co/planes",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|ETB|HOGAR|INTERNET|500",
+      "country": "CO",
+      "operator": "ETB",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Fibra Simétrica Solo 500 Mb",
+      "speed_mbps": 500,
+      "currency": "COP",
+      "price_local": 69900.0,
+      "promo_price_local": 55920.0,
+      "promo_months": 6,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "DESC",
+          "price_local": 17900.0,
+          "months": null
+        },
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "SA",
+          "price_local": 19990.0,
+          "months": null
+        },
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "SA",
+          "price_local": 24900.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://etb.com/hogares/Bogota.aspx?plan=total",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CO|ETB|HOGAR|DUO|910",
+      "country": "CO",
+      "operator": "ETB",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Fibra Simétrica 910 Mb + TV Plus (Estrato 3)",
+      "speed_mbps": 910,
+      "currency": "COP",
+      "price_local": 164900.0,
+      "promo_price_local": 131920.0,
+      "promo_months": 6,
+      "addons": [
+        {
+          "ott": "WIN_SPORTS",
+          "model": "DESC",
+          "price_local": 17900.0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://etb.com/hogares/Bogota.aspx?plan=total",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|TIGO|HOGAR|INTERNET|60",
+      "country": "BO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Wifi Hogar Esencial 60 Mbps",
+      "speed_mbps": 60,
+      "currency": "BOB",
+      "price_local": 179.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "SA",
+          "price_local": 20.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Tigo",
+      "source_url": "https://www.tigo.com.bo/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|TIGO|HOGAR|INTERNET|60_2",
+      "country": "BO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Tigo Hogar Básico 60 Mbps",
+      "speed_mbps": 60,
+      "currency": "BOB",
+      "price_local": 249.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "SA",
+          "price_local": 41.0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "SA",
+          "price_local": 49.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi Tigo",
+      "source_url": "https://www.tigo.com.bo/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|TIGO|HOGAR|CONVERGENTE|100",
+      "country": "BO",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Convergente",
+      "plan_name": "Full Tigo + TV Avanzado (129 Canales + Tigo Sports)",
+      "speed_mbps": 100,
+      "currency": "BOB",
+      "price_local": 399.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 12
+        }
+      ],
+      "hardware": "Router WiFi Hogar",
+      "source_url": "https://www.tigo.com.bo/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|ENTEL|HOGAR|INTERNET|60",
+      "country": "BO",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Fibra 60 Mbps",
+      "speed_mbps": 60,
+      "currency": "BOB",
+      "price_local": 169.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON WiFi",
+      "source_url": "https://www.entel.bo/hogar/fibra-optica",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|ENTEL|HOGAR|DUO|150",
+      "country": "BO",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "DUO Intermedio Fibra 150 Mbps + Móvil Ilimitado",
+      "speed_mbps": 150,
+      "currency": "BOB",
+      "price_local": 239.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON WiFi",
+      "source_url": "https://www.entel.bo/hogar/duo-pack",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|ENTEL|HOGAR|DUO|300",
+      "country": "BO",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "DUO Premium Fibra 300 Mbps + Móvil",
+      "speed_mbps": 300,
+      "currency": "BOB",
+      "price_local": 379.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON WiFi",
+      "source_url": "https://www.entel.bo/hogar/duo-pack",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|VIVA|HOGAR|INTERNET|60",
+      "country": "BO",
+      "operator": "Viva",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Óptica FO 60 Mbps",
+      "speed_mbps": 60,
+      "currency": "BOB",
+      "price_local": 179.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.viva.com.bo/personas/hogar/fibra-optica/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|VIVA|HOGAR|CONVERGENTE|150",
+      "country": "BO",
+      "operator": "Viva",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Convergente",
+      "plan_name": "Convergente FO + Inicial 150 Mbps + Móvil WOW",
+      "speed_mbps": 150,
+      "currency": "BOB",
+      "price_local": 229.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.viva.com.bo/personas/hogar/fibra-optica/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|VIVA|HOGAR|INTERNET|200",
+      "country": "BO",
+      "operator": "Viva",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Óptica FO 200 Mbps",
+      "speed_mbps": 200,
+      "currency": "BOB",
+      "price_local": 349.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.viva.com.bo/personas/hogar/fibra-optica/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|AXS|HOGAR|INTERNET|70",
+      "country": "BO",
+      "operator": "AXS",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Hogar Pro 70 Mbps",
+      "speed_mbps": 70,
+      "currency": "BOB",
+      "price_local": 219.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON WiFi",
+      "source_url": "https://www.axsbolivia.com/axs-net/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|AXS|HOGAR|DUO|135",
+      "country": "BO",
+      "operator": "AXS",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "AXS+ Fibra Hogar Pro 135 Mbps + IPTV + HBO Max",
+      "speed_mbps": 135,
+      "currency": "BOB",
+      "price_local": 324.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON + AXS+ Box",
+      "source_url": "https://www.axsbolivia.com/tarifas-servicio-de-distribucion-de-senales-iptv-internet/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "BO|AXS|HOGAR|INTERNET|250",
+      "country": "BO",
+      "operator": "AXS",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Hogar Pro 250 Mbps",
+      "speed_mbps": 250,
+      "currency": "BOB",
+      "price_local": 459.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "ONT GPON Dual Band",
+      "source_url": "https://www.axsbolivia.com/tarifa/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PY|TIGO|HOGAR|INTERNET|200",
+      "country": "PY",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Hogar 200 Mbps",
+      "speed_mbps": 200,
+      "currency": "PYG",
+      "price_local": 170000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi Tigo",
+      "source_url": "https://www.tigo.com.py/hogar/internet",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PY|TIGO|HOGAR|DUO|300",
+      "country": "PY",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "DoblePack 300 Mbps + TV Familiar + Tigo Sports & Disney+",
+      "speed_mbps": 300,
+      "currency": "PYG",
+      "price_local": 255000.0,
+      "promo_price_local": 215000.0,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 12
+        }
+      ],
+      "hardware": "Router WiFi Plus",
+      "source_url": "https://www.tigo.com.py/hogar/internet",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PY|TIGO|HOGAR|DUO|600",
+      "country": "PY",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "DoblePack 600 Mbps + TV Familiar + Tigo Sports & Disney+",
+      "speed_mbps": 600,
+      "currency": "PYG",
+      "price_local": 365000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "TIGO_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 12
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.tigo.com.py/hogar/internet",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PY|PERSONALFLOW|HOGAR|DUO|400",
+      "country": "PY",
+      "operator": "Personal Flow",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Combo Fibra 400 Mbps + Flow TV",
+      "speed_mbps": 400,
+      "currency": "PYG",
+      "price_local": 220000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "FLOW_PASS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT WiFi Dual",
+      "source_url": "https://www.personal.com.py/internet/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PY|PERSONALFLOW|HOGAR|INTERNET|1000",
+      "country": "PY",
+      "operator": "Personal Flow",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Fibra 1000 Mbps",
+      "speed_mbps": 1000,
+      "currency": "PYG",
+      "price_local": 500000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.personal.com.py/internet/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PY|CLARO|HOGAR|INTERNET|200",
+      "country": "PY",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Claro Fibra Simétrica 200 Mbps + Paramount+ & Prime Video",
+      "speed_mbps": 200,
+      "currency": "PYG",
+      "price_local": 95000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "PROMO",
+          "price_local": 0,
+          "months": 3
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.com.py/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PY|CLARO|HOGAR|INTERNET|600",
+      "country": "PY",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Claro Fibra Simétrica 600 Mbps + Paramount+",
+      "speed_mbps": 600,
+      "currency": "PYG",
+      "price_local": 145000.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi 5",
+      "source_url": "https://www.claro.com.py/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "UY|MOVISTAR|HOGAR|INTERNET|100",
+      "country": "UY",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Móvil Contrato GIGAnte Plus M 100 GB (Millicom UY)",
+      "speed_mbps": 100,
+      "currency": "UYU",
+      "price_local": 1190.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "SA",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.movistar.com.uy/productos-y-servicios/planes/contrato/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "UY|ANTEL|HOGAR|INTERNET|400",
+      "country": "UY",
+      "operator": "Antel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Básico 400 Mbps + Antel TV",
+      "speed_mbps": 400,
+      "currency": "UYU",
+      "price_local": 1650.0,
+      "promo_price_local": 825.0,
+      "promo_months": 4,
+      "addons": [],
+      "hardware": "ONT Fibra Antel",
+      "source_url": "https://tienda.antel.com.uy/categoria/internet/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "UY|ANTEL|HOGAR|INTERNET|550",
+      "country": "UY",
+      "operator": "Antel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Entretenimiento 550 Mbps + Disney+ Estándar",
+      "speed_mbps": 550,
+      "currency": "UYU",
+      "price_local": 2370.0,
+      "promo_price_local": 1185.0,
+      "promo_months": 4,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router Fibra WiFi",
+      "source_url": "https://tienda.antel.com.uy/categoria/internet/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "UY|ANTEL|HOGAR|INTERNET|900",
+      "country": "UY",
+      "operator": "Antel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Super Entretenimiento 900 Mbps + Disney+ Premium & Netflix",
+      "speed_mbps": 900,
+      "currency": "UYU",
+      "price_local": 3420.0,
+      "promo_price_local": 1710.0,
+      "promo_months": 4,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "NETFLIX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router Fibra Plus",
+      "source_url": "https://tienda.antel.com.uy/categoria/internet/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "UY|CLARO|HOGAR|INTERNET|100",
+      "country": "UY",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Móvil Postpago 70 GB + Universal+ (Claro Video)",
+      "speed_mbps": 100,
+      "currency": "UYU",
+      "price_local": 700.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "UNIVERSAL_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PRIME_VIDEO",
+          "model": "SA",
+          "price_local": 359.0,
+          "months": null
+        },
+        {
+          "ott": "CRUNCHYROLL",
+          "model": "SA",
+          "price_local": 99.0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.claro.com.uy/personas/servicios/servicios-moviles/planes/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "EC|MOVISTAR|HOGAR|INTERNET|100",
+      "country": "EC",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Móvil Infinity Plus 65 GB + Spotify (Tigo/Millicom EC)",
+      "speed_mbps": 100,
+      "currency": "USD",
+      "price_local": 45.99,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "SPOTIFY",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "WiFi 6",
+      "source_url": "https://www.movistar.com.ec/productos-y-servicios/pospago/planes",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "EC|CLARO|HOGAR|TRIO|550",
+      "country": "EC",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "3 Play Fibra Simétrica 550 Mbps + TV 91 Canales + Paramount+ & Max",
+      "speed_mbps": 550,
+      "currency": "USD",
+      "price_local": 27.6,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "ONT Fibra WiFi",
+      "source_url": "https://www.claro.com.ec/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "EC|CLARO|HOGAR|TRIO|1000",
+      "country": "EC",
+      "operator": "Claro",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Trio",
+      "plan_name": "3 Play Fibra Simétrica 1000 Mbps + Mesh + Paramount+ & Max",
+      "speed_mbps": 1000,
+      "currency": "USD",
+      "price_local": 37.95,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router Fibra + Extensor Mesh",
+      "source_url": "https://www.claro.com.ec/personas/servicios/servicios-hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "EC|XTRIM|HOGAR|INTERNET|300",
+      "country": "EC",
+      "operator": "Xtrim",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Fibra 300 Mbps Simétrico WiFi 6",
+      "speed_mbps": 300,
+      "currency": "USD",
+      "price_local": 18.4,
+      "promo_price_local": 17.85,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.xtrim.com.ec/planes/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "EC|XTRIM|HOGAR|INTERNET|800",
+      "country": "EC",
+      "operator": "Xtrim",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Elite Plus 800 Mbps + Zapping TV + Disney+ Premium & Paramount+",
+      "speed_mbps": 800,
+      "currency": "USD",
+      "price_local": 40.0,
+      "promo_price_local": 25.5,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "PARAMOUNT_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.xtrim.com.ec/planes/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "EC|CNT|HOGAR|INTERNET|600",
+      "country": "EC",
+      "operator": "CNT",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Plan Fibra GO! 600 Mbps Simétrico",
+      "speed_mbps": 600,
+      "currency": "USD",
+      "price_local": 29.91,
+      "promo_price_local": 14.6,
+      "promo_months": 8,
+      "addons": [],
+      "hardware": "ONT Fibra Dual Band",
+      "source_url": "https://www.cnt.gob.ec/planes/internet-fijo/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CL|MOVISTAR|HOGAR|INTERNET|600",
+      "country": "CL",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Simétrica 600 Mbps WiFi 6",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 21990.0,
+      "promo_price_local": 14990.0,
+      "promo_months": 12,
+      "addons": [],
+      "hardware": "Smart WiFi 6",
+      "source_url": "https://www.movistar.cl/hogar/fibra",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CL|MOVISTAR|HOGAR|DUO|600",
+      "country": "CL",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Fibra 600 Mbps + Movistar TV + Disney+ & Max",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 32990.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Smart WiFi 6",
+      "source_url": "https://www.movistar.cl/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CL|MOVISTAR|HOGAR|DUO|940",
+      "country": "CL",
+      "operator": "Movistar",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Movistar Giga 940 Mbps + TV + Disney+ & Max",
+      "speed_mbps": 940,
+      "currency": "CLP",
+      "price_local": 39990.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Smart WiFi 6",
+      "source_url": "https://www.movistar.cl/hogar",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CL|ENTEL|HOGAR|DUO|600",
+      "country": "CL",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Pack Fibra 600 Mbps + TV Full+ (Disney+ Premium, Max & Apple TV+)",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 49490.0,
+      "promo_price_local": 34990.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "APPLE_TV",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.entel.cl/hogar/internet/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CL|ENTEL|HOGAR|DUO|1000",
+      "country": "CL",
+      "operator": "Entel",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Dúo Pack Fibra Giga 1000 Mbps + TV Full+",
+      "speed_mbps": 1000,
+      "currency": "CLP",
+      "price_local": 60490.0,
+      "promo_price_local": 39990.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "APPLE_TV",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6 + Extensor",
+      "source_url": "https://www.entel.cl/hogar/internet/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CL|CLAROVTR|HOGAR|DUO|600",
+      "country": "CL",
+      "operator": "ClaroVTR",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Doble Pack Fibra 600 Mbps + TV + Max & Disney+",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 41990.0,
+      "promo_price_local": 29990.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "DISNEY_PLUS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "TNT_SPORTS",
+          "model": "SA",
+          "price_local": 13990.0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.clarochile.cl/portal/cl/sc/personas/servicios-hogar/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CL|WOM|HOGAR|INTERNET|600",
+      "country": "CL",
+      "operator": "WOM",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Simétrica 600 Mbps WiFi 6",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 21990.0,
+      "promo_price_local": 14990.0,
+      "promo_months": 12,
+      "addons": [],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.wom.cl/fibra-optica/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CL|WOM|HOGAR|DUO|600",
+      "country": "CL",
+      "operator": "WOM",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Duo",
+      "plan_name": "Fibra 600 Mbps + TV Fútbol Zapping + TNT Sports Premium & Max",
+      "speed_mbps": 600,
+      "currency": "CLP",
+      "price_local": 40890.0,
+      "promo_price_local": 30890.0,
+      "promo_months": 12,
+      "addons": [
+        {
+          "ott": "TNT_SPORTS",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        },
+        {
+          "ott": "MAX",
+          "model": "HB",
+          "price_local": 0,
+          "months": null
+        }
+      ],
+      "hardware": "Router WiFi 6",
+      "source_url": "https://www.wom.cl/fibra-optica/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "CL|MUNDO|HOGAR|INTERNET|1000",
+      "country": "CL",
+      "operator": "Mundo",
+      "is_tigo": false,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Fibra Simétrica 1000 Mbps + Mundo GO! TV",
+      "speed_mbps": 1000,
+      "currency": "CLP",
+      "price_local": 46150.0,
+      "promo_price_local": 25990.0,
+      "promo_months": 6,
+      "addons": [],
+      "hardware": "Router Fibra WiFi 6",
+      "source_url": "https://www.tumundo.cl/fibra-optica/",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    },
+    {
+      "id": "PA|TIGO|HOGAR|INTERNET|200",
+      "country": "PA",
+      "operator": "Tigo",
+      "is_tigo": true,
+      "segment": "Residencial",
+      "type": "Internet",
+      "plan_name": "Internet Hogar 200 Megas Legacy",
+      "speed_mbps": 200,
+      "currency": "USD",
+      "price_local": 37.0,
+      "promo_price_local": null,
+      "promo_months": null,
+      "addons": [],
+      "hardware": "Router WiFi Dual",
+      "source_url": "https://www.tigo.com.pa/hogar/internet",
+      "captured_at": "2026-11-03T06:00:00-05:00"
+    }
+  ],
+  "change_context": {
+    "CR|LIBERTY|HOGAR|DUO|120": "Liberty suma DISNEY_PLUS/UNIVERSAL_PLUS en HB: eleva presión de contenido incluido sin costo.",
+    "PA|MASMOVIL|HOGAR|DUO|600": "+Móvil baja 7.1% (56 a 52 USD): amplía brecha frente al umbral +15% de Tigo.",
+    "CO|MOVISTAR|HOGAR|INTERNET|900": "Movistar baja 10.5% (84900 a 75992 COP): amplía brecha frente al umbral +15% de Tigo.",
+    "BO|AXS|HOGAR|DUO|135": "AXS suma MAX en HB: eleva presión de contenido incluido sin costo.",
+    "PY|CLARO|HOGAR|INTERNET|600": "Claro baja 17.2% (145000 a 120000 PYG) y actualiza a ONT Fibra WiFi 6: amplía brecha frente al umbral +15% de Tigo.",
+    "EC|NETLIFE|HOGAR|INTERNET|850": "Netlife lanza Starter Defense XGPON 850 Mbps Simétrico WiFi 7 (850 Mbps, Router XGPON WiFi 7) a 16.96 USD: presiona escalón alto con hardware nueva generación.",
+    "CL|WOM|HOGAR|INTERNET|600": "WOM baja 20.0% (14990 a 11990 CLP): amplía brecha frente al umbral +15% de Tigo.",
+    "PA|TIGO|HOGAR|INTERNET|200": "Tigo retira Internet Hogar 200 Megas Legacy (37 USD): eleva piso de entrada fijo y exige defender escalón base con valor."
+  },
+  "unreachable_sources": []
+}
+  </script>
+
+  <!-- HEADER CORPORATIVO TIGO -->
+  <header class="tigo-header px-4 sm:px-6 lg:px-8 py-4">
+    <div class="max-w-[1440px] mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="px-3 py-2 rounded-xl flex items-center justify-center font-black text-xl tracking-tight" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.24);">
+          <span style="color: #FFFFFF;">tigo</span><span style="color: var(--tigo-yellow);">.</span>
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-[11px] font-black uppercase tracking-wider" style="background: var(--tigo-yellow); color: var(--tigo-navy);">
+              Inteligencia Competitiva LATAM
+            </span>
+            <span class="text-xs font-semibold" style="color: var(--tigo-cyan);">
+              Estrategia: Premium con Valor (+15%) &bull; HB Capitalizado
+            </span>
+          </div>
+          <h1 class="text-lg sm:text-xl font-black text-white m-0 mt-0.5">
+            Radar Diario de Ofertas Hogar, Dúos, Tríos &amp; Addons OTT
+          </h1>
+          <p class="text-xs m-0 mt-0.5" style="color: #CBD5E1;">
+            Corte Hoy: <strong id="hdr-run-date" class="text-white"></strong> vs. Ayer: <strong id="hdr-prev-date" class="text-white"></strong>
+            &bull; Generado: <span id="hdr-generated-at"></span>
+          </p>
+        </div>
+      </div>
+
+      <div class="no-print flex flex-wrap items-center gap-2.5">
+        <!-- Currency Mode Toggle -->
+        <div class="inline-flex rounded-lg p-1 text-xs" style="background: rgba(0, 18, 56, 0.45); border: 1px solid rgba(255,255,255,0.2);">
+          <button type="button" data-action="set-currency-mode" data-cmode="LOCAL" class="cmode-btn px-3 py-1.5 rounded-md font-extrabold">Moneda Local</button>
+          <button type="button" data-action="set-currency-mode" data-cmode="USD" class="cmode-btn px-3 py-1.5 rounded-md font-semibold">USD (FX BUD)</button>
+        </div>
+
+        <button type="button" data-action="toggle-only-addons" id="hdr-addons-btn" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition cursor-pointer"></button>
+
+        <button type="button" data-action="export-csv" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition cursor-pointer" style="background: #FFFFFF; color: var(--tigo-navy);">
+          &#8681; Exportar CSV
+        </button>
+
+        <button type="button" data-action="print-pdf" class="px-3 py-2 rounded-lg text-xs font-extrabold transition cursor-pointer" style="background: rgba(255,255,255,0.14); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28);">
+          🖨️ PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-5 space-y-5">
+    <!-- 1. KPI BAR -->
+    <section id="kpi-bar" class="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-7 gap-3"></section>
+
+    <!-- 2. BARRA DE 12 MERCADOS Y FILTROS RÁPIDOS -->
+    <section class="tigo-card p-4 space-y-3 no-print">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-1.5" id="country-pills-bar"></div>
+        <div class="flex flex-wrap items-center gap-2">
+          <select id="filter-type-select" class="tigo-select font-semibold">
+            <option value="ALL">Todos los Tipos (Internet / Dúo / Trío / Conv.)</option>
+            <option value="Internet">Solo Internet</option>
+            <option value="Duo">Dúo (Internet + TV)</option>
+            <option value="Trio">Trío Hogar</option>
+            <option value="Convergente">Convergente</option>
+          </select>
+          <select id="filter-model-select" class="tigo-select font-semibold">
+            <option value="ALL">Todos los Modelos VAS (HB / DESC / PROMO / SA)</option>
+            <option value="HB">HB ($0 Fijo Incluido)</option>
+            <option value="DESC">DESC (HB Capitalizado / Cargo Bajo)</option>
+            <option value="PROMO">PROMO (Meses Gratis)</option>
+            <option value="SA">SA (Standalone Pago Pleno)</option>
+          </select>
+          <input id="filter-search-input" type="search" placeholder="Buscar plan, operador, WiFi 6, OTT..." class="tigo-select w-52" />
+          <button type="button" data-action="reset-filters" class="px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer" style="background: #EEF4FC; color: var(--tigo-navy); border: 1px solid var(--tigo-border);">
+            Limpiar Filtros
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TABS DE NAVEGACIÓN -->
+    <div class="tigo-tab-bar no-print">
+      <button type="button" data-action="set-tab" data-tab="strategy" class="tigo-tab-btn is-active">
+        <span>1. Estrategia Ejecutiva: Premium con Valor &amp; HB Capitalizado</span>
+        <span id="badge-tab-strategy" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #FEF08A; color: var(--tigo-navy);">12 Países</span>
+      </button>
+      <button type="button" data-action="set-tab" data-tab="changes" class="tigo-tab-btn">
+        <span>2. Cambios Detectados Hoy (Diff Determinístico + Contexto)</span>
+        <span id="badge-tab-changes" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #FEE2E2; color: #991B1B;"></span>
+      </button>
+      <button type="button" data-action="set-tab" data-tab="catalog" class="tigo-tab-btn">
+        <span>3. Comparador de Ofertas Hoy (Tigo vs. Competencia)</span>
+        <span id="badge-tab-catalog" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #E0F2FE; color: var(--tigo-navy);"></span>
+      </button>
+      <button type="button" data-action="set-tab" data-tab="vas_cap" class="tigo-tab-btn">
+        <span>4. Matriz de Capitalización OTT (HB $0 vs. Cargo Bajo)</span>
+        <span id="badge-tab-vas" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #DCFCE7; color: #166534;"></span>
+      </button>
+    </div>
+
+    <!-- VISTA 1: ESTRATEGIA EJECUTIVA (PREMIUM CON VALOR + HB CAPITALIZADO) -->
+    <section id="view-strategy" class="space-y-5"></section>
+
+    <!-- VISTA 2: CAMBIOS DETECTADOS HOY (DIFF + CONTEXTO <=25 PALABRAS + HISTORIAL 30D) -->
+    <section id="view-changes" class="is-hidden space-y-5"></section>
+
+    <!-- VISTA 3: COMPARADOR DE OFERTAS HOY (TOLERANCIA +15% & VALOR) -->
+    <section id="view-catalog" class="is-hidden space-y-5"></section>
+
+    <!-- VISTA 4: MATRIZ DE CAPITALIZACIÓN OTT -->
+    <section id="view-vas_cap" class="is-hidden space-y-5"></section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const rawJson = document.getElementById("RADAR_DATA").textContent;
+      const RADAR_DATA = JSON.parse(rawJson);
+      const META = RADAR_DATA.meta || {};
+      const FX = META.fx_usd || { USD: 1 };
+      const TOLERANCE_PCT = Number(META.tolerance_pct || 15);
+      const MARKETS = META.markets || [];
+      const MARKETS_BY_CODE = {};
+      MARKETS.forEach(function (m) { MARKETS_BY_CODE[m.code] = m; });
+
+      const OFFERS_TODAY = RADAR_DATA.offers_today || [];
+      const OFFERS_PREV = RADAR_DATA.offers_prev || [];
+      const CHANGE_CONTEXT = RADAR_DATA.change_context || {};
+      const HISTORY = RADAR_DATA.history || [];
+      const UNREACHABLE = RADAR_DATA.unreachable_sources || [];
+
+      // Conditional sample banner check (Validation 8)
+      const sampleBanner = document.getElementById("sample-banner");
+      if (META.is_sample === true) {
+        sampleBanner.classList.remove("is-hidden");
+      } else {
+        sampleBanner.classList.add("is-hidden");
+      }
+
+      document.getElementById("hdr-run-date").textContent = META.run_date || "";
+      document.getElementById("hdr-prev-date").textContent = META.prev_date || "";
+      document.getElementById("hdr-generated-at").textContent = META.generated_at || "";
+
+      const state = {
+        activeTab: "strategy",
+        selectedCountry: "ALL",
+        selectedType: "ALL",
+        selectedModel: "ALL",
+        onlyWithAddons: false,
+        currencyMode: "LOCAL",
+        searchQuery: ""
+      };
+
+      function escHtml(v) {
+        return String(v === null || v === undefined ? "" : v)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function effPriceLocal(o) {
+        return (o.promo_price_local !== null && o.promo_price_local !== undefined)
+          ? Number(o.promo_price_local)
+          : Number(o.price_local);
+      }
+
+      function toUsd(amountLocal, currency) {
+        if (amountLocal === null || amountLocal === undefined) return null;
+        const rate = Number(FX[currency] || 1);
+        return Number(amountLocal) / rate;
+      }
+
+      function formatPrice(amountLocal, currency) {
+        if (amountLocal === null || amountLocal === undefined) return "—";
+        if (state.currencyMode === "USD") {
+          const usd = toUsd(amountLocal, currency);
+          return "$" + usd.toFixed(2) + " USD";
+        }
+        return new Intl.NumberFormat("es-CO", { maximumFractionDigits: 2 }).format(amountLocal) + " " + currency;
+      }
+
+      function hardwareScore(hw) {
+        const s = String(hw || "").toLowerCase();
+        let score = 1;
+        if (s.indexOf("wifi 7") >= 0) score = 4;
+        else if (s.indexOf("wifi 6") >= 0) score = 3;
+        if (s.indexOf("mesh") >= 0 || s.indexOf("extensor") >= 0 || s.indexOf("pod") >= 0) score += 2;
+        return score;
+      }
+
+      // Deterministic diff engine in JS (Section 5.4)
+      function computeAllDiffs() {
+        const prevMap = {};
+        OFFERS_PREV.forEach(function (o) { prevMap[o.id] = o; });
+        const todayMap = {};
+        OFFERS_TODAY.forEach(function (o) { todayMap[o.id] = o; });
+        const unreachableSet = {};
+        UNREACHABLE.forEach(function (u) { unreachableSet[u.country + "|" + u.operator] = true; });
+
+        const diffs = [];
+
+        OFFERS_TODAY.forEach(function (cur) {
+          const prv = prevMap[cur.id];
+          if (!prv) {
+            diffs.push({
+              id: cur.id,
+              country: cur.country,
+              operator: cur.operator,
+              is_tigo: cur.is_tigo,
+              plan_name: cur.plan_name,
+              types: ["NEW"],
+              prev_offer: null,
+              curr_offer: cur,
+              pct_diff: null,
+              context: CHANGE_CONTEXT[cur.id] || "Nuevo plan detectado en el corte de hoy."
+            });
+            return;
+          }
+
+          const types = [];
+          const p0 = effPriceLocal(prv);
+          const p1 = effPriceLocal(cur);
+          let pct = null;
+
+          if (p1 < p0) {
+            types.push("PRICE_DOWN");
+            pct = ((p1 - p0) / p0) * 100.0;
+            if (cur.promo_price_local !== prv.promo_price_local || cur.promo_months !== prv.promo_months) {
+              types.push("PROMO");
+            }
+          } else if (p1 > p0) {
+            types.push("PRICE_UP");
+            pct = ((p1 - p0) / p0) * 100.0;
+          } else if (cur.promo_price_local !== prv.promo_price_local || cur.promo_months !== prv.promo_months) {
+            types.push("PROMO");
+          }
+
+          if (cur.speed_mbps !== prv.speed_mbps) types.push("SPEED");
+          if (cur.hardware !== prv.hardware) types.push("HW");
+
+          const pAdd = {};
+          (prv.addons || []).forEach(function (a) { pAdd[a.ott] = a; });
+          const cAdd = {};
+          (cur.addons || []).forEach(function (a) { cAdd[a.ott] = a; });
+
+          if (Object.keys(cAdd).some(function (k) { return !pAdd[k]; })) types.push("ADDON_ADD");
+          if (Object.keys(pAdd).some(function (k) { return !cAdd[k]; })) types.push("ADDON_DEL");
+          if (Object.keys(cAdd).some(function (k) { return pAdd[k] && (cAdd[k].model !== pAdd[k].model || cAdd[k].price_local !== pAdd[k].price_local); })) {
+            types.push("ADDON_MODEL");
+          }
+
+          if (types.length > 0) {
+            diffs.push({
+              id: cur.id,
+              country: cur.country,
+              operator: cur.operator,
+              is_tigo: cur.is_tigo,
+              plan_name: cur.plan_name,
+              types: types,
+              prev_offer: prv,
+              curr_offer: cur,
+              pct_diff: pct,
+              context: CHANGE_CONTEXT[cur.id] || "Modificación detectada frente al corte anterior."
+            });
+          }
+        });
+
+        OFFERS_PREV.forEach(function (prv) {
+          if (!todayMap[prv.id] && !unreachableSet[prv.country + "|" + prv.operator]) {
+            diffs.push({
+              id: prv.id,
+              country: prv.country,
+              operator: prv.operator,
+              is_tigo: prv.is_tigo,
+              plan_name: prv.plan_name,
+              types: ["REMOVED"],
+              prev_offer: prv,
+              curr_offer: null,
+              pct_diff: null,
+              context: CHANGE_CONTEXT[prv.id] || "Plan retirado de la parrilla pública."
+            });
+          }
+        });
+
+        return diffs;
+      }
+
+      const ALL_DIFFS = computeAllDiffs();
+
+      // Compare each competitor offer against closest Tigo offer in same country, and evaluate Tigo offers under "Premium con Valor (+15%)"
+      function findClosestTigoOffer(compOffer) {
+        const tigoPeers = OFFERS_TODAY.filter(function (o) {
+          return o.country === compOffer.country && o.is_tigo;
+        });
+        if (tigoPeers.length === 0) return null;
+        return tigoPeers.slice().sort(function (a, b) {
+          const typeMatchA = a.type === compOffer.type ? 0 : 1;
+          const typeMatchB = b.type === compOffer.type ? 0 : 1;
+          if (typeMatchA !== typeMatchB) return typeMatchA - typeMatchB;
+          return Math.abs(a.speed_mbps - compOffer.speed_mbps) - Math.abs(b.speed_mbps - compOffer.speed_mbps);
+        })[0];
+      }
+
+      function evaluateTigoPremiumWithValue(tigoOffer) {
+        const compPeers = OFFERS_TODAY.filter(function (o) {
+          return o.country === tigoOffer.country && !o.is_tigo;
+        });
+        if (compPeers.length === 0) {
+          return { status: "PARITY", label: "Sin rival fijo directo", pctVsComp: 0, peer: null, hasMoreValue: true };
+        }
+        const closestComp = compPeers.slice().sort(function (a, b) {
+          const typeMatchA = a.type === tigoOffer.type ? 0 : 1;
+          const typeMatchB = b.type === tigoOffer.type ? 0 : 1;
+          if (typeMatchA !== typeMatchB) return typeMatchA - typeMatchB;
+          return Math.abs(a.speed_mbps - tigoOffer.speed_mbps) - Math.abs(b.speed_mbps - tigoOffer.speed_mbps);
+        })[0];
+
+        const pTigo = effPriceLocal(tigoOffer);
+        const pComp = effPriceLocal(closestComp);
+        const pctVsComp = pComp > 0 ? ((pTigo - pComp) / pComp) * 100.0 : 0.0;
+
+        const tigoAddons = (tigoOffer.addons || []).length;
+        const compAddons = (closestComp.addons || []).length;
+        const hasMoreValue =
+          tigoAddons > compAddons ||
+          hardwareScore(tigoOffer.hardware) > hardwareScore(closestComp.hardware) ||
+          tigoOffer.speed_mbps > closestComp.speed_mbps ||
+          (tigoOffer.addons || []).some(function (a) { return a.ott === "TIGO_SPORTS"; });
+
+        if (pctVsComp <= 0) {
+          return {
+            status: "ADVANTAGE",
+            label: "🟢 Ventaja / Paridad (" + pctVsComp.toFixed(1) + "% vs " + closestComp.operator + ")",
+            pctVsComp: pctVsComp,
+            peer: closestComp,
+            hasMoreValue: hasMoreValue
+          };
+        }
+        if (pctVsComp <= TOLERANCE_PCT && hasMoreValue) {
+          return {
+            status: "PREMIUM_OK",
+            label: "🟢 Premium con Valor (+" + pctVsComp.toFixed(1) + "% ≤ +" + TOLERANCE_PCT + "%)",
+            pctVsComp: pctVsComp,
+            peer: closestComp,
+            hasMoreValue: true
+          };
+        }
+        if (pctVsComp <= TOLERANCE_PCT && !hasMoreValue) {
+          return {
+            status: "PREMIUM_NEEDS_VALUE",
+            label: "🟡 Dentro de +" + TOLERANCE_PCT + "% pero requiere +Valor",
+            pctVsComp: pctVsComp,
+            peer: closestComp,
+            hasMoreValue: false
+          };
+        }
+        return {
+          status: "OUT_OF_BAND",
+          label: "🔴 Excede Tolerancia (+" + pctVsComp.toFixed(1) + "% > +" + TOLERANCE_PCT + "%)",
+          pctVsComp: pctVsComp,
+          peer: closestComp,
+          hasMoreValue: hasMoreValue
+        };
+      }
+
+      function filterOffer(o) {
+        if (state.selectedCountry !== "ALL" && o.country !== state.selectedCountry) return false;
+        if (state.selectedType !== "ALL" && o.type !== state.selectedType) return false;
+        if (state.onlyWithAddons && (!o.addons || o.addons.length === 0)) return false;
+        if (state.selectedModel !== "ALL") {
+          const ok = (o.addons || []).some(function (a) { return a.model === state.selectedModel; });
+          if (!ok) return false;
+        }
+        if (state.searchQuery.trim()) {
+          const q = state.searchQuery.trim().toLowerCase();
+          const hay = [
+            o.id, o.country, o.operator, o.plan_name, o.type, o.hardware,
+            (o.addons || []).map(function (a) { return a.ott + " " + a.model; }).join(" ")
+          ].join(" ").toLowerCase();
+          if (hay.indexOf(q) < 0) return false;
+        }
+        return true;
+      }
+
+      function renderAll() {
+        const filteredOffers = OFFERS_TODAY.filter(filterOffer);
+        const filteredDiffs = ALL_DIFFS.filter(function (d) {
+          if (state.selectedCountry !== "ALL" && d.country !== state.selectedCountry) return false;
+          if (state.searchQuery.trim()) {
+            const q = state.searchQuery.trim().toLowerCase();
+            const hay = (d.id + " " + d.operator + " " + d.plan_name + " " + d.context).toLowerCase();
+            if (hay.indexOf(q) < 0) return false;
+          }
+          return true;
+        });
+
+        // Update Header Addons Button
+        const totalWithAddons = OFFERS_TODAY.filter(function (o) { return (o.addons || []).length > 0; }).length;
+        const hdrAddBtn = document.getElementById("hdr-addons-btn");
+        hdrAddBtn.style.background = state.onlyWithAddons ? "var(--tigo-yellow)" : "rgba(255,255,255,0.14)";
+        hdrAddBtn.style.color = state.onlyWithAddons ? "var(--tigo-navy)" : "#FFFFFF";
+        hdrAddBtn.style.border = "1px solid rgba(255,203,5,0.55)";
+        hdrAddBtn.textContent = (state.onlyWithAddons ? "✓ Viendo Solo con Addons (" : "🎬 Filtrar con Addons (") + totalWithAddons + ")";
+
+        // Update Currency Mode buttons
+        document.querySelectorAll(".cmode-btn").forEach(function (btn) {
+          const act = btn.getAttribute("data-cmode") === state.currencyMode;
+          btn.style.background = act ? "#FFFFFF" : "transparent";
+          btn.style.color = act ? "var(--tigo-navy)" : "#E2E8F0";
+        });
+
+        // Compute Strategic Metrics
+        const tigoOffers = OFFERS_TODAY.filter(function (o) { return o.is_tigo; });
+        const compOffers = OFFERS_TODAY.filter(function (o) { return !o.is_tigo; });
+        const tigoEvaluations = tigoOffers.map(evaluateTigoPremiumWithValue);
+        const tigoInRouteCount = tigoEvaluations.filter(function (e) {
+          return e.status === "ADVANTAGE" || e.status === "PREMIUM_OK";
+        }).length;
+
+        let tigoHbZero = 0, tigoCapitalized = 0, tigoPromo = 0;
+        let compHbZero = 0, compCapitalized = 0, compPromo = 0;
+        OFFERS_TODAY.forEach(function (o) {
+          (o.addons || []).forEach(function (a) {
+            if (o.is_tigo) {
+              if (a.model === "HB") tigoHbZero++;
+              else if (a.model === "DESC" || a.model === "SA") tigoCapitalized++;
+              else if (a.model === "PROMO") tigoPromo++;
+            } else {
+              if (a.model === "HB") compHbZero++;
+              else if (a.model === "DESC" || a.model === "SA") compCapitalized++;
+              else if (a.model === "PROMO") compPromo++;
+            }
+          });
+        });
+        const tigoTotalAddons = tigoHbZero + tigoCapitalized + tigoPromo;
+        const tigoCapRatio = tigoTotalAddons > 0 ? ((tigoCapitalized / tigoTotalAddons) * 100.0).toFixed(1) : "0.0";
+
+        // 1. Render KPI Bar
+        const kpis = [
+          { label: "Mercados Activos", val: String(MARKETS.length), sub: "0 fuentes caídas", color: "var(--tigo-navy)" },
+          { label: "Ofertas Hoy (Tigo / Comp)", val: String(OFFERS_TODAY.length), sub: tigoOffers.length + " Tigo • " + compOffers.length + " Rival", color: "var(--tigo-blue)" },
+          { label: "Tigo en Ruta (≤ +15% c/Valor)", val: tigoInRouteCount + " / " + tigoOffers.length, sub: ((tigoInRouteCount / Math.max(1, tigoOffers.length)) * 100).toFixed(1) + "% cumple tesis", color: "var(--tigo-positive)" },
+          { label: "HB $0 Tigo (Por Capitalizar)", val: String(tigoHbZero), sub: "Meta: migrar a cargo bajo", color: "var(--tigo-warning)" },
+          { label: "Addons Capitalizados Tigo", val: String(tigoCapitalized), sub: tigoCapRatio + "% del portafolio VAS", color: "var(--tigo-bright-blue)" },
+          { label: "Cambios Detectados Hoy", val: String(ALL_DIFFS.length), sub: ALL_DIFFS.filter(function (d) { return !d.is_tigo; }).length + " rivales • " + ALL_DIFFS.filter(function (d) { return d.is_tigo; }).length + " Tigo", color: "var(--tigo-negative)" },
+          { label: "Mercados HB Facturable", val: (META.hb_billable_markets || ["CR", "PA"]).join(" • "), sub: "Excluido: " + (META.hb_excluded_markets || ["UY"]).join(","), color: "var(--tigo-navy)" }
+        ];
+        document.getElementById("kpi-bar").innerHTML = kpis.map(function (k) {
+          return (
+            '<div class="tigo-kpi" style="border-top: 4px solid ' + k.color + ';">' +
+              '<div class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--tigo-text-secondary);">' + escHtml(k.label) + "</div>" +
+              '<div class="text-xl font-black mt-1" style="color: ' + k.color + ';">' + escHtml(k.val) + "</div>" +
+              '<div class="text-xs font-medium mt-0.5" style="color: var(--tigo-text-secondary);">' + escHtml(k.sub) + "</div>" +
+            "</div>"
+          );
+        }).join("");
+
+        // 2. Render Country Pills
+        const pillsHtml = [
+          '<button type="button" data-action="select-country" data-code="ALL" class="tigo-country-pill' + (state.selectedCountry === "ALL" ? " is-active" : "") + '">🌎 Todos (12)</button>'
+        ].concat(MARKETS.map(function (m) {
+          const cnt = OFFERS_TODAY.filter(function (o) { return o.country === m.code; }).length;
+          const act = state.selectedCountry === m.code;
+          return (
+            '<button type="button" data-action="select-country" data-code="' + escHtml(m.code) + '" class="tigo-country-pill' + (act ? " is-active" : "") + '">' +
+              "<span>" + escHtml(m.flag) + "</span>" +
+              "<strong>" + escHtml(m.code) + "</strong>" +
+              '<span class="hidden md:inline">' + escHtml(m.name) + "</span>" +
+              '<span class="px-1.5 py-0.2 rounded-full text-[10px] font-extrabold" style="background:' + (act ? "var(--tigo-yellow)" : "#E2E8F0") + ";color:var(--tigo-navy);\">" + cnt + "</span>" +
+            "</button>"
+          );
+        }));
+        document.getElementById("country-pills-bar").innerHTML = pillsHtml.join("");
+
+        // Badges on tabs
+        document.getElementById("badge-tab-changes").textContent = String(filteredDiffs.length);
+        document.getElementById("badge-tab-catalog").textContent = String(filteredOffers.length);
+        document.getElementById("badge-tab-vas").textContent = String(tigoTotalAddons + compHbZero + compCapitalized + compPromo);
+
+        document.querySelectorAll(".tigo-tab-btn").forEach(function (btn) {
+          btn.classList.toggle("is-active", btn.getAttribute("data-tab") === state.activeTab);
+        });
+        ["strategy", "changes", "catalog", "vas_cap"].forEach(function (t) {
+          document.getElementById("view-" + t).classList.toggle("is-hidden", state.activeTab !== t);
+        });
+
+        renderStrategyView(tigoOffers, tigoEvaluations, tigoHbZero, tigoCapitalized, tigoPromo, compHbZero, compCapitalized);
+        renderChangesView(filteredDiffs);
+        renderCatalogView(filteredOffers);
+        renderVasCapView(filteredOffers);
+      }
+
+      function renderStrategyView(tigoOffers, tigoEvaluations, tigoHbZero, tigoCapitalized, tigoPromo, compHbZero, compCapitalized) {
+        const el = document.getElementById("view-strategy");
+        const inBandCount = tigoEvaluations.filter(function (e) { return e.status === "ADVANTAGE" || e.status === "PREMIUM_OK"; }).length;
+        const outBandCount = tigoEvaluations.filter(function (e) { return e.status === "OUT_OF_BAND"; }).length;
+
+        const marketRows = MARKETS.map(function (m) {
+          const mOffers = OFFERS_TODAY.filter(function (o) { return o.country === m.code; });
+          const mTigo = mOffers.filter(function (o) { return o.is_tigo; });
+          const mComp = mOffers.filter(function (o) { return !o.is_tigo; });
+          const evals = mTigo.map(evaluateTigoPremiumWithValue);
+          const okCnt = evals.filter(function (e) { return e.status === "ADVANTAGE" || e.status === "PREMIUM_OK"; }).length;
+          const maxGap = evals.reduce(function (acc, e) { return Math.max(acc, e.pctVsComp); }, -999);
+
+          let mHb = 0, mCap = 0, mPromo = 0;
+          mTigo.forEach(function (o) {
+            (o.addons || []).forEach(function (a) {
+              if (a.model === "HB") mHb++;
+              else if (a.model === "DESC" || a.model === "SA") mCap++;
+              else if (a.model === "PROMO") mPromo++;
+            });
+          });
+
+          const isBillable = (META.hb_billable_markets || []).indexOf(m.code) >= 0;
+          const isExcluded = (META.hb_excluded_markets || []).indexOf(m.code) >= 0;
+          const hbTag = isExcluded
+            ? '<span class="badge-comp">Excluido HB Fijo (Móvil)</span>'
+            : (isBillable ? '<span class="badge-info">🎯 Prioridad HB Facturable</span>' : '<span class="badge-warning">Migrar HB $0 → Cargo Bajo</span>');
+
+          let sem = '<span class="badge-positive">🟢 Premium con Valor OK</span>';
+          if (maxGap > TOLERANCE_PCT) {
+            sem = '<span class="badge-negative">🔴 Brecha > +' + TOLERANCE_PCT + '% (' + (maxGap > -900 ? "+" + maxGap.toFixed(1) + "%" : "") + ")</span>";
+          } else if (okCnt < mTigo.length) {
+            sem = '<span class="badge-warning">🟡 Reforzar Valor / Hardware</span>';
+          }
+
+          return (
+            '<tr class="cursor-pointer" data-action="drill-country" data-code="' + escHtml(m.code) + '">' +
+              '<td class="font-extrabold whitespace-nowrap">' + escHtml(m.flag + " " + m.code + " — " + m.name) + ' <span class="text-[11px] font-normal text-slate-500">(' + escHtml(m.capital) + ")</span></td>" +
+              '<td style="text-align:center;" class="font-bold">' + mTigo.length + " / " + mComp.length + "</td>" +
+              '<td style="text-align:center;" class="font-extrabold">' + okCnt + " / " + mTigo.length + " planes</td>" +
+              '<td style="text-align:right;" class="font-bold ' + (maxGap > TOLERANCE_PCT ? "text-red-600" : "text-emerald-700") + '">' +
+                (maxGap > -900 ? (maxGap >= 0 ? "+" : "") + maxGap.toFixed(1) + "%" : "—") +
+              "</td>" +
+              '<td style="text-align:center;" class="font-semibold">' + mHb + " HB $0 &bull; " + mCap + " Cap. &bull; " + mPromo + " Promo</td>" +
+              "<td>" + hbTag + "</td>" +
+              "<td>" + sem + "</td>" +
+            "</tr>"
+          );
+        }).join("");
+
+        el.innerHTML =
+          '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">' +
+            '<div class="tigo-card-lg p-5 space-y-2.5" style="border-left: 6px solid var(--tigo-navy);">' +
+              '<div class="flex items-center justify-between">' +
+                '<span class="px-2.5 py-0.5 rounded text-xs font-black uppercase" style="background: var(--tigo-navy); color: #FFFFFF;">Pilar Estratégico 1</span>' +
+                '<span class="text-xs font-extrabold" style="color: var(--tigo-blue);">Tolerancia Máxima: +' + TOLERANCE_PCT + '% vs. Competencia</span>' +
+              "</div>" +
+              '<h2 class="text-base font-black m-0" style="color: var(--tigo-navy);">Premium con Valor: ' + inBandCount + ' de ' + tigoOffers.length + ' planes Tigo cumplen la banda (≤ +' + TOLERANCE_PCT + '% con diferencial)</h2>' +
+              '<p class="text-xs leading-relaxed m-0" style="color: var(--tigo-text-secondary);">' +
+                'Tigo puede situarse hasta <strong>+' + TOLERANCE_PCT + '%</strong> por encima del rival directo siempre que entregue más valor tangible (Tigo Sports exclusivo, WiFi 6 + Mesh o mayor velocidad). Hoy <strong>' + outBandCount + ' planes</strong> superan el umbral del +' + TOLERANCE_PCT + '% tras las rebajas rivales en <strong>PA, CO, PY y CL</strong>, requiriendo refuerzo de hardware/contenido o ajuste promocional puntual.' +
+              "</p>" +
+            "</div>" +
+
+            '<div class="tigo-card-lg p-5 space-y-2.5" style="border-left: 6px solid var(--tigo-yellow);">' +
+              '<div class="flex items-center justify-between">' +
+                '<span class="px-2.5 py-0.5 rounded text-xs font-black uppercase" style="background: var(--tigo-yellow); color: var(--tigo-navy);">Pilar Estratégico 2</span>' +
+                '<span class="text-xs font-extrabold" style="color: var(--tigo-navy);">Foco Facturable: ' + (META.hb_billable_markets || ["CR", "PA"]).join(", ") + " (Excl. " + (META.hb_excluded_markets || ["UY"]).join(", ") + ")</span>" +
+              "</div>" +
+              '<h2 class="text-base font-black m-0" style="color: var(--tigo-navy);">HB Capitalizado: ' + tigoHbZero + ' integraciones HB a $0 deben migrar a esquema de cargo bajo vs. ' + tigoCapitalized + ' ya monetizadas</h2>' +
+              '<p class="text-xs leading-relaxed m-0" style="color: var(--tigo-text-secondary);">' +
+                'Mientras la competencia regala <strong>' + compHbZero + ' addons en HB a $0</strong> erosionando margen, la directriz comercial de Tigo es <strong>no regalar más Hard Bundle a $0</strong> sino capitalizarlo mediante un copago bajo (modelo <code>DESC</code> / addon bonificado) comenzando por <strong>Costa Rica y Panamá</strong>.' +
+              "</p>" +
+            "</div>" +
+          "</div>" +
+
+          '<div class="tigo-card p-5 space-y-3">' +
+            '<div class="flex flex-wrap items-center justify-between gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">' +
+                "Semáforo de Ejecución por País — Banda Premium (+15%) y Capitalización de HB (Clic en un país para ver sus planes)" +
+              "</h3>" +
+              '<span class="text-xs font-semibold" style="color: var(--tigo-text-secondary);">FX Presupuesto aplicado para comparativa USD</span>' +
+            "</div>" +
+            '<div class="overflow-x-auto">' +
+              '<table class="tigo-table">' +
+                "<thead>" +
+                  "<tr>" +
+                    "<th>País (Capital de Captura)</th>" +
+                    '<th style="text-align:center;">Ofertas (Tigo/Comp)</th>' +
+                    '<th style="text-align:center;">Planes en Banda ≤ +15%</th>' +
+                    '<th style="text-align:right;">Máxima Brecha Tigo vs. Rival</th>' +
+                    '<th style="text-align:center;">Mix Contenido Tigo</th>' +
+                    "<th>Política HB Capitalizado</th>" +
+                    "<th>Estado Estratégico</th>" +
+                  "</tr>" +
+                "</thead>" +
+                "<tbody>" + marketRows + "</tbody>" +
+              "</table>" +
+            "</div>" +
+          "</div>";
+      }
+
+      function renderChangesView(diffs) {
+        const el = document.getElementById("view-changes");
+        const cardsHtml = diffs.length === 0
+          ? '<div class="tigo-card p-8 text-center text-xs font-bold" style="color: var(--tigo-text-secondary);">Sin cambios detectados para el filtro seleccionado.</div>'
+          : diffs.map(function (d) {
+              const m = MARKETS_BY_CODE[d.country] || { flag: "", name: d.country, currency: "USD" };
+              const prv = d.prev_offer;
+              const cur = d.curr_offer;
+              const currCode = (cur || prv || {}).currency || m.currency;
+
+              const p0Text = prv ? formatPrice(effPriceLocal(prv), currCode) : "No existía ayer";
+              const p1Text = cur ? formatPrice(effPriceLocal(cur), currCode) : "Retirado hoy";
+
+              const typeBadges = d.types.map(function (t) {
+                if (t === "PRICE_DOWN" || t === "ADDON_ADD" || t === "NEW") return '<span class="badge-negative">' + escHtml(t) + "</span>";
+                if (t === "REMOVED" || t === "PRICE_UP") return '<span class="badge-warning">' + escHtml(t) + "</span>";
+                return '<span class="badge-info">' + escHtml(t) + "</span>";
+              }).join(" ");
+
+              return (
+                '<article class="tigo-card p-4 space-y-2.5" style="border-left: 5px solid ' + (d.is_tigo ? "var(--tigo-blue)" : "var(--tigo-negative)") + ';">' +
+                  '<div class="flex flex-wrap items-center justify-between gap-2">' +
+                    '<div class="flex flex-wrap items-center gap-2">' +
+                      '<span class="px-2 py-0.5 rounded text-xs font-extrabold" style="background:#EEF4FC;color:var(--tigo-navy);">' + escHtml(m.flag + " " + d.country) + "</span>" +
+                      (d.is_tigo ? '<span class="badge-tigo"><span class="badge-tigo-dot"></span>' + escHtml(d.operator) + "</span>" : '<span class="badge-comp">' + escHtml(d.operator) + "</span>") +
+                      typeBadges +
+                      '<span class="font-mono text-[11px] text-slate-400">' + escHtml(d.id) + "</span>" +
+                    "</div>" +
+                    '<span class="text-xs font-extrabold" style="color: var(--tigo-navy);">' + escHtml(p0Text + " → " + p1Text) + "</span>" +
+                  "</div>" +
+                  '<h4 class="text-sm font-black m-0" style="color: var(--tigo-navy);">' + escHtml(d.plan_name) + "</h4>" +
+                  '<div class="tigo-soft-box p-3 text-xs font-semibold" style="color: var(--tigo-navy); border-left: 3px solid var(--tigo-bright-blue);">' +
+                    '💬 Contexto competitivo: &ldquo;' + escHtml(d.context) + '&rdquo;' +
+                  "</div>" +
+                "</article>"
+              );
+            }).join("");
+
+        const histRows = HISTORY.map(function (h) {
+          return (
+            '<div class="tigo-soft-box p-3 flex items-center justify-between text-xs">' +
+              '<span class="font-extrabold" style="color: var(--tigo-navy);">📅 ' + escHtml(h.date) + "</span>" +
+              '<span class="badge-info">' + escHtml(h.changes) + " cambios detectados</span>" +
+            "</div>"
+          );
+        }).join("");
+
+        el.innerHTML =
+          '<div class="grid grid-cols-1 xl:grid-cols-3 gap-5">' +
+            '<div class="xl:col-span-2 space-y-3">' +
+              '<h3 class="text-xs font-extrabold uppercase tracking-wider m-0" style="color: var(--tigo-navy);">' +
+                "Cambios del Día (" + diffs.length + ") — Comparación Determinística por ID Estable" +
+              "</h3>" +
+              cardsHtml +
+            "</div>" +
+            '<div class="space-y-3">' +
+              '<h3 class="text-xs font-extrabold uppercase tracking-wider m-0" style="color: var(--tigo-navy);">' +
+                "Historial de Corridas (Últimos 30 Días) &amp; Estado de Fuentes" +
+              "</h3>" +
+              '<div class="tigo-card p-4 space-y-2.5">' +
+                histRows +
+                '<div class="pt-2 text-xs" style="border-top: 1px solid var(--tigo-border); color: var(--tigo-text-secondary);">' +
+                  "Fuentes inalcanzables hoy (unreachable_sources): <strong>" + UNREACHABLE.length + "</strong>" +
+                "</div>" +
+              "</div>" +
+            "</div>" +
+          "</div>";
+      }
+
+      function renderCatalogView(offers) {
+        const el = document.getElementById("view-catalog");
+        const rowsHtml = offers.map(function (o) {
+          const m = MARKETS_BY_CODE[o.country] || { flag: "", currency: o.currency };
+          const eff = effPriceLocal(o);
+          const reg = o.price_local;
+
+          let evalHtml = "";
+          if (o.is_tigo) {
+            const ev = evaluateTigoPremiumWithValue(o);
+            const cls = (ev.status === "ADVANTAGE" || ev.status === "PREMIUM_OK")
+              ? "badge-positive"
+              : (ev.status === "PREMIUM_NEEDS_VALUE" ? "badge-warning" : "badge-negative");
+            evalHtml = '<span class="' + cls + '">' + escHtml(ev.label) + "</span>";
+          } else {
+            const tigoPeer = findClosestTigoOffer(o);
+            if (tigoPeer) {
+              const pComp = eff;
+              const pTigo = effPriceLocal(tigoPeer);
+              const diffPct = ((pComp - pTigo) / pTigo) * 100.0;
+              const cls = diffPct < -TOLERANCE_PCT ? "badge-negative" : (diffPct < 0 ? "badge-warning" : "badge-positive");
+              evalHtml = '<span class="' + cls + '">' + (diffPct >= 0 ? "+" : "") + diffPct.toFixed(1) + "% vs Tigo (" + tigoPeer.speed_mbps + "M)</span>";
+            } else {
+              evalHtml = '<span class="badge-comp">Sin par fijo Tigo</span>';
+            }
+          }
+
+          const addonsHtml = (o.addons || []).length === 0
+            ? '<span class="text-xs italic text-slate-400">Sin addons</span>'
+            : (o.addons || []).map(function (a) {
+                const cls = a.model === "HB" ? "badge-warning" : (a.model === "DESC" ? "badge-positive" : "badge-info");
+                const pInfo = a.price_local && a.price_local > 0 ? " (" + formatPrice(a.price_local, o.currency) + ")" : (a.months ? " (" + a.months + "m)" : " ($0)");
+                return '<span class="' + cls + ' mr-1 mb-1">' + escHtml(a.ott + " [" + a.model + "]" + pInfo) + "</span>";
+              }).join("");
+
+          return (
+            '<tr class="' + (o.is_tigo ? "is-tigo-row" : "") + '">' +
+              '<td class="font-extrabold whitespace-nowrap">' + escHtml(m.flag + " " + o.country) + "</td>" +
+              '<td class="font-bold whitespace-nowrap">' +
+                escHtml(o.operator) +
+                (o.is_tigo ? ' <span class="badge-tigo ml-1"><span class="badge-tigo-dot"></span>TIGO</span>' : "") +
+              "</td>" +
+              '<td class="whitespace-nowrap"><span class="badge-info">' + escHtml(o.type) + "</span></td>" +
+              '<td class="font-bold" style="color: var(--tigo-navy);">' +
+                escHtml(o.plan_name) +
+                '<div class="font-mono text-[10px] text-slate-400">' + escHtml(o.id) + "</div>" +
+              "</td>" +
+              '<td style="text-align:right;" class="font-extrabold whitespace-nowrap">' + o.speed_mbps + " Mbps</td>" +
+              '<td class="whitespace-nowrap font-medium">' + escHtml(o.hardware) + "</td>" +
+              '<td style="text-align:right;" class="font-black whitespace-nowrap" style="color: var(--tigo-navy);">' +
+                escHtml(formatPrice(eff, o.currency)) +
+                (o.promo_months ? ' <span class="text-[11px] text-blue-700">(' + o.promo_months + "m)</span>" : "") +
+              "</td>" +
+              '<td style="text-align:right;" class="whitespace-nowrap text-slate-500">' + escHtml(formatPrice(reg, o.currency)) + "</td>" +
+              "<td>" + evalHtml + "</td>" +
+              "<td>" + addonsHtml + "</td>" +
+            "</tr>"
+          );
+        }).join("");
+
+        el.innerHTML =
+          '<div class="tigo-card overflow-x-auto">' +
+            '<table class="tigo-table">' +
+              "<thead>" +
+                "<tr>" +
+                  "<th>País</th>" +
+                  "<th>Operador</th>" +
+                  "<th>Tipo</th>" +
+                  "<th>Plan Comercial (ID Estable)</th>" +
+                  '<th style="text-align:right;">Velocidad</th>' +
+                  "<th>Hardware WiFi</th>" +
+                  '<th style="text-align:right;">Precio Vigente</th>' +
+                  '<th style="text-align:right;">Precio Regular</th>' +
+                  "<th>Evaluación Premium con Valor (+15%)</th>" +
+                  "<th>Addons OTT (HB / DESC / PROMO / SA)</th>" +
+                "</tr>" +
+              "</thead>" +
+              "<tbody>" + rowsHtml + "</tbody>" +
+            "</table>" +
+          "</div>";
+      }
+
+      function renderVasCapView(offers) {
+        const el = document.getElementById("view-vas_cap");
+        const addonRows = [];
+        offers.forEach(function (o) {
+          (o.addons || []).forEach(function (a) {
+            addonRows.push({ offer: o, addon: a });
+          });
+        });
+
+        const rowsHtml = addonRows.map(function (item) {
+          const o = item.offer;
+          const a = item.addon;
+          const m = MARKETS_BY_CODE[o.country] || { flag: "" };
+          const isBillableMkt = (META.hb_billable_markets || []).indexOf(o.country) >= 0;
+
+          let actionRec = "Monitorear";
+          if (o.is_tigo) {
+            if (a.model === "HB" && a.ott !== "TIGO_SPORTS") {
+              actionRec = isBillableMkt
+                ? "🎯 Prioridad CR/PA: Pasar de HB $0 a Cargo Bajo (DESC)"
+                : "Evaluar copago bajo en renovación";
+            } else if (a.model === "PROMO") {
+              actionRec = "Convertir a Cargo Bajo al vencer " + (a.months || 3) + "m gratis";
+            } else {
+              actionRec = "✓ Capitalizado / Ancla Propia";
+            }
+          } else {
+            actionRec = a.model === "HB" ? "Rival regala a $0 (No imitar: defender con hardware/deporte)" : "Rival cobra addon";
+          }
+
+          return (
+            '<tr class="' + (o.is_tigo ? "is-tigo-row" : "") + '">' +
+              '<td class="font-extrabold">' + escHtml(m.flag + " " + o.country) + "</td>" +
+              '<td class="font-bold">' + escHtml(o.operator) + (o.is_tigo ? ' <span class="badge-tigo ml-1">TIGO</span>' : "") + "</td>" +
+              '<td class="font-bold" style="color:var(--tigo-navy);">' + escHtml(o.plan_name) + "</td>" +
+              '<td><span class="badge-info">' + escHtml(a.ott) + "</span></td>" +
+              '<td><span class="' + (a.model === "HB" ? "badge-warning" : "badge-positive") + '">' + escHtml(a.model) + "</span></td>" +
+              '<td style="text-align:right;" class="font-bold">' + escHtml(a.price_local > 0 ? formatPrice(a.price_local, o.currency) : "$0 (Gratis)") + "</td>" +
+              '<td style="text-align:center;">' + escHtml(a.months ? a.months + " meses" : "Permanente") + "</td>" +
+              '<td class="text-xs font-semibold">' + escHtml(actionRec) + "</td>" +
+            "</tr>"
+          );
+        }).join("");
+
+        el.innerHTML =
+          '<div class="tigo-card overflow-x-auto">' +
+            '<table class="tigo-table">' +
+              "<thead>" +
+                "<tr>" +
+                  "<th>País</th>" +
+                  "<th>Operador</th>" +
+                  "<th>Plan Hogar</th>" +
+                  "<th>Código OTT</th>" +
+                  "<th>Modelo</th>" +
+                  '<th style="text-align:right;">Cargo Addon</th>' +
+                  '<th style="text-align:center;">Vigencia</th>' +
+                  "<th>Directriz HB Capitalizado</th>" +
+                "</tr>" +
+              "</thead>" +
+              "<tbody>" + rowsHtml + "</tbody>" +
+            "</table>" +
+          "</div>";
+      }
+
+      function exportCsv() {
+        const filteredOffers = OFFERS_TODAY.filter(filterOffer);
+        const headers = ["id", "country", "operator", "is_tigo", "segment", "type", "plan_name", "speed_mbps", "currency", "price_local", "promo_price_local", "promo_months", "hardware", "addons", "source_url"];
+        const lines = [headers.join(",")];
+        filteredOffers.forEach(function (o) {
+          const addStr = (o.addons || []).map(function (a) { return a.ott + ":" + a.model + ":" + (a.price_local || 0); }).join("|");
+          const row = [
+            o.id, o.country, o.operator, o.is_tigo, o.segment, o.type,
+            '"' + String(o.plan_name).replace(/"/g, '""') + '"',
+            o.speed_mbps, o.currency, o.price_local,
+            o.promo_price_local !== null ? o.promo_price_local : "",
+            o.promo_months !== null ? o.promo_months : "",
+            '"' + String(o.hardware).replace(/"/g, '""') + '"',
+            '"' + addStr + '"',
+            o.source_url
+          ];
+          lines.push(row.join(","));
+        });
+        const CRLF = String.fromCharCode(13, 10);
+        const blob = new Blob([String.fromCharCode(0xFEFF) + lines.join(CRLF)], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "Radar_Ofertas_LATAM_" + (META.run_date || "hoy") + ".csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      document.addEventListener("click", function (e) {
+        const btn = e.target.closest("[data-action]");
+        if (!btn) return;
+        const action = btn.getAttribute("data-action");
+        if (action === "set-tab") {
+          state.activeTab = btn.getAttribute("data-tab") || "strategy";
+          renderAll();
+        } else if (action === "select-country") {
+          state.selectedCountry = btn.getAttribute("data-code") || "ALL";
+          renderAll();
+        } else if (action === "drill-country") {
+          state.selectedCountry = btn.getAttribute("data-code") || "ALL";
+          state.activeTab = "catalog";
+          renderAll();
+        } else if (action === "set-currency-mode") {
+          state.currencyMode = btn.getAttribute("data-cmode") || "LOCAL";
+          renderAll();
+        } else if (action === "toggle-only-addons") {
+          state.onlyWithAddons = !state.onlyWithAddons;
+          if (state.activeTab === "strategy") state.activeTab = "catalog";
+          renderAll();
+        } else if (action === "reset-filters") {
+          state.selectedCountry = "ALL";
+          state.selectedType = "ALL";
+          state.selectedModel = "ALL";
+          state.onlyWithAddons = false;
+          state.searchQuery = "";
+          document.getElementById("filter-type-select").value = "ALL";
+          document.getElementById("filter-model-select").value = "ALL";
+          document.getElementById("filter-search-input").value = "";
+          renderAll();
+        } else if (action === "export-csv") {
+          exportCsv();
+        } else if (action === "print-pdf") {
+          window.print();
+        }
+      });
+
+      document.getElementById("filter-type-select").addEventListener("change", function (e) {
+        state.selectedType = e.target.value;
+        if (state.activeTab === "strategy") state.activeTab = "catalog";
+        renderAll();
+      });
+      document.getElementById("filter-model-select").addEventListener("change", function (e) {
+        state.selectedModel = e.target.value;
+        if (state.activeTab === "strategy") state.activeTab = "vas_cap";
+        renderAll();
+      });
+      document.getElementById("filter-search-input").addEventListener("input", function (e) {
+        state.searchQuery = e.target.value || "";
+        renderAll();
+      });
+
+      renderAll();
+    })();
+  </script>
+</body>
+</html>

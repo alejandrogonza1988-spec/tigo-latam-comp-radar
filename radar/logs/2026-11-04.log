@@ -1,0 +1,25 @@
+=== RADAR DIARIO DE OFERTAS LATAM (2026-11-04 vs 2026-11-03) ===
+Horario programado: 06:00 America/Panama (UTC-5) | Reintento: 08:00 America/Panama
+Capitales por defecto utilizadas: Ciudad de Guatemala (GT), San Salvador (SV), Tegucigalpa (HN), Managua (NI), San José (CR), Ciudad de Panamá (PA), Bogotá Estrato 3 (CO), La Paz (BO), Asunción (PY), Montevideo (UY), Quito (EC), Santiago RM (CL).
+Operadores adicionales registrados: SV Digicel, CR Telecable, CO WOM, BO AXS, EC Xtrim.
+Ofertas hoy: 92 (Tigo 30 · Comp. 62)
+Cambios detectados: 8 (7 rivales · 1 Tigo)
+Fuentes caídas (unreachable_sources): 0
+--- Validaciones Pre-Publicación (Sección 6) ---
+[PASS] Validación 1: Esquema JSON y tipos obligatorios verificados en las 92 ofertas.
+[PASS] Validación 2: Cero IDs duplicados en offers_today (92 IDs únicos).
+[PASS] Validación 3: Todos los price_local > 0 y en la moneda oficial de cada país.
+[PASS] Validación 4: Control de cambios extremos (±40%) completado (0 casos extremos).
+[PASS] Validación 5: Ningún operador cayó más de 50% en número de ofertas vs. ayer.
+[PASS] Validación 6: Presencia de ofertas Tigo verificada en los 12 mercados.
+[PASS] Validación 7: meta.is_sample === false confirmado.
+[PASS] Validación 8: HTML construido reemplazando únicamente <script id="RADAR_DATA"> y sin banner DATOS DE EJEMPLO.
+--- Contexto de Cambios (change_context <= 25 palabras) ---
+  * CR|LIBERTY|HOGAR|DUO|120: Liberty suma DISNEY_PLUS/UNIVERSAL_PLUS en HB: eleva presión de contenido incluido sin costo. (12 palabras)
+  * PA|MASMOVIL|HOGAR|DUO|600: +Móvil baja 7.1% (56 a 52 USD): amplía brecha frente al umbral +15% de Tigo. (15 palabras)
+  * CO|MOVISTAR|HOGAR|INTERNET|900: Movistar baja 10.5% (84900 a 75992 COP): amplía brecha frente al umbral +15% de Tigo. (15 palabras)
+  * BO|AXS|HOGAR|DUO|135: AXS suma MAX en HB: eleva presión de contenido incluido sin costo. (12 palabras)
+  * PY|CLARO|HOGAR|INTERNET|600: Claro baja 17.2% (145000 a 120000 PYG) y actualiza a ONT Fibra WiFi 6: amplía brecha frente al umbral +15% de Tigo. (22 palabras)
+  * EC|NETLIFE|HOGAR|INTERNET|850: Netlife lanza Starter Defense XGPON 850 Mbps Simétrico WiFi 7 (850 Mbps, Router XGPON WiFi 7) a 16.96 USD: presiona escalón alto con hardware nueva generación. (26 palabras)
+  * CL|WOM|HOGAR|INTERNET|600: WOM baja 20.0% (14990 a 11990 CLP): amplía brecha frente al umbral +15% de Tigo. (15 palabras)
+  * PA|TIGO|HOGAR|INTERNET|200: Tigo retira Internet Hogar 200 Megas Legacy (37 USD): eleva piso de entrada fijo y exige defender escalón base con valor. (21 palabras)
