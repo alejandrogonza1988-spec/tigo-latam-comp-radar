@@ -27,22 +27,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Publicar en URL limpia sin correo (https://radar-ofertas-latam.surge.sh)
+        env:
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: |
+          if [ -n "${SURGE_TOKEN}" ]; then
+            npx --yes surge ./docs radar-ofertas-latam.surge.sh --token "${SURGE_TOKEN}"
+            npx --yes surge ./docs radar-tigo-latam.surge.sh --token "${SURGE_TOKEN}"
+          fi
+
       - name: Configure GitHub Pages
+        continue-on-error: true
         uses: actions/configure-pages@v5
 
       - name: Upload static dashboard artifact (docs/)
+        continue-on-error: true
         uses: actions/upload-pages-artifact@v3
         with:
           path: "docs"
 
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
-
-      - name: Publicar en URL limpia sin correo (https://radar-ofertas-latam.surge.sh)
-        if: ${{ secrets.SURGE_TOKEN != '' }}
-        env:
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-        run: |
-          npx --yes surge ./docs radar-ofertas-latam.surge.sh --token "${SURGE_TOKEN}"
-          npx --yes surge ./docs radar-tigo-latam.surge.sh --token "${SURGE_TOKEN}"
