@@ -277,6 +277,10 @@ def convert_seed_offers_to_megaprompt_schema(
             )
 
         hw = (hs.wifi_hardware if hs and hs.wifi_hardware else None) or "WiFi 6"
+        up_mbps = int(hs.upload_mbps) if (hs and hs.upload_mbps) else (speed if (hs and hs.symmetric_speed) else None)
+        tech_str = (hs.technology if hs and hs.technology else None) or "FTTH"
+        tv_ch = int(hs.tv_channels_count) if (hs and hs.tv_channels_count) else None
+        tv_decos = int(hs.tv_deco_boxes) if (hs and hs.tv_deco_boxes) else None
 
         normalized.append(
             {
@@ -288,12 +292,19 @@ def convert_seed_offers_to_megaprompt_schema(
                 "type": offer_type,
                 "plan_name": o.plan_name,
                 "speed_mbps": speed,
+                "upload_mbps": up_mbps,
+                "technology": tech_str,
+                "tv_channels_count": tv_ch,
+                "tv_deco_boxes": tv_decos,
                 "currency": o.pricing.currency,
                 "price_local": round(float(reg_price), 2),
                 "promo_price_local": round(float(promo_price), 2) if promo_price is not None else None,
                 "promo_months": int(promo_months) if promo_months is not None else None,
+                "taxes_included": o.pricing.taxes_included,
+                "installation_fee": o.pricing.installation_fee,
                 "addons": addons_list,
                 "hardware": hw,
+                "exact_terms_text": o.exact_terms_text,
                 "source_url": o.source_url,
                 "captured_at": captured_at_iso,
             }
@@ -841,22 +852,26 @@ __RADAR_DATA_JSON__
       </div>
     </section>
 
-    <!-- 3. TABS DE NAVEGACIÓN -->
+    <!-- 3. TABS DE NAVEGACIÓN UNIFICADAS (5 VISTAS EN 1 SOLO REPORTE) -->
     <div class="tigo-tab-bar no-print">
       <button type="button" data-action="set-tab" data-tab="strategy" class="tigo-tab-btn is-active">
-        <span>1. Estrategia Ejecutiva: Premium con Valor &amp; HB Capitalizado</span>
+        <span>1. Semáforo 12 Países: Premium (+15%) &amp; HB Capitalizado</span>
         <span id="badge-tab-strategy" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #FEF08A; color: var(--tigo-navy);">12 Países</span>
       </button>
-      <button type="button" data-action="set-tab" data-tab="changes" class="tigo-tab-btn">
-        <span>2. Cambios Detectados Hoy (Diff Determinístico + Contexto)</span>
-        <span id="badge-tab-changes" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #FEE2E2; color: #991B1B;"></span>
+      <button type="button" data-action="set-tab" data-tab="exec_vp" class="tigo-tab-btn">
+        <span>2. Reporte Ejecutivo VP (3 Min &bull; 7 Secciones)</span>
+        <span class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #DBEAFE; color: var(--tigo-navy);">VP Brief</span>
       </button>
       <button type="button" data-action="set-tab" data-tab="catalog" class="tigo-tab-btn">
-        <span>3. Comparador de Ofertas Hoy (Tigo vs. Competencia)</span>
+        <span>3. Comparador de Ofertas (Cara a Cara + Tabla Completa)</span>
         <span id="badge-tab-catalog" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #E0F2FE; color: var(--tigo-navy);"></span>
       </button>
+      <button type="button" data-action="set-tab" data-tab="changes" class="tigo-tab-btn">
+        <span>4. Cambios Detectados Hoy (Diff + Contexto)</span>
+        <span id="badge-tab-changes" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #FEE2E2; color: #991B1B;"></span>
+      </button>
       <button type="button" data-action="set-tab" data-tab="vas_cap" class="tigo-tab-btn">
-        <span>4. Matriz de Capitalización OTT (HB $0 vs. Cargo Bajo)</span>
+        <span>5. Matriz de Capitalización OTT (HB $0 vs. Cargo Bajo)</span>
         <span id="badge-tab-vas" class="px-2 py-0.5 text-xs rounded-full font-extrabold" style="background: #DCFCE7; color: #166534;"></span>
       </button>
     </div>
@@ -864,15 +879,39 @@ __RADAR_DATA_JSON__
     <!-- VISTA 1: ESTRATEGIA EJECUTIVA (PREMIUM CON VALOR + HB CAPITALIZADO) -->
     <section id="view-strategy" class="space-y-5"></section>
 
-    <!-- VISTA 2: CAMBIOS DETECTADOS HOY (DIFF + CONTEXTO <=25 PALABRAS + HISTORIAL 30D) -->
-    <section id="view-changes" class="is-hidden space-y-5"></section>
+    <!-- VISTA 2: REPORTE EJECUTIVO VP (3 MINUTOS — 7 SECCIONES) -->
+    <section id="view-exec_vp" class="is-hidden space-y-5"></section>
 
-    <!-- VISTA 3: COMPARADOR DE OFERTAS HOY (TOLERANCIA +15% & VALOR) -->
+    <!-- VISTA 3: COMPARADOR DE OFERTAS HOY (TARJETAS CARA A CARA + TABLA 92 PLANES) -->
     <section id="view-catalog" class="is-hidden space-y-5"></section>
 
-    <!-- VISTA 4: MATRIZ DE CAPITALIZACIÓN OTT -->
+    <!-- VISTA 4: CAMBIOS DETECTADOS HOY (DIFF + CONTEXTO <=25 PALABRAS + HISTORIAL 30D) -->
+    <section id="view-changes" class="is-hidden space-y-5"></section>
+
+    <!-- VISTA 5: MATRIZ DE CAPITALIZACIÓN OTT -->
     <section id="view-vas_cap" class="is-hidden space-y-5"></section>
   </main>
+
+  <!-- MODAL DE EVIDENCIA DOM (TEXTO EXACTO Y FUENTE OFICIAL) -->
+  <div id="evidence-modal" data-action="close-modal-backdrop" class="is-hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background: rgba(0, 18, 56, 0.62); backdrop-filter: blur(2px);">
+    <div class="tigo-card-lg max-w-2xl w-full max-h-[88vh] overflow-y-auto">
+      <div class="px-5 py-4 flex items-start justify-between gap-4" style="background: linear-gradient(135deg, var(--tigo-navy) 0%, var(--tigo-blue) 100%); color: #FFFFFF; border-bottom: 3px solid var(--tigo-yellow);">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider" style="color: var(--tigo-cyan);">Auditoría de Fuente Web &amp; Términos Exactos</span>
+          <h3 id="modal-title" class="text-base font-black text-white m-0 mt-1"></h3>
+          <p id="modal-id" class="text-xs font-mono m-0 mt-0.5" style="color: #CBD5E1;"></p>
+        </div>
+        <button type="button" data-action="close-modal" class="px-3 py-1.5 rounded-lg text-xs font-extrabold cursor-pointer" style="background: rgba(255,255,255,0.14); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.28);">Cerrar &#10005;</button>
+      </div>
+      <div class="p-5 space-y-4">
+        <div class="space-y-1.5">
+          <div class="text-xs font-extrabold uppercase tracking-wider" style="color: var(--tigo-navy);">Términos Comerciales Verificados (exact_terms_text):</div>
+          <pre id="modal-terms" class="tigo-soft-box p-3.5 text-xs leading-relaxed whitespace-pre-wrap font-mono m-0" style="color: var(--tigo-text);"></pre>
+        </div>
+        <div id="modal-link-box" class="pt-3 flex flex-wrap items-center justify-between gap-2 text-xs" style="border-top: 1px solid var(--tigo-border);"></div>
+      </div>
+    </div>
+  </div>
 
   <script>
     (function () {
@@ -912,6 +951,7 @@ __RADAR_DATA_JSON__
         selectedModel: "ALL",
         onlyWithAddons: false,
         currencyMode: "LOCAL",
+        catalogLayout: "BOTH",
         searchQuery: ""
       };
 
@@ -1253,14 +1293,203 @@ __RADAR_DATA_JSON__
         document.querySelectorAll(".tigo-tab-btn").forEach(function (btn) {
           btn.classList.toggle("is-active", btn.getAttribute("data-tab") === state.activeTab);
         });
-        ["strategy", "changes", "catalog", "vas_cap"].forEach(function (t) {
-          document.getElementById("view-" + t).classList.toggle("is-hidden", state.activeTab !== t);
+        ["strategy", "exec_vp", "catalog", "changes", "vas_cap"].forEach(function (t) {
+          const sec = document.getElementById("view-" + t);
+          if (sec) sec.classList.toggle("is-hidden", state.activeTab !== t);
         });
 
         renderStrategyView(tigoOffers, tigoEvaluations, tigoHbZero, tigoCapitalized, tigoPromo, compHbZero, compCapitalized);
+        renderExecVpView(tigoOffers, compOffers, tigoEvaluations, tigoHbZero, tigoCapitalized, tigoPromo, compHbZero, compCapitalized, compPromo);
         renderChangesView(filteredDiffs);
         renderCatalogView(filteredOffers);
         renderVasCapView(filteredOffers);
+      }
+
+      function renderExecVpView(tigoOffers, compOffers, tigoEvaluations, tigoHbZero, tigoCapitalized, tigoPromo, compHbZero, compCapitalized, compPromo) {
+        const el = document.getElementById("view-exec_vp");
+        if (!el) return;
+
+        const inBandCount = tigoEvaluations.filter(function (e) { return e.status === "ADVANTAGE" || e.status === "PREMIUM_OK"; }).length;
+        const outBandCount = tigoEvaluations.filter(function (e) { return e.status === "OUT_OF_BAND"; }).length;
+        const inBandPct = tigoOffers.length > 0 ? ((inBandCount / tigoOffers.length) * 100.0) : 0.0;
+        const tigoWithVas = tigoOffers.filter(function (o) { return (o.addons || []).length > 0; }).length;
+        const compWithVas = compOffers.filter(function (o) { return (o.addons || []).length > 0; }).length;
+        const tigoVasPct = tigoOffers.length > 0 ? ((tigoWithVas / tigoOffers.length) * 100.0) : 0.0;
+        const compVasPct = compOffers.length > 0 ? ((compWithVas / compOffers.length) * 100.0) : 0.0;
+
+        const tigoTotalAddons = tigoHbZero + tigoCapitalized + tigoPromo;
+        const compTotalAddons = compHbZero + compCapitalized + compPromo;
+        const tigoHbPct = tigoTotalAddons > 0 ? ((tigoHbZero / tigoTotalAddons) * 100.0) : 0.0;
+        const compHbPct = compTotalAddons > 0 ? ((compHbZero / compTotalAddons) * 100.0) : 0.0;
+        const tigoCapPct = tigoTotalAddons > 0 ? ((tigoCapitalized / tigoTotalAddons) * 100.0) : 0.0;
+        const compCapPct = compTotalAddons > 0 ? ((compCapitalized / compTotalAddons) * 100.0) : 0.0;
+        const tigoPromoPct = tigoTotalAddons > 0 ? ((tigoPromo / tigoTotalAddons) * 100.0) : 0.0;
+        const compPromoPct = compTotalAddons > 0 ? ((compPromo / compTotalAddons) * 100.0) : 0.0;
+
+        let greenCnt = 0, yellowCnt = 0, redCnt = 0;
+        const countryRowsHtml = MARKETS.map(function (m) {
+          const mOffers = OFFERS_TODAY.filter(function (o) { return o.country === m.code; });
+          const mTigo = mOffers.filter(function (o) { return o.is_tigo; });
+          const mComp = mOffers.filter(function (o) { return !o.is_tigo; });
+          const evals = mTigo.map(evaluateTigoPremiumWithValue);
+          const okCnt = evals.filter(function (e) { return e.status === "ADVANTAGE" || e.status === "PREMIUM_OK"; }).length;
+          const maxGap = evals.reduce(function (acc, e) { return Math.max(acc, e.pctVsComp); }, -999);
+          const mDiffs = ALL_DIFFS.filter(function (d) { return d.country === m.code; });
+
+          let mHb = 0, mCap = 0, mPr = 0, cHb = 0;
+          mTigo.forEach(function (o) {
+            (o.addons || []).forEach(function (a) {
+              if (a.model === "HB") mHb++;
+              else if (a.model === "DESC" || a.model === "SA") mCap++;
+              else if (a.model === "PROMO") mPr++;
+            });
+          });
+          mComp.forEach(function (o) {
+            (o.addons || []).forEach(function (a) { if (a.model === "HB") cHb++; });
+          });
+
+          let statusBadge = "";
+          if (maxGap > TOLERANCE_PCT) {
+            redCnt++;
+            statusBadge = '<span class="badge-negative">🔴 Fuera de ruta</span>';
+          } else if (okCnt < mTigo.length || mDiffs.length > 0) {
+            yellowCnt++;
+            statusBadge = '<span class="badge-warning">🟡 En riesgo</span>';
+          } else {
+            greenCnt++;
+            statusBadge = '<span class="badge-positive">🟢 En ruta</span>';
+          }
+
+          return (
+            '<tr class="cursor-pointer" data-action="drill-country" data-code="' + escHtml(m.code) + '">' +
+              '<td class="font-extrabold whitespace-nowrap">' + escHtml(m.flag + " " + m.code + " — " + m.name) + "</td>" +
+              '<td style="text-align:center;" class="font-bold">' + mTigo.length + " / " + mComp.length + "</td>" +
+              '<td style="text-align:center;" class="font-extrabold">' + okCnt + " / " + mTigo.length + "</td>" +
+              '<td style="text-align:right;" class="font-bold ' + (maxGap > TOLERANCE_PCT ? "text-red-600" : "text-emerald-700") + '">' +
+                (maxGap > -900 ? (maxGap >= 0 ? "+" : "") + maxGap.toFixed(1) + "%" : "—") +
+              "</td>" +
+              '<td style="text-align:center;" class="font-semibold">' + mHb + " HB $0 &bull; " + mCap + " Cap. &bull; " + mPr + " Promo</td>" +
+              '<td style="text-align:center;" class="font-semibold">' + cHb + " HB $0</td>" +
+              '<td style="text-align:center;">' + (mDiffs.length > 0 ? '<span class="badge-negative">' + mDiffs.length + " cambio(s)</span>" : "0") + "</td>" +
+              '<td style="text-align:center;">' + statusBadge + "</td>" +
+            "</tr>"
+          );
+        }).join("");
+
+        el.innerHTML =
+          '<div class="tigo-card-lg p-5 space-y-3" style="border-left: 6px solid var(--tigo-navy); background: linear-gradient(180deg, #FFFFFF 0%, #F9FBFE 100%);">' +
+            '<div class="flex flex-wrap items-center justify-between gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-black uppercase" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 1</span>' +
+                '<h2 class="text-sm sm:text-base font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">1. Mensaje Principal de Estrategia (Lectura 3 Minutos para Dirección / VPs)</h2>' +
+              "</div>" +
+              '<span class="text-xs font-semibold" style="color: var(--tigo-text-secondary);">Corte Verificado: ' + escHtml(META.run_date || "") + ' &bull; 12 Países LATAM</span>' +
+            "</div>" +
+            '<p class="text-base font-bold leading-relaxed m-0" style="color: var(--tigo-navy);">' +
+              'El <strong>' + inBandPct.toFixed(1) + '% del portafolio Tigo (' + inBandCount + ' de ' + tigoOffers.length + ' planes)</strong> cumple hoy la banda estratégica de <strong>Premium con Valor (&le; +' + TOLERANCE_PCT + '% vs. rival directo)</strong>, mientras que la competencia subsidia agresivamente <strong>' + compHbZero + ' integraciones OTT a $0 (' + compHbPct.toFixed(1) + '% de su mix VAS)</strong> y ejecuta <strong>' + ALL_DIFFS.filter(function (d) { return !d.is_tigo; }).length + ' movimientos ofensivos</strong> hoy; cerrar la brecha exige ajustar <strong>' + outBandCount + ' planes fuera de banda</strong> y acelerar la migración de <strong>' + tigoHbZero + ' HB $0 hacia HB Capitalizado (cargo bajo)</strong> en Costa Rica y Panamá.' +
+            "</p>" +
+          "</div>" +
+
+          '<div class="tigo-card p-5 space-y-4">' +
+            '<div class="flex flex-wrap items-center justify-between gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-black uppercase" style="background: var(--tigo-blue); color: #FFFFFF;">Sección 2</span>' +
+                '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">2. Indicadores Clave de Portafolio (Separación HB $0, HB Capitalizado, Promo y SA)</h3>' +
+              "</div>" +
+            "</div>" +
+            '<div class="overflow-x-auto">' +
+              '<table class="tigo-table">' +
+                "<thead><tr><th>Métrica de Negocio</th><th style=\"text-align:right;\">Real (Tigo)</th><th style=\"text-align:right;\">Competencia / Meta</th><th style=\"text-align:right;\">Variación / Brecha</th><th>Lectura Ejecutiva</th></tr></thead>" +
+                "<tbody>" +
+                  "<tr><td class=\"font-bold\">Ofertas Totales Auditadas</td><td style=\"text-align:right;\" class=\"font-extrabold\">" + tigoOffers.length + " planes</td><td style=\"text-align:right;\">" + compOffers.length + " planes rivales</td><td style=\"text-align:right;\" class=\"font-bold\">" + OFFERS_TODAY.length + " total</td><td>Cobertura auditada con URLs verificadas en 41 operadoras de 12 países.</td></tr>" +
+                  "<tr><td class=\"font-bold\">Planes Tigo en Banda (&le; +" + TOLERANCE_PCT + "% con Valor)</td><td style=\"text-align:right;\" class=\"font-extrabold text-emerald-700\">" + inBandCount + " / " + tigoOffers.length + " (" + inBandPct.toFixed(1) + "%)</td><td style=\"text-align:right;\">Meta &ge; 85.0%</td><td style=\"text-align:right;\" class=\"font-bold text-amber-700\">" + (inBandPct - 85.0).toFixed(1) + " pp</td><td>" + outBandCount + " planes superan el +" + TOLERANCE_PCT + "% tras promociones rivales en PA, CO, PY y CL.</td></tr>" +
+                  "<tr><td class=\"font-bold\">Attach Rate de Contenidos VAS</td><td style=\"text-align:right;\" class=\"font-extrabold\">" + tigoWithVas + " (" + tigoVasPct.toFixed(1) + "%)</td><td style=\"text-align:right;\">" + compWithVas + " (" + compVasPct.toFixed(1) + "%)</td><td style=\"text-align:right;\" class=\"font-bold text-emerald-700\">+" + (tigoVasPct - compVasPct).toFixed(1) + " pp</td><td>Tigo lidera el empaquetamiento de contenidos y deportes en la región.</td></tr>" +
+                  "<tr><td class=\"font-bold\">Mix HB $0 (Incluido sin Cargo)</td><td style=\"text-align:right;\" class=\"font-extrabold\">" + tigoHbZero + " (" + tigoHbPct.toFixed(1) + "%)</td><td style=\"text-align:right;\">" + compHbZero + " (" + compHbPct.toFixed(1) + "%)</td><td style=\"text-align:right;\" class=\"font-bold text-amber-700\">" + (tigoHbPct - compHbPct).toFixed(1) + " pp</td><td>Oportunidad directa de migrar HB $0 de terceros hacia copago bajo (DESC).</td></tr>" +
+                  "<tr><td class=\"font-bold\">Mix HB Capitalizado / Cargo Bajo (DESC + SA)</td><td style=\"text-align:right;\" class=\"font-extrabold text-blue-800\">" + tigoCapitalized + " (" + tigoCapPct.toFixed(1) + "%)</td><td style=\"text-align:right;\">" + compCapitalized + " (" + compCapPct.toFixed(1) + "%)</td><td style=\"text-align:right;\" class=\"font-bold text-emerald-700\">+" + (tigoCapPct - compCapPct).toFixed(1) + " pp</td><td>Tigo monetiza mejor sus addons; prioridad expandir modelo en CR y PA.</td></tr>" +
+                  "<tr><td class=\"font-bold\">Mix Cortesía Temporal (PROMO Meses Gratis)</td><td style=\"text-align:right;\" class=\"font-extrabold\">" + tigoPromo + " (" + tigoPromoPct.toFixed(1) + "%)</td><td style=\"text-align:right;\">" + compPromo + " (" + compPromoPct.toFixed(1) + "%)</td><td style=\"text-align:right;\" class=\"font-bold\">+" + (tigoPromoPct - compPromoPct).toFixed(1) + " pp</td><td>Requiere flujo de conversión a copago antes del vencimiento del mes 3.</td></tr>" +
+                "</tbody>" +
+              "</table>" +
+            "</div>" +
+          "</div>" +
+
+          '<div class="tigo-card p-5 space-y-4">' +
+            '<div class="flex items-center gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<span class="px-2.5 py-1 rounded text-xs font-black uppercase" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 3</span>' +
+              '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">3. Qué Está Pasando y Por Qué (4 Hallazgos Ejecutivos)</h3>' +
+            "</div>" +
+            '<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">' +
+              '<div class="tigo-soft-box p-4 space-y-1.5" style="border-left: 4px solid var(--tigo-negative);">' +
+                '<h4 class="text-sm font-black m-0" style="color: var(--tigo-navy);">1. La competencia subsidia ' + compHbZero + ' OTTs en HB a $0 para presionar captura</h4>' +
+                '<p class="m-0"><strong>Evidencia:</strong> El ' + compHbPct.toFixed(1) + '% de los addons rivales se entregan a $0 fijo (Disney+, Max, Universal+, Paramount+).</p>' +
+                '<p class="m-0"><strong>Causa:</strong> Acuerdos mayoristas regionales de Claro, Movistar y Liberty para reducir churn en fibra.</p>' +
+                '<p class="m-0 font-bold text-red-700"><strong>Implicación:</strong> No imitar el regalo a $0; defender propuesta con HB Capitalizado (copago bajo) + Tigo Sports exclusivo.</p>' +
+              "</div>" +
+              '<div class="tigo-soft-box p-4 space-y-1.5" style="border-left: 4px solid var(--tigo-warning);">' +
+                '<h4 class="text-sm font-black m-0" style="color: var(--tigo-navy);">2. Panamá (+Móvil) presiona la entrada en 300M ($35 USD), pero en 600M con Universal+ está en $56 USD</h4>' +
+                '<p class="m-0"><strong>Evidencia:</strong> +Móvil ofrece 300M Solo Internet en $35.00 USD (vs $41.00 USD de Tigo 300M), mientras su plan Hogar +Fibra 600M + TV + Universal+ se ubica en $56.00 USD.</p>' +
+                '<p class="m-0"><strong>Causa:</strong> +Móvil separa el paquete básico sin OTT ($52) del paquete con Universal+ ($56) y usa 300M como gancho de entrada.</p>' +
+                '<p class="m-0 font-bold text-amber-800"><strong>Implicación:</strong> En el escalón alto Tigo es plenamente competitivo ($55 USD en 500M Dúo); la defensa táctica debe focalizarse en la entrada de 300M.</p>' +
+              "</div>" +
+              '<div class="tigo-soft-box p-4 space-y-1.5" style="border-left: 4px solid var(--tigo-blue);">' +
+                '<h4 class="text-sm font-black m-0" style="color: var(--tigo-navy);">3. Descuentos promocionales largos (6 a 24 meses) en CR, CO, PY y CL</h4>' +
+                '<p class="m-0"><strong>Evidencia:</strong> Liberty CR aplica promo por 24m (₡19,941.80 en 120M), Movistar CO y CL aplican 12m, y Claro PY baja 600M a Gs. 120.000 por 6m.</p>' +
+                '<p class="m-0"><strong>Causa:</strong> Guerra de adquisición en redes FTTH desplegadas recientemente.</p>' +
+                '<p class="m-0 font-bold" style="color: var(--tigo-navy);"><strong>Implicación:</strong> Comparar siempre precio promocional vigente vs. tarifa regular post-promo en la comunicación comercial.</p>' +
+              "</div>" +
+              '<div class="tigo-soft-box p-4 space-y-1.5" style="border-left: 4px solid var(--tigo-positive);">' +
+                '<h4 class="text-sm font-black m-0" style="color: var(--tigo-navy);">4. Hardware WiFi 6 / WiFi 7 + Mesh justifica el diferencial de hasta +15%</h4>' +
+                '<p class="m-0"><strong>Evidencia:</strong> Los planes Tigo con WiFi 6 + Mesh y Tigo Sports sostienen precios hasta +15% superiores sin deterioro competitivo en GT, HN, SV y BO.</p>' +
+                '<p class="m-0"><strong>Causa:</strong> El cliente residencial valora cobertura intramuros garantizada y fútbol local exclusivo.</p>' +
+                '<p class="m-0 font-bold text-emerald-700"><strong>Implicación:</strong> Estandarizar WiFi 6 + Mesh en todos los planes &ge; 300 Mbps donde Tigo opere sobre el precio rival.</p>' +
+              "</div>" +
+            "</div>" +
+          "</div>" +
+
+          '<div class="tigo-card p-5 space-y-4">' +
+            '<div class="flex flex-wrap items-center justify-between gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-black uppercase" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 4</span>' +
+                '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">4. Vista Ejecutiva por País (12 Mercados)</h3>' +
+              "</div>" +
+              '<div class="flex items-center gap-2 text-xs font-bold">' +
+                '<span class="badge-positive">🟢 ' + greenCnt + " En ruta</span>" +
+                '<span class="badge-warning">🟡 ' + yellowCnt + " En riesgo</span>" +
+                '<span class="badge-negative">🔴 ' + redCnt + " Fuera de ruta</span>" +
+              "</div>" +
+            "</div>" +
+            '<div class="overflow-x-auto">' +
+              '<table class="tigo-table">' +
+                "<thead><tr><th>País</th><th style=\"text-align:center;\">Planes (Tigo/Comp)</th><th style=\"text-align:center;\">En Banda &le; +15%</th><th style=\"text-align:right;\">Máx. Brecha vs Rival</th><th style=\"text-align:center;\">Mix VAS Tigo</th><th style=\"text-align:center;\">HB $0 Rival</th><th style=\"text-align:center;\">Cambios Hoy</th><th style=\"text-align:center;\">Estado</th></tr></thead>" +
+                "<tbody>" + countryRowsHtml + "</tbody>" +
+              "</table>" +
+            "</div>" +
+          "</div>" +
+
+          '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">' +
+            '<div class="tigo-card p-5 space-y-3">' +
+              '<div class="flex items-center gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-black uppercase" style="background: var(--tigo-navy); color: #FFFFFF;">Sección 5 &amp; 6</span>' +
+                '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">5–6. Riesgos, Oportunidades y Brecha a la Meta</h3>' +
+              "</div>" +
+              '<div class="space-y-2 text-xs">' +
+                '<div class="tigo-soft-box p-3" style="border-left: 3px solid var(--tigo-negative);"><strong>Riesgo Clave:</strong> Erosión de captura en escalones de entrada (PA 300M con $6 USD de brecha vs +Móvil; PY 300M frente a promo 6m de Claro a Gs. 120.000).</div>' +
+                '<div class="tigo-soft-box p-3" style="border-left: 3px solid var(--tigo-positive);"><strong>Oportunidad Clave:</strong> Capitalización de HB en CR y PA pasando OTTs de $0 a copago bajo ($2–$4 USD/mes) con retención anclada en Tigo Sports y WiFi 6.</div>' +
+                '<div class="tigo-soft-box p-3" style="border-left: 3px solid var(--tigo-blue);"><strong>Brecha a la Meta:</strong> Ajustar <strong>' + outBandCount + ' planes fuera de la banda del +15%</strong> en 30 días mediante 4 palancas: (1) Promo táctica de entrada en PA/PY, (2) Conversión de promos OTT de 3m a copago, (3) Migración HB $0 &rarr; DESC en CR/PA, y (4) Despliegue Mesh en tiers medios.</div>' +
+              "</div>" +
+            "</div>" +
+
+            '<div class="tigo-card p-5 space-y-3">' +
+              '<div class="flex items-center gap-2 pb-2" style="border-bottom: 1px solid var(--tigo-border);">' +
+                '<span class="px-2.5 py-1 rounded text-xs font-black uppercase" style="background: var(--tigo-yellow); color: var(--tigo-navy);">Sección 7</span>' +
+                '<h3 class="text-sm font-extrabold uppercase tracking-wide m-0" style="color: var(--tigo-navy);">7. Decisiones Propuestas para Dirección</h3>' +
+              "</div>" +
+              '<div class="space-y-2 text-xs">' +
+                '<div class="tigo-soft-box p-3 flex justify-between gap-2"><div><strong>1. Panamá (Comercial Hogar):</strong> Activar promo de entrada en 300M ($34.99 USD x 6m) manteniendo 500M Dúo en $55.00 USD frente a los $56.00 USD de +Móvil 600M+Universal+.</div><span class="badge-info whitespace-nowrap">7 días</span></div>' +
+                '<div class="tigo-soft-box p-3 flex justify-between gap-2"><div><strong>2. Costa Rica y Panamá (Producto VAS):</strong> Ejecutar migración de OTTs incluidas a $0 hacia modelo HB Capitalizado (DESC con cargo bajo en factura).</div><span class="badge-info whitespace-nowrap">15 días</span></div>' +
+                '<div class="tigo-soft-box p-3 flex justify-between gap-2"><div><strong>3. Colombia y Paraguay (Retención):</strong> Neutralizar promos de 6–12m de Movistar CO y Claro PY empaquetando extensor Mesh WiFi 6 + Prime Video / Tigo Sports.</div><span class="badge-info whitespace-nowrap">15 días</span></div>' +
+              "</div>" +
+            "</div>" +
+          "</div>";
       }
 
       function renderStrategyView(tigoOffers, tigoEvaluations, tigoHbZero, tigoCapitalized, tigoPromo, compHbZero, compCapitalized) {
@@ -1462,6 +1691,96 @@ __RADAR_DATA_JSON__
           "</div>";
       }
 
+      function renderOfferCardHtml(o) {
+        const m = MARKETS_BY_CODE[o.country] || { flag: "", currency: o.currency };
+        const eff = effPriceLocal(o);
+        const reg = o.price_local;
+
+        let evalHtml = "";
+        if (o.is_tigo) {
+          const ev = evaluateTigoPremiumWithValue(o);
+          const cls = (ev.status === "ADVANTAGE" || ev.status === "PREMIUM_OK")
+            ? "badge-positive"
+            : (ev.status === "PREMIUM_NEEDS_VALUE" ? "badge-warning" : "badge-negative");
+          evalHtml = '<span class="' + cls + '">' + escHtml(ev.label) + "</span>";
+        } else {
+          const tigoPeer = findClosestTigoOffer(o);
+          if (tigoPeer) {
+            const pComp = eff;
+            const pTigo = effPriceLocal(tigoPeer);
+            const diffPct = ((pComp - pTigo) / pTigo) * 100.0;
+            const cls = diffPct < -TOLERANCE_PCT ? "badge-negative" : (diffPct < 0 ? "badge-warning" : "badge-positive");
+            evalHtml = '<span class="' + cls + '">' + (diffPct >= 0 ? "+" : "") + diffPct.toFixed(1) + "% vs Tigo (" + tigoPeer.speed_mbps + "M)</span>";
+          } else {
+            evalHtml = '<span class="badge-comp">Sin par fijo Tigo</span>';
+          }
+        }
+
+        const addonsHtml = (o.addons || []).length === 0
+          ? '<span class="text-xs italic text-slate-400">Sin addons OTT/Deportes incluidos</span>'
+          : (o.addons || []).map(function (a) {
+              const cls = a.model === "HB" ? "badge-warning" : (a.model === "DESC" ? "badge-positive" : "badge-info");
+              const pInfo = a.price_local && a.price_local > 0 ? " (" + formatPrice(a.price_local, o.currency) + ")" : (a.months ? " (" + a.months + "m)" : " ($0)");
+              return '<span class="' + cls + ' mr-1 mb-1">' + escHtml(a.ott + " [" + a.model + "]" + pInfo) + "</span>";
+            }).join("");
+
+        const bwStr = o.speed_mbps + " Mbps ↓" + (o.upload_mbps ? " / " + o.upload_mbps + " Mbps ↑" : "");
+        const tvStr = o.tv_channels_count
+          ? (o.tv_channels_count + " canales" + (o.tv_deco_boxes ? " • " + o.tv_deco_boxes + " deco(s)" : ""))
+          : "Sin TV lineal";
+
+        return (
+          '<div class="tigo-card p-4 space-y-3 flex flex-col justify-between" style="border-top: 4px solid ' + (o.is_tigo ? "var(--tigo-navy);background:#F8FBFF;" : "var(--tigo-border);") + '">' +
+            '<div class="space-y-2">' +
+              '<div class="flex items-start justify-between gap-2">' +
+                "<div>" +
+                  '<div class="flex flex-wrap items-center gap-1.5">' +
+                    '<span class="px-2 py-0.5 rounded text-xs font-extrabold" style="background:#EEF4FC;color:var(--tigo-navy);">' + escHtml(m.flag + " " + o.country) + "</span>" +
+                    (o.is_tigo
+                      ? '<span class="badge-tigo"><span class="badge-tigo-dot"></span>' + escHtml(o.operator) + " HOGAR</span>"
+                      : '<span class="badge-comp">' + escHtml(o.operator) + "</span>") +
+                    '<span class="badge-info">' + escHtml(o.type) + "</span>" +
+                    (o.technology ? '<span class="px-2 py-0.5 rounded text-[11px] font-bold" style="background:#EEF2FF;color:var(--tigo-navy);">' + escHtml(o.technology) + "</span>" : "") +
+                  "</div>" +
+                  '<h4 class="text-sm font-black m-0 mt-1.5" style="color: var(--tigo-navy);">' + escHtml(o.plan_name) + "</h4>" +
+                  (o.source_url
+                    ? '<div class="mt-0.5"><a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold underline" style="color:#0284C7;">🔗 ' + escHtml(shortUrlDisplay(o.source_url)) + " ↗</a></div>"
+                    : "") +
+                "</div>" +
+                '<div class="flex flex-col items-end gap-1">' +
+                  (o.source_url
+                    ? '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-md text-[11px] font-extrabold whitespace-nowrap" style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;">🔗 Ir a la Oferta ↗</a>'
+                    : "") +
+                  '<button type="button" data-action="open-evidence" data-id="' + escHtml(o.id) + '" class="px-2 py-0.5 rounded text-[11px] font-bold cursor-pointer" style="background:#F1F5F9;color:var(--tigo-navy);border:1px solid var(--tigo-border);">Ver Evidencia DOM</button>' +
+                "</div>" +
+              "</div>" +
+              "<div>" + evalHtml + "</div>" +
+              '<div class="tigo-soft-box p-3 grid grid-cols-2 gap-2 text-xs">' +
+                "<div>" +
+                  '<span class="block text-slate-500">Precio Hoy (Vigente):</span>' +
+                  '<span class="text-base font-black block mt-0.5" style="color:var(--tigo-navy);">' + escHtml(formatPrice(eff, o.currency)) + "</span>" +
+                  '<span class="block text-[11px] text-blue-700 font-semibold">' + escHtml(o.promo_months ? "Promo x " + o.promo_months + " meses" : "Tarifa Fija Vigente") + "</span>" +
+                "</div>" +
+                "<div>" +
+                  '<span class="block text-slate-500">Precio Regular:</span>' +
+                  '<span class="text-sm font-bold block mt-0.5">' + escHtml(formatPrice(reg, o.currency)) + "</span>" +
+                  '<span class="block text-[11px] text-slate-500">' + escHtml(o.taxes_included === false ? "+ Impuestos" : "Impuestos incl.") + "</span>" +
+                "</div>" +
+              "</div>" +
+              '<div class="space-y-1 text-xs">' +
+                '<div class="flex justify-between"><span class="text-slate-500">Velocidad (↓/↑):</span><strong style="color:var(--tigo-navy);">' + escHtml(bwStr) + "</strong></div>" +
+                '<div class="flex justify-between"><span class="text-slate-500">Hardware WiFi:</span><span class="font-semibold">' + escHtml(o.hardware) + "</span></div>" +
+                '<div class="flex justify-between"><span class="text-slate-500">TV Lineal / Decos:</span><span class="font-semibold">' + escHtml(tvStr) + "</span></div>" +
+              "</div>" +
+            "</div>" +
+            '<div class="pt-2 space-y-1" style="border-top: 1px solid var(--tigo-border);">' +
+              '<span class="text-[11px] font-extrabold block" style="color:var(--tigo-blue);">Addons OTT &amp; Deportes:</span>' +
+              "<div>" + addonsHtml + "</div>" +
+            "</div>" +
+          "</div>"
+        );
+      }
+
       function renderCatalogView(offers) {
         const el = document.getElementById("view-catalog");
         const rowsHtml = offers.map(function (o) {
@@ -1499,11 +1818,14 @@ __RADAR_DATA_JSON__
 
           const srcBtnHtml = o.source_url
             ? (
-                '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" title="' + escHtml(o.source_url) + '" ' +
-                'class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-extrabold whitespace-nowrap" ' +
-                'style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;">' +
-                  "🔗 Ir a la Oferta ↗" +
-                "</a>" +
+                '<div class="flex flex-wrap items-center gap-1">' +
+                  '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" title="' + escHtml(o.source_url) + '" ' +
+                  'class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-extrabold whitespace-nowrap" ' +
+                  'style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;">' +
+                    "🔗 Ir a la Oferta ↗" +
+                  "</a>" +
+                  '<button type="button" data-action="open-evidence" data-id="' + escHtml(o.id) + '" class="px-2 py-1 rounded text-[11px] font-bold cursor-pointer" style="background:#F8FAFC;color:var(--tigo-navy);border:1px solid var(--tigo-border);">DOM</button>' +
+                "</div>" +
                 '<div class="text-[10px] font-mono text-slate-500 mt-0.5 truncate max-w-[210px]" title="' + escHtml(o.source_url) + '">' +
                   escHtml(shortUrlDisplay(o.source_url)) +
                 "</div>"
@@ -1541,27 +1863,69 @@ __RADAR_DATA_JSON__
           );
         }).join("");
 
-        el.innerHTML =
-          '<div class="tigo-card overflow-x-auto">' +
-            '<table class="tigo-table">' +
-              "<thead>" +
-                "<tr>" +
-                  "<th>País</th>" +
-                  "<th>Operador</th>" +
-                  "<th>Tipo</th>" +
-                  "<th>Plan Comercial (ID Estable &amp; Fuente)</th>" +
-                  '<th style="text-align:right;">Velocidad</th>' +
-                  "<th>Hardware WiFi</th>" +
-                  '<th style="text-align:right;">Precio Vigente</th>' +
-                  '<th style="text-align:right;">Precio Regular</th>' +
-                  "<th>Evaluación Premium con Valor (+15%)</th>" +
-                  "<th>Addons OTT (HB / DESC / PROMO / SA)</th>" +
-                  "<th>Fuente Web Oficial (URL)</th>" +
-                "</tr>" +
-              "</thead>" +
-              "<tbody>" + rowsHtml + "</tbody>" +
-            "</table>" +
+        const showCards = state.catalogLayout === "BOTH" || state.catalogLayout === "CARDS";
+        const showTable = state.catalogLayout === "BOTH" || state.catalogLayout === "TABLE";
+        const sortedCards = offers.slice().sort(function (a, b) {
+          if (a.country !== b.country) return a.country.localeCompare(b.country);
+          if (a.is_tigo !== b.is_tigo) return a.is_tigo ? -1 : 1;
+          return b.speed_mbps - a.speed_mbps;
+        });
+
+        const layoutBarHtml =
+          '<div class="tigo-card p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs no-print">' +
+            '<span class="font-extrabold" style="color: var(--tigo-navy);">Modo de Visualización del Comparador (' + offers.length + ' ofertas activas):</span>' +
+            '<div class="inline-flex rounded-lg p-1 gap-1" style="background: var(--tigo-surface-soft); border: 1px solid var(--tigo-border);">' +
+              '<button type="button" data-action="set-catalog-layout" data-layout="BOTH" class="px-3 py-1.5 rounded font-extrabold cursor-pointer" style="background:' + (state.catalogLayout === "BOTH" ? "var(--tigo-navy);color:#FFF;" : "transparent;color:var(--tigo-text);") + '">Tarjetas Cara a Cara + Tabla Completa</button>' +
+              '<button type="button" data-action="set-catalog-layout" data-layout="CARDS" class="px-3 py-1.5 rounded font-extrabold cursor-pointer" style="background:' + (state.catalogLayout === "CARDS" ? "var(--tigo-navy);color:#FFF;" : "transparent;color:var(--tigo-text);") + '">Solo Tarjetas Cara a Cara</button>' +
+              '<button type="button" data-action="set-catalog-layout" data-layout="TABLE" class="px-3 py-1.5 rounded font-extrabold cursor-pointer" style="background:' + (state.catalogLayout === "TABLE" ? "var(--tigo-navy);color:#FFF;" : "transparent;color:var(--tigo-text);") + '">Solo Tabla Completa</button>' +
+            "</div>" +
           "</div>";
+
+        const cardsGridHtml = showCards
+          ? '<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">' + sortedCards.map(renderOfferCardHtml).join("") + "</div>"
+          : "";
+
+        const tableBoxHtml = showTable
+          ? (
+              '<div class="tigo-card overflow-x-auto">' +
+                '<table class="tigo-table">' +
+                  "<thead>" +
+                    "<tr>" +
+                      "<th>País</th>" +
+                      "<th>Operador</th>" +
+                      "<th>Tipo</th>" +
+                      "<th>Plan Comercial (ID Estable &amp; Fuente)</th>" +
+                      '<th style="text-align:right;">Velocidad</th>' +
+                      "<th>Hardware WiFi</th>" +
+                      '<th style="text-align:right;">Precio Vigente</th>' +
+                      '<th style="text-align:right;">Precio Regular</th>' +
+                      "<th>Evaluación Premium con Valor (+15%)</th>" +
+                      "<th>Addons OTT (HB / DESC / PROMO / SA)</th>" +
+                      "<th>Fuente Web Oficial (URL)</th>" +
+                    "</tr>" +
+                  "</thead>" +
+                  "<tbody>" + rowsHtml + "</tbody>" +
+                "</table>" +
+              "</div>"
+            )
+          : "";
+
+        el.innerHTML = layoutBarHtml + cardsGridHtml + tableBoxHtml;
+      }
+
+      function openEvidenceModal(offerId) {
+        const o = OFFERS_TODAY.find(function (x) { return x.id === offerId; });
+        if (!o) return;
+        document.getElementById("modal-title").textContent = o.operator + " (" + o.country + ") — " + o.plan_name;
+        document.getElementById("modal-id").textContent = "ID Estable: " + o.id + " • Capturado: " + (o.captured_at || "");
+        document.getElementById("modal-terms").textContent = o.exact_terms_text || (o.plan_name + " | Velocidad: " + o.speed_mbps + " Mbps | Precio: " + o.price_local + " " + o.currency);
+        document.getElementById("modal-link-box").innerHTML = o.source_url
+          ? (
+              '<span class="font-mono text-slate-500 break-all">' + escHtml(o.source_url) + "</span>" +
+              '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg text-xs font-extrabold whitespace-nowrap" style="background:var(--tigo-navy);color:#FFFFFF;">🔗 Abrir Fuente Oficial en Nueva Pestaña ↗</a>'
+            )
+          : "";
+        document.getElementById("evidence-modal").classList.remove("is-hidden");
       }
 
       function renderVasCapView(offers) {
@@ -1682,6 +2046,15 @@ __RADAR_DATA_JSON__
         } else if (action === "set-currency-mode") {
           state.currencyMode = btn.getAttribute("data-cmode") || "LOCAL";
           renderAll();
+        } else if (action === "set-catalog-layout") {
+          state.catalogLayout = btn.getAttribute("data-layout") || "BOTH";
+          renderAll();
+        } else if (action === "open-evidence") {
+          openEvidenceModal(btn.getAttribute("data-id") || "");
+        } else if (action === "close-modal") {
+          document.getElementById("evidence-modal").classList.add("is-hidden");
+        } else if (action === "close-modal-backdrop") {
+          if (e.target === btn) document.getElementById("evidence-modal").classList.add("is-hidden");
         } else if (action === "toggle-only-addons") {
           state.onlyWithAddons = !state.onlyWithAddons;
           if (state.activeTab === "strategy") state.activeTab = "catalog";

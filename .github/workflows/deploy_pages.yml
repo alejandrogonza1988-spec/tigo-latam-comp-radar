@@ -38,3 +38,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Publicar en URL limpia sin correo (https://radar-ofertas-latam.surge.sh)
+        if: ${{ secrets.SURGE_TOKEN != '' }}
+        env:
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: |
+          npx --yes surge ./docs radar-ofertas-latam.surge.sh --token "${SURGE_TOKEN}"
+          npx --yes surge ./docs radar-tigo-latam.surge.sh --token "${SURGE_TOKEN}"
