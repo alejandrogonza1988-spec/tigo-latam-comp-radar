@@ -88,7 +88,6 @@ jobs:
           python main.py "${ARGS[@]}"
           PYTHONPATH=. python radar/scripts/build.py
           cp radar/output/latest.html docs/index.html
-          cp radar/output/latest.html docs/radar_ofertas_latam.html
 
       - name: Commit updated daily HTML & baseline snapshot
         run: |
@@ -100,15 +99,6 @@ jobs:
           else
             git commit -m "chore(radar): actualización diaria automática $(date -u +'%Y-%m-%d')"
             git push
-          fi
-
-      - name: Publicar en URL limpia sin correo (https://radar-ofertas-latam.surge.sh)
-        env:
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-        run: |
-          if [ -n "${SURGE_TOKEN}" ]; then
-            npx --yes surge ./docs radar-ofertas-latam.surge.sh --token "${SURGE_TOKEN}"
-            npx --yes surge ./docs radar-tigo-latam.surge.sh --token "${SURGE_TOKEN}"
           fi
 
       - name: Configure GitHub Pages
