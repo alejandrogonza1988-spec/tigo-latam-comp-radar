@@ -1,5 +1,5 @@
 {
-  "snapshot_date": "2026-11-04",
+  "snapshot_date": "2026-11-02",
   "offers": [
     {
       "offer_uid": "bo_axs_home_bundles_axs_fibra_hogar_pro_135_mbps_iptv_hbo_max_135",
@@ -187,7 +187,7 @@
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
     },
     {
-      "offer_uid": "bo_tigo_home_bundles_full_tigo_tv_avanzado_129_canales_tigo_sports_na",
+      "offer_uid": "bo_tigo_home_bundles_full_tigo_tv_avanzado_129_canales_tigo_sports_150",
       "country_iso": "BO",
       "operator": "Tigo",
       "segment": "HOME_BUNDLES",
@@ -203,7 +203,7 @@
       "home_specs": {
         "technology": "FTTH",
         "symmetric_speed": null,
-        "download_mbps": null,
+        "download_mbps": 150,
         "upload_mbps": null,
         "wifi_hardware": "Router WiFi Hogar",
         "tv_channels_count": 129,
@@ -231,8 +231,8 @@
           "exact_terms_text": "12 meses de cortesía en planes Full Tigo + TV Avanzado seleccionados; tarifa regular Bs. 132/mes."
         }
       ],
-      "exact_terms_text": "Tigo Bolivia: Plan convergente Full Tigo + TV Avanzado (Internet Hogar + 129 canales TV + Móvil) Bs. 399/mes. Incluye Tigo Sports sin costo y promo Disney+ Premium.",
-      "source_url": "https://www.tigo.com.bo/",
+      "exact_terms_text": "Tigo Bolivia: Plan convergente Full Tigo + TV Avanzado (Internet Hogar 150 Mbps + 129 canales TV + Móvil) Bs. 399/mes. Incluye Tigo Sports sin costo y promo Disney+ Premium.",
+      "source_url": "https://www.tigo.com.bo/hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
     },
@@ -282,7 +282,7 @@
         }
       ],
       "exact_terms_text": "Tigo Bolivia: Plan Tigo Hogar Básico 60 Mbps Bs. 249/mes IVA incluido. Addons Mi Tigo publicados: Paramount+ Bs. 41, Max Bs. 49, Disney+ Premium Bs. 132.",
-      "source_url": "https://www.tigo.com.bo/",
+      "source_url": "https://www.tigo.com.bo/hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
     },
@@ -322,7 +322,7 @@
         }
       ],
       "exact_terms_text": "Tigo Bolivia: Plan Wifi Hogar Esencial 60 Mbps ilimitado Bs. 179/mes (+2.000 MB bono móvil por pago puntual días 1-10). Addon Tigo Sports disponible a Bs. 20/mes.",
-      "source_url": "https://www.tigo.com.bo/",
+      "source_url": "https://www.tigo.com.bo/hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
     },
@@ -601,7 +601,7 @@
       "plan_name": "Dúo Fibra 600 Mbps + Movistar TV + Disney+ & Max",
       "pricing": {
         "currency": "CLP",
-        "regular_monthly_price": null,
+        "regular_monthly_price": 42990.0,
         "promo_monthly_price": 32990.0,
         "promo_duration_months": 12,
         "installation_fee": 0.0,
@@ -638,7 +638,7 @@
           "exact_terms_text": "Max incluido sin costo adicional en Dúo Fibra + TV."
         }
       ],
-      "exact_terms_text": "Movistar Chile (Millicom): Dúo Fibra Simétrica 600/600 Mbps + Movistar TV + Disney+ y Max incluidos $32.990/mes por 12 meses IVA incluido.",
+      "exact_terms_text": "Movistar Chile (Millicom): Dúo Fibra Simétrica 600/600 Mbps + Movistar TV + Disney+ y Max incluidos $32.990/mes por 12 meses, luego $42.990/mes IVA incluido.",
       "source_url": "https://www.movistar.cl/hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -651,7 +651,7 @@
       "plan_name": "Dúo Movistar Giga 940 Mbps + TV + Disney+ & Max",
       "pricing": {
         "currency": "CLP",
-        "regular_monthly_price": null,
+        "regular_monthly_price": 49990.0,
         "promo_monthly_price": 39990.0,
         "promo_duration_months": 12,
         "installation_fee": 0.0,
@@ -688,7 +688,7 @@
           "exact_terms_text": "Max incluido fijo en Dúo Giga 940."
         }
       ],
-      "exact_terms_text": "Movistar Chile (Millicom): Dúo Fibra Giga 940/940 Mbps + Movistar TV + Disney+ y Max $39.990/mes por 12 meses (Solo Fibra Giga 940M: $19.990 x 12m / $29.990 reg).",
+      "exact_terms_text": "Movistar Chile (Millicom): Dúo Fibra Giga 940/940 Mbps + Movistar TV + Disney+ y Max $39.990/mes por 12 meses, luego $49.990/mes (Solo Fibra Giga 940M: $19.990 x 12m / $29.990 reg).",
       "source_url": "https://www.movistar.cl/hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -838,8 +838,8 @@
       "plan_name": "Internet Hogar 300 Megas",
       "pricing": {
         "currency": "COP",
-        "regular_monthly_price": null,
-        "promo_monthly_price": 89900.0,
+        "regular_monthly_price": 89900.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": true
@@ -854,7 +854,7 @@
         "tv_deco_boxes": null
       },
       "vas_addons": [],
-      "exact_terms_text": "Claro Colombia (Bogotá Estrato 3): Internet Hogar 300 Megas tarifa promocional $89.900/mes IVA incluido con Claro Video.",
+      "exact_terms_text": "Claro Colombia (Bogotá Estrato 3): Internet Hogar 300 Megas tarifa vigente $89.900/mes IVA incluido con Claro Video.",
       "source_url": "https://www.claro.com.co/personas/hogar/planes/internet-hogar/",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -867,8 +867,8 @@
       "plan_name": "Tripleplay Fibra 500 Megas + Claro TV+ + Voz",
       "pricing": {
         "currency": "COP",
-        "regular_monthly_price": null,
-        "promo_monthly_price": 104900.0,
+        "regular_monthly_price": 104900.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": true
@@ -894,7 +894,7 @@
           "exact_terms_text": "Disponible en combos Intermedio Plus + Win (~$30.900-$32.900/mes addon)."
         }
       ],
-      "exact_terms_text": "Claro Colombia (Bogotá Estrato 3): Tripleplay 500/500 Megas + Claro TV+ (>100 canales) + Voz Fija desde $104.900/mes promo IVA incluido.",
+      "exact_terms_text": "Claro Colombia (Bogotá Estrato 3): Tripleplay 500/500 Megas + Claro TV+ (>100 canales) + Voz Fija $104.900/mes IVA incluido.",
       "source_url": "https://www.claro.com.co/personas/servicios/hogar/",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -907,8 +907,8 @@
       "plan_name": "Tripleplay Fibra 900 Megas + Claro TV+",
       "pricing": {
         "currency": "COP",
-        "regular_monthly_price": null,
-        "promo_monthly_price": 116900.0,
+        "regular_monthly_price": 116900.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": true
@@ -923,7 +923,7 @@
         "tv_deco_boxes": 1
       },
       "vas_addons": [],
-      "exact_terms_text": "Claro Colombia (Bogotá Estrato 3): Tripleplay Fibra 900/900 Megas + Claro TV+ Box + Voz Fija desde $116.900/mes promo IVA incluido.",
+      "exact_terms_text": "Claro Colombia (Bogotá Estrato 3): Tripleplay Fibra 900/900 Megas + Claro TV+ Box + Voz Fija $116.900/mes IVA incluido.",
       "source_url": "https://www.claro.com.co/personas/servicios/hogar/",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -1036,7 +1036,7 @@
       "plan_name": "Dúo Fibra Simétrica 900 Megas + Movistar TV",
       "pricing": {
         "currency": "COP",
-        "regular_monthly_price": null,
+        "regular_monthly_price": 136900.0,
         "promo_monthly_price": 109155.0,
         "promo_duration_months": 12,
         "installation_fee": 0.0,
@@ -1073,7 +1073,7 @@
           "exact_terms_text": "Incluido en combos seleccionados Ficción Total / Movistar Total."
         }
       ],
-      "exact_terms_text": "Movistar Colombia (Bogotá Estrato 3): Dúo Fibra 900/900 Megas + Movistar TV IPTV (90 canales HD) $109.155/mes por 12 meses IVA incluido.",
+      "exact_terms_text": "Movistar Colombia (Bogotá Estrato 3): Dúo Fibra 900/900 Megas + Movistar TV IPTV (90 canales HD) $109.155/mes por 12 meses, luego $136.900 IVA incluido.",
       "source_url": "https://www.movistar.co/personas/hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -1128,7 +1128,7 @@
         "currency": "COP",
         "regular_monthly_price": 109200.0,
         "promo_monthly_price": 106900.0,
-        "promo_duration_months": null,
+        "promo_duration_months": 6,
         "installation_fee": 0.0,
         "taxes_included": true
       },
@@ -1153,7 +1153,7 @@
           "exact_terms_text": "Adiciona Win+ Fútbol (FPC en vivo) desde $33.200/mes IVA incluido."
         }
       ],
-      "exact_terms_text": "Tigo Colombia (Bogotá Estrato 3): Dúo Internet 500 Megas + TV Digital Avanzada (>120 canales) $106.900 promo online / $109.200 regular IVA incluido.",
+      "exact_terms_text": "Tigo Colombia (Bogotá Estrato 3): Dúo Internet 500 Megas + TV Digital Avanzada (>120 canales) $106.900 promo online x 6 meses / $109.200 regular IVA incluido.",
       "source_url": "https://www.tigo.com.co/personas/hogar/paquetes",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -1256,8 +1256,8 @@
       "plan_name": "Doble Play Fibra Simétrica 150 Mbps + TV Ultra HD",
       "pricing": {
         "currency": "CRC",
-        "regular_monthly_price": 27081.0,
-        "promo_monthly_price": 24681.0,
+        "regular_monthly_price": 24681.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": true
@@ -1293,7 +1293,7 @@
           "exact_terms_text": "Addon Max en Claro TV+ a ₡3,800 promo inicial, luego ₡5,413/mes."
         }
       ],
-      "exact_terms_text": "Claro Costa Rica: Doble Play Fibra Simétrica 150/150 Mbps + Claro TV+ (>100 canales) + Paramount+ y Claro Video incluidos ₡24,681 promo / ₡27,081 regular.",
+      "exact_terms_text": "Claro Costa Rica: Doble Play Fibra Simétrica 150/150 Mbps + Claro TV+ (>100 canales) + Paramount+ y Claro Video incluidos ₡24,681/mes impuestos incluidos.",
       "source_url": "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/doble-play-fibra-optica",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -1306,8 +1306,8 @@
       "plan_name": "Internet Simétrico Fibra 500 Mbps + Paramount+",
       "pricing": {
         "currency": "CRC",
-        "regular_monthly_price": 29376.0,
-        "promo_monthly_price": 26495.0,
+        "regular_monthly_price": 26495.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": true
@@ -1406,7 +1406,7 @@
         "currency": "CRC",
         "regular_monthly_price": 29080.74,
         "promo_monthly_price": 19941.8,
-        "promo_duration_months": null,
+        "promo_duration_months": 24,
         "installation_fee": null,
         "taxes_included": true
       },
@@ -1451,7 +1451,7 @@
           "exact_terms_text": "Universal+ incluido en Pack de Entretenimiento Next TV."
         }
       ],
-      "exact_terms_text": "Liberty Costa Rica: Doble Play Mega 120 + Next TV IPTV + 2 decos ₡19,941.80 final (modalidad tractos 24m) / ₡29,080.74 modalidad alquiler. Incluye Disney+, Max y Universal+.",
+      "exact_terms_text": "Liberty Costa Rica: Doble Play Mega 120 + Next TV IPTV + 2 decos ₡19,941.80 final (modalidad tractos 24 meses) / ₡29,080.74 modalidad alquiler. Incluye Disney+, Max y Universal+.",
       "source_url": "https://libertycr.com/hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -1466,7 +1466,7 @@
         "currency": "CRC",
         "regular_monthly_price": 40200.9,
         "promo_monthly_price": 27951.03,
-        "promo_duration_months": null,
+        "promo_duration_months": 24,
         "installation_fee": null,
         "taxes_included": true
       },
@@ -1511,7 +1511,7 @@
           "exact_terms_text": "Pack Entretenimiento incluido a ₡0 extra."
         }
       ],
-      "exact_terms_text": "Liberty Costa Rica: Plan 300 Megas + Next TV (+240 canales, 2 cajas TV) ₡27,951.03 (tractos) / ₡40,200.90 (alquiler) impuestos incluidos. Incluye Disney+, Max y Universal+.",
+      "exact_terms_text": "Liberty Costa Rica: Plan 300 Megas + Next TV (+240 canales, 2 cajas TV) ₡27,951.03 (modalidad tractos 24 meses) / ₡40,200.90 (alquiler) impuestos incluidos. Incluye Disney+, Max y Universal+.",
       "source_url": "https://libertycr.com/hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -1525,7 +1525,7 @@
       "pricing": {
         "currency": "CRC",
         "regular_monthly_price": 29990.0,
-        "promo_monthly_price": 25990.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": true
@@ -1540,7 +1540,7 @@
         "tv_deco_boxes": 2
       },
       "vas_addons": [],
-      "exact_terms_text": "Telecable Costa Rica: Fibra Simétrica 300/300 Mbps + 2 cajas digitales (180 canales: 145 HD, incluye FUTV y TD Más) ₡25,990 promo / ₡29,990 regular i.i.",
+      "exact_terms_text": "Telecable Costa Rica: Paquete Estándar Fibra Simétrica 300/300 Mbps + 2 cajas digitales (180 canales: 145 HD, incluye FUTV y TD Más) ₡29,990/mes i.i. (Paquete Básico 150M + TV: ₡25,990 i.i.).",
       "source_url": "https://telecablecr.com/paquete-estandar-con-tv",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -1894,7 +1894,7 @@
         "currency": "USD",
         "regular_monthly_price": 18.4,
         "promo_monthly_price": 17.85,
-        "promo_duration_months": null,
+        "promo_duration_months": 6,
         "installation_fee": null,
         "taxes_included": true
       },
@@ -1908,7 +1908,7 @@
         "tv_deco_boxes": null
       },
       "vas_addons": [],
-      "exact_terms_text": "Xtrim Ecuador: Plan Fibra 300/300 Mbps con Router WiFi 6 en promo $17.85/mes, tarifa regular $18.40/mes IVA 15% incluido.",
+      "exact_terms_text": "Xtrim Ecuador: Plan Fibra 300/300 Mbps con Router WiFi 6 en promo tarjeta $17.85/mes x 6 meses, tarifa regular $18.40/mes IVA 15% incluido.",
       "source_url": "https://www.xtrim.com.ec/planes/",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -1923,7 +1923,7 @@
         "currency": "USD",
         "regular_monthly_price": 40.0,
         "promo_monthly_price": 25.5,
-        "promo_duration_months": null,
+        "promo_duration_months": 6,
         "installation_fee": null,
         "taxes_included": true
       },
@@ -1958,7 +1958,7 @@
           "exact_terms_text": "Paramount+ incluido fijo en Elite Plus."
         }
       ],
-      "exact_terms_text": "Xtrim Ecuador: Plan Elite Plus 800/800 Mbps + Zapping TV + Paramount+ y Disney+ Premium incluidos $25.50/mes promo / $40.00/mes regular IVA incluido (Giga Supremo 1200M + Max: $25.30 promo).",
+      "exact_terms_text": "Xtrim Ecuador: Plan Elite Plus 800/800 Mbps + Zapping TV + Paramount+ y Disney+ Premium incluidos $25.50/mes promo x 6 meses / $40.00/mes regular IVA incluido (Giga Supremo 1200M + Max: $25.30 promo).",
       "source_url": "https://www.xtrim.com.ec/planes/",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -2421,7 +2421,7 @@
       "plan_name": "Tigo Hogar 120 Mbps + ONEtv HD",
       "pricing": {
         "currency": "HNL",
-        "regular_monthly_price": null,
+        "regular_monthly_price": 990.0,
         "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
@@ -2468,8 +2468,8 @@
           "exact_terms_text": "Addon ViX Premium con LaLiga publicado en ayuda.tigo.com.hn a L165.00/mes ISV incluido."
         }
       ],
-      "exact_terms_text": "Tigo Honduras: Plan Residencial 120 Mbps + decodificador Android TV Tigo ONEtv. Tarifa en HNL cotizada por cobertura; incluye Paramount+ sin costo en ONEtv y ViX Premium disponible a L165/mes.",
-      "source_url": "https://www.tigo.com.hn/",
+      "exact_terms_text": "Tigo Honduras: Plan Residencial 120 Mbps + decodificador Android TV Tigo ONEtv L990.00/mes (~$39.92 USD ref). Incluye Paramount+ sin costo en ONEtv y ViX Premium disponible a L165/mes.",
+      "source_url": "https://www.tigo.com.hn/residencial",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
     },
@@ -2481,7 +2481,7 @@
       "plan_name": "Tigo Hogar Alta Velocidad 400 Mbps + ONEtv",
       "pricing": {
         "currency": "HNL",
-        "regular_monthly_price": null,
+        "regular_monthly_price": 1365.0,
         "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
@@ -2518,8 +2518,8 @@
           "exact_terms_text": "Deportes locales e internacionales incluidos en TV."
         }
       ],
-      "exact_terms_text": "Tigo Honduras: Plan Residencial hasta 400 Mbps + Tigo ONEtv HD (precio sujeto a validación de cobertura en tigo.com.hn). Incluye Paramount+ y canal deportivo FOX.",
-      "source_url": "https://www.tigo.com.hn/",
+      "exact_terms_text": "Tigo Honduras: Plan Residencial 400 Mbps + Tigo ONEtv HD L1,365.00/mes (~$55.04 USD ref en tigo.com.hn). Incluye Paramount+ y canal deportivo FOX.",
+      "source_url": "https://www.tigo.com.hn/residencial",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
     },
@@ -2591,7 +2591,7 @@
         "currency": "NIO",
         "regular_monthly_price": 1280.0,
         "promo_monthly_price": 1170.0,
-        "promo_duration_months": null,
+        "promo_duration_months": 3,
         "installation_fee": null,
         "taxes_included": true
       },
@@ -2636,7 +2636,7 @@
           "exact_terms_text": "Disponible como addon Prime Video C$256.00/mes IVA incluido."
         }
       ],
-      "exact_terms_text": "Claro Nicaragua: Claro Hogar Triple 320 Mbps Fibra Óptica + 169 canales (100 HD) + Max, Universal+ y Claro video incluidos C$1,170.00 promo / C$1,280.00 regular.",
+      "exact_terms_text": "Claro Nicaragua: Claro Hogar Triple 320 Mbps Fibra Óptica + 169 canales (100 HD) + Max, Universal+ y Claro video incluidos C$1,170.00 promo online x 3 meses / C$1,280.00 regular.",
       "source_url": "https://tiendaenlinea.claro.com.ni/tienda/planes-claro-hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -2649,8 +2649,8 @@
       "plan_name": "Combo Tigo Hogar 200 Mbps + One TV HD",
       "pricing": {
         "currency": "NIO",
-        "regular_monthly_price": null,
-        "promo_monthly_price": 1210.0,
+        "regular_monthly_price": 1210.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": true
@@ -2676,7 +2676,7 @@
           "exact_terms_text": "Canal deportivo incluido en grilla TV Digital / One TV."
         }
       ],
-      "exact_terms_text": "Tigo Nicaragua: Combo Tigo Hogar 200 Mbps + 170 canales con caja interactiva Tigo One TV desde C$1,210.00/mes IVA incluido.",
+      "exact_terms_text": "Tigo Nicaragua: Combo Tigo Hogar 200 Mbps + 170 canales con caja interactiva Tigo One TV C$1,210.00/mes IVA incluido.",
       "source_url": "https://www.tigo.com.ni/planes",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -2689,8 +2689,8 @@
       "plan_name": "Internet Residencial Básico 100 Mbps",
       "pricing": {
         "currency": "NIO",
-        "regular_monthly_price": null,
-        "promo_monthly_price": 700.0,
+        "regular_monthly_price": 700.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": true
@@ -2705,7 +2705,7 @@
         "tv_deco_boxes": null
       },
       "vas_addons": [],
-      "exact_terms_text": "Tigo Nicaragua: Plan entrada Internet Residencial ~100 Mbps desde C$700.00/mes promocional (tarifa plena sujeta a cobertura en ha.tigo.com.ni).",
+      "exact_terms_text": "Tigo Nicaragua: Plan entrada Internet Residencial 100 Mbps C$700.00/mes IVA incluido.",
       "source_url": "https://www.tigo.com.ni/planes",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -2718,8 +2718,8 @@
       "plan_name": "Internet +Fibra Simétrica 300 Mbps",
       "pricing": {
         "currency": "USD",
-        "regular_monthly_price": 33.0,
-        "promo_monthly_price": 30.0,
+        "regular_monthly_price": 35.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": false
@@ -2734,7 +2734,7 @@
         "tv_deco_boxes": null
       },
       "vas_addons": [],
-      "exact_terms_text": "+Móvil Panamá: Solo Internet +Fibra Simétrica 300/300 Mbps B/. 30.00/mes promo / B/. 33.00/mes regular (+7% ITBMS).",
+      "exact_terms_text": "+Móvil Panamá: Solo Internet +Fibra Simétrica 300/300 Mbps B/. 35.00/mes (+7% ITBMS). Solo Fibra 600M: B/. 38.00/mes; Un GIGA 1000M: B/. 41.00/mes.",
       "source_url": "https://www.masmovilpanama.com/hogar/internet-residencial",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -2748,7 +2748,7 @@
       "pricing": {
         "currency": "USD",
         "regular_monthly_price": 53.0,
-        "promo_monthly_price": 44.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": false
@@ -2771,10 +2771,10 @@
           "free_months": null,
           "promo_price": null,
           "regular_price_after_promo": null,
-          "exact_terms_text": "Incluido en variante Paquete Hogar +Fibra + Universal+."
+          "exact_terms_text": "Incluido en Paquete Hogar +Fibra 300 Megas + TV + Universal+ (B/. 53.00/mes)."
         }
       ],
-      "exact_terms_text": "+Móvil Panamá: Paquete Hogar +Fibra 300/300 Mbps + +TV Total Smart HD Box (225 canales, 24h Replay) + 200 min voz fija B/. 44.00 promo / B/. 53.00 con Universal+ (+7% ITBMS).",
+      "exact_terms_text": "+Móvil Panamá: Paquete Hogar +Fibra 300/300 Mbps + +TV Total Smart HD Box (225 canales, 24h Replay) + Universal+ + 200 min voz fija B/. 53.00/mes (+7% ITBMS; variante base sin Universal+: B/. 44.00/mes).",
       "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -2788,7 +2788,7 @@
       "pricing": {
         "currency": "USD",
         "regular_monthly_price": 56.0,
-        "promo_monthly_price": 52.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": false
@@ -2811,10 +2811,10 @@
           "free_months": null,
           "promo_price": null,
           "regular_price_after_promo": null,
-          "exact_terms_text": "Incluye 5 canales HD Universal+ y acceso a Universal+ App."
+          "exact_terms_text": "Incluye 5 canales HD Universal+ y acceso a Universal+ App en el paquete de B/. 56.00/mes."
         }
       ],
-      "exact_terms_text": "+Móvil Panamá: Paquete Hogar +Fibra Simétrica 600/600 Mbps + +TV Total Smart HD + Voz Fija B/. 52.00 promo / B/. 56.00 con Universal+ (+7% ITBMS). Solo Fibra 600M: B/. 38.00.",
+      "exact_terms_text": "+Móvil Panamá: Paquete Hogar +Fibra Simétrica 600/600 Mbps + +TV Total Smart HD (225 canales) + Universal+ + Voz Fija B/. 56.00/mes (+7% ITBMS; variante base sin Universal+: B/. 52.00/mes).",
       "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -2827,8 +2827,8 @@
       "plan_name": "Paquete Hogar Un GIGA 1000 Megas + TV + Disney+ Premium",
       "pricing": {
         "currency": "USD",
-        "regular_monthly_price": 60.0,
-        "promo_monthly_price": 55.0,
+        "regular_monthly_price": 59.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": false
@@ -2851,7 +2851,7 @@
           "free_months": null,
           "promo_price": null,
           "regular_price_after_promo": null,
-          "exact_terms_text": "Universal+ disponible en combos +TV Total Giga."
+          "exact_terms_text": "Universal+ incluido en combos +TV Total Giga."
         },
         {
           "provider": "DISNEY_PLUS",
@@ -2864,7 +2864,7 @@
           "exact_terms_text": "Disney+ Premium incluido en paquetes superiores seleccionados / +Móvil Total."
         }
       ],
-      "exact_terms_text": "+Móvil Panamá: Paquete Hogar +Fibra Simétrica 1000/1000 Mbps + +TV Total Smart HD B/. 55.00 promo / B/. 60.00 regular (+7% ITBMS). Solo Fibra Un GIGA: B/. 41.00.",
+      "exact_terms_text": "+Móvil Panamá: Paquete Hogar +Fibra Simétrica 1000/1000 Mbps + +TV Total Smart HD + Universal+ / Disney+ Premium B/. 59.00/mes (+7% ITBMS). Solo Fibra Un GIGA: B/. 41.00/mes.",
       "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -2877,8 +2877,8 @@
       "plan_name": "Internet + TV 300 Megas + Tigo Sports",
       "pricing": {
         "currency": "USD",
-        "regular_monthly_price": null,
-        "promo_monthly_price": 44.0,
+        "regular_monthly_price": 44.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": false
@@ -2927,8 +2927,8 @@
       "plan_name": "Internet + TV 500 Megas + WiFi+ Mesh",
       "pricing": {
         "currency": "USD",
-        "regular_monthly_price": null,
-        "promo_monthly_price": 56.0,
+        "regular_monthly_price": 56.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": false
@@ -2977,8 +2977,8 @@
       "plan_name": "Internet + TV 750 Megas + WiFi+ Mesh",
       "pricing": {
         "currency": "USD",
-        "regular_monthly_price": null,
-        "promo_monthly_price": 59.0,
+        "regular_monthly_price": 59.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": false
@@ -3057,8 +3057,8 @@
       "plan_name": "Claro Fibra Simétrica 200 Mbps + Paramount+ & Prime Video",
       "pricing": {
         "currency": "PYG",
-        "regular_monthly_price": null,
-        "promo_monthly_price": 95000.0,
+        "regular_monthly_price": 95000.0,
+        "promo_monthly_price": null,
         "promo_duration_months": null,
         "installation_fee": null,
         "taxes_included": true
@@ -3094,7 +3094,7 @@
           "exact_terms_text": "3 meses sin cargo de Prime Video, luego Gs. 37.500/mes."
         }
       ],
-      "exact_terms_text": "Claro Paraguay: Internet Fibra Simétrica 200/200 Mbps en promoción Gs. 95.000/mes con Paramount+ vía Claro Video y 3 meses gratis de Prime Video.",
+      "exact_terms_text": "Claro Paraguay: Internet Fibra Simétrica 200/200 Mbps Gs. 95.000/mes IVA incluido con Paramount+ vía Claro Video y 3 meses gratis de Prime Video.",
       "source_url": "https://www.claro.com.py/personas/servicios/servicios-hogar/",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -3107,9 +3107,9 @@
       "plan_name": "Claro Fibra Simétrica 600 Mbps + Paramount+",
       "pricing": {
         "currency": "PYG",
-        "regular_monthly_price": null,
+        "regular_monthly_price": 145000.0,
         "promo_monthly_price": 120000.0,
-        "promo_duration_months": null,
+        "promo_duration_months": 6,
         "installation_fee": null,
         "taxes_included": true
       },
@@ -3134,7 +3134,7 @@
           "exact_terms_text": "Paramount+ incluido vía Claro Video."
         }
       ],
-      "exact_terms_text": "Claro Paraguay: Internet Fibra Simétrica 600/600 Mbps en promoción agresiva Gs. 120.000/mes IVA incluido con Paramount+ incluido.",
+      "exact_terms_text": "Claro Paraguay: Internet Fibra Simétrica 600/600 Mbps en promoción Gs. 120.000/mes x 6 meses (tarifa regular Gs. 145.000/mes) IVA incluido con Paramount+ incluido.",
       "source_url": "https://www.claro.com.py/personas/servicios/servicios-hogar/",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"
@@ -3218,7 +3218,7 @@
         "currency": "PYG",
         "regular_monthly_price": 255000.0,
         "promo_monthly_price": 215000.0,
-        "promo_duration_months": null,
+        "promo_duration_months": 6,
         "installation_fee": null,
         "taxes_included": true
       },
@@ -3253,7 +3253,7 @@
           "exact_terms_text": "12 meses de cortesía de Disney+ Estándar en planes DoblePack seleccionados."
         }
       ],
-      "exact_terms_text": "Tigo Paraguay: DoblePack 300 Mbps + TV Familiar Gs. 215.000 promo / Gs. 255.000 regular IVA incluido. Incluye Tigo Sports fijo y 12 meses de Disney+ Estándar sin costo.",
+      "exact_terms_text": "Tigo Paraguay: DoblePack 300 Mbps + TV Familiar Gs. 215.000 promo x 6 meses / Gs. 255.000 regular IVA incluido (Solo Internet 300 Mbps: Gs. 220.000). Incluye Tigo Sports fijo y 12 meses de Disney+ Estándar sin costo.",
       "source_url": "https://www.tigo.com.py/hogar/internet",
       "screenshot_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_capture.png",
       "markdown_path": "/Users/alejandrog/.gemini/antigravity/scratch/tigo-latam-comp-radar/data/audit_trail/2026-11-02/dry_run/dry_run_audit_snapshot.md"

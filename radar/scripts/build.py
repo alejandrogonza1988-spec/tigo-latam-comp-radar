@@ -101,51 +101,88 @@ def map_vas_model(commercial_model: str) -> str:
 
 
 def build_sources_json() -> List[Dict[str, Any]]:
-    """Build `config/sources.json` covering all 12 markets and all required operators from Section 3."""
+    """Build `config/sources.json` covering all 12 markets and all verified official operator URLs."""
     return [
-        {"country": "GT", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.gt/residencial/internet"]},
+        {"country": "GT", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.gt/residencial"]},
         {"country": "GT", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.gt/personas/servicios/servicios-hogar/"]},
-        {"country": "SV", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.sv/residencial"]},
-        {"country": "SV", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.sv/personas/servicios/servicios-hogar/"]},
-        {"country": "SV", "operator": "Digicel", "is_tigo": False, "urls": ["https://www.digicelgroup.com/sv/es/hogar.html"]},
+        {"country": "SV", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.sv/planes"]},
+        {"country": "SV", "operator": "Claro", "is_tigo": False, "urls": [
+            "https://www.claro.com.sv/personas/servicios/servicios-hogar/internet/planes-y-precios/",
+            "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/claro-hogar-triple/planes-y-precios/",
+            "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/claro-hogar-doble/planes-y-precios/",
+        ]},
+        {"country": "SV", "operator": "Digicel", "is_tigo": False, "urls": ["https://www.digicelgroup.com/sv/es/mobile/rates.html"]},
         {"country": "HN", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.hn/residencial"]},
-        {"country": "HN", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.hn/personas/servicios/servicios-hogar/"]},
-        {"country": "NI", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.ni/residencial"]},
-        {"country": "NI", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.ni/personas/servicios/servicios-hogar/"]},
-        {"country": "CR", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.cr/residencial"]},
-        {"country": "CR", "operator": "Liberty", "is_tigo": False, "urls": ["https://www.libertycr.com/hogar/internet"]},
-        {"country": "CR", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.cr/personas/servicios/servicios-hogar/"]},
-        {"country": "CR", "operator": "Kölbi", "is_tigo": False, "urls": ["https://www.kolbi.cr/wps/portal/kolbi_dev/personas/hogar"]},
-        {"country": "CR", "operator": "Telecable", "is_tigo": False, "urls": ["https://telecablecr.com/residencial/internet-fibra-optica/"]},
-        {"country": "PA", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.pa/residencial"]},
-        {"country": "PA", "operator": "+Móvil", "is_tigo": False, "urls": ["https://www.masmovilpanama.com/hogar/planes"]},
-        {"country": "PA", "operator": "Claro", "is_tigo": False, "urls": ["https://www.Masmovilpanama.com/hogar/fibra"]},
-        {"country": "CO", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.co/hogar"]},
-        {"country": "CO", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.co/personas/servicios/servicios-hogar/"]},
-        {"country": "CO", "operator": "Movistar", "is_tigo": False, "urls": ["https://www.movistar.co/fibra-optica"]},
-        {"country": "CO", "operator": "ETB", "is_tigo": False, "urls": ["https://etb.com/hogares/"]},
-        {"country": "CO", "operator": "WOM", "is_tigo": False, "urls": ["https://www.wom.co/planes-pospago/"]},
+        {"country": "HN", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.hn/personas/servicios/hogar/triple-play/"]},
+        {"country": "NI", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.ni/planes"]},
+        {"country": "NI", "operator": "Claro", "is_tigo": False, "urls": [
+            "https://www.claro.com.ni/personas/servicios/hogar/claro-hogar-triple/",
+            "https://tiendaenlinea.claro.com.ni/tienda/planes-claro-hogar",
+        ]},
+        {"country": "CR", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.cr/hogar/internet-y-television"]},
+        {"country": "CR", "operator": "Liberty", "is_tigo": False, "urls": ["https://libertycr.com/hogar"]},
+        {"country": "CR", "operator": "Claro", "is_tigo": False, "urls": [
+            "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/doble-play-fibra-optica",
+            "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/internet-fibra-optica",
+        ]},
+        {"country": "CR", "operator": "Kölbi", "is_tigo": False, "urls": [
+            "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/internet/fibra-optica",
+            "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/planes-duo",
+        ]},
+        {"country": "CR", "operator": "Telecable", "is_tigo": False, "urls": [
+            "https://telecablecr.com/paquete-estandar-con-tv",
+            "https://telecablecr.com/internet-fibra-optica",
+        ]},
+        {"country": "PA", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.pa/hogar/internet"]},
+        {"country": "PA", "operator": "+Móvil", "is_tigo": False, "urls": [
+            "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
+            "https://www.masmovilpanama.com/hogar/internet-residencial",
+        ]},
+        {"country": "CO", "operator": "Tigo", "is_tigo": True, "urls": [
+            "https://www.tigo.com.co/personas/hogar/internet",
+            "https://www.tigo.com.co/personas/hogar/paquetes",
+            "https://www.tigo.com.co/personas/postpago/full-tigo",
+        ]},
+        {"country": "CO", "operator": "Claro", "is_tigo": False, "urls": [
+            "https://www.claro.com.co/personas/hogar/planes/internet-hogar/",
+            "https://www.claro.com.co/personas/servicios/hogar/",
+        ]},
+        {"country": "CO", "operator": "Movistar", "is_tigo": False, "urls": [
+            "https://www.movistar.co/personas/hogar/internet-bogota",
+            "https://www.movistar.co/personas/hogar",
+        ]},
+        {"country": "CO", "operator": "ETB", "is_tigo": False, "urls": ["https://etb.com/hogares/Bogota.aspx?plan=total"]},
+        {"country": "CO", "operator": "WOM", "is_tigo": False, "urls": ["https://www.wom.co/planes"]},
         {"country": "BO", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.bo/hogar"]},
-        {"country": "BO", "operator": "Entel", "is_tigo": False, "urls": ["https://www.entel.bo/hogar-fibra"]},
-        {"country": "BO", "operator": "Viva", "is_tigo": False, "urls": ["https://www.viva.com.bo/hogar/"]},
-        {"country": "BO", "operator": "AXS", "is_tigo": False, "urls": ["https://www.axsbolivia.com/hogar"]},
-        {"country": "PY", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.py/hogar"]},
+        {"country": "BO", "operator": "Entel", "is_tigo": False, "urls": [
+            "https://www.entel.bo/hogar/fibra-optica",
+            "https://www.entel.bo/hogar/duo-pack",
+        ]},
+        {"country": "BO", "operator": "Viva", "is_tigo": False, "urls": ["https://www.viva.com.bo/personas/hogar/fibra-optica/"]},
+        {"country": "BO", "operator": "AXS", "is_tigo": False, "urls": [
+            "https://www.axsbolivia.com/axs-net/",
+            "https://www.axsbolivia.com/tarifas-servicio-de-distribucion-de-senales-iptv-internet/",
+            "https://www.axsbolivia.com/tarifa/",
+        ]},
+        {"country": "PY", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.tigo.com.py/hogar/internet"]},
         {"country": "PY", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.py/personas/servicios/servicios-hogar/"]},
-        {"country": "PY", "operator": "Personal Flow", "is_tigo": False, "urls": ["https://www.personal.com.py/hogar/internet/"]},
-        {"country": "UY", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.movistar.com.uy/particulares/planes/contrato"]},
-        {"country": "UY", "operator": "Antel", "is_tigo": False, "urls": ["https://tienda.antel.com.uy/planes/internet/hogar"]},
-        {"country": "UY", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.uy/personas/planes-prepago-pospago"]},
-        {"country": "EC", "operator": "Tigo", "is_tigo": True, "urls": ["https://www.movistar.com.ec/productos-y-servicios/pospago/planes"]},
-        {"country": "EC", "operator": "Netlife", "is_tigo": False, "urls": ["https://www.netlife.ec/planes-hogar/"]},
+        {"country": "PY", "operator": "Personal Flow", "is_tigo": False, "urls": ["https://www.personal.com.py/internet/hogar"]},
+        {"country": "UY", "operator": "Movistar", "is_tigo": True, "urls": ["https://www.movistar.com.uy/productos-y-servicios/planes/contrato/"]},
+        {"country": "UY", "operator": "Antel", "is_tigo": False, "urls": ["https://tienda.antel.com.uy/categoria/internet/hogar"]},
+        {"country": "UY", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.uy/personas/servicios/servicios-moviles/planes/"]},
+        {"country": "EC", "operator": "Movistar", "is_tigo": True, "urls": ["https://www.movistar.com.ec/productos-y-servicios/pospago/planes"]},
+        {"country": "EC", "operator": "Netlife", "is_tigo": False, "urls": ["https://www.netlife.ec/planes/"]},
         {"country": "EC", "operator": "Claro", "is_tigo": False, "urls": ["https://www.claro.com.ec/personas/servicios/servicios-hogar/"]},
-        {"country": "EC", "operator": "CNT", "is_tigo": False, "urls": ["https://www.cnt.gob.ec/productos/internet-fijo"]},
-        {"country": "EC", "operator": "Xtrim", "is_tigo": False, "urls": ["https://www.xtrim.com.ec/internet/"]},
-        {"country": "CL", "operator": "Tigo", "is_tigo": True, "urls": ["https://ww2.movistar.cl/hogar/internet-hogar/"]},
-        {"country": "CL", "operator": "WOM", "is_tigo": False, "urls": ["https://www.wom.cl/fibra-optica-hogar/"]},
-        {"country": "CL", "operator": "Movistar", "is_tigo": False, "urls": ["https://ww2.movistar.cl/hogar/pack-duos-trios/"]},
-        {"country": "CL", "operator": "Entel", "is_tigo": False, "urls": ["https://www.entel.cl/hogar/internet-fibra-optica/"]},
-        {"country": "CL", "operator": "VTR", "is_tigo": False, "urls": ["https://vtr.com/productos/hogar-packs/internet-hogar"]},
-        {"country": "CL", "operator": "Mundo", "is_tigo": False, "urls": ["https://www.tumundo.cl/hogar/internet-fibra-optica/"]},
+        {"country": "EC", "operator": "CNT", "is_tigo": False, "urls": ["https://www.cnt.gob.ec/planes/internet-fijo/"]},
+        {"country": "EC", "operator": "Xtrim", "is_tigo": False, "urls": ["https://www.xtrim.com.ec/planes/"]},
+        {"country": "CL", "operator": "Movistar", "is_tigo": True, "urls": [
+            "https://www.movistar.cl/hogar/fibra",
+            "https://www.movistar.cl/hogar",
+        ]},
+        {"country": "CL", "operator": "WOM", "is_tigo": False, "urls": ["https://www.wom.cl/fibra-optica/"]},
+        {"country": "CL", "operator": "Entel", "is_tigo": False, "urls": ["https://www.entel.cl/hogar/internet/"]},
+        {"country": "CL", "operator": "ClaroVTR", "is_tigo": False, "urls": ["https://www.clarochile.cl/portal/cl/sc/personas/servicios-hogar/"]},
+        {"country": "CL", "operator": "Mundo", "is_tigo": False, "urls": ["https://www.tumundo.cl/fibra-optica/"]},
     ]
 
 
@@ -887,6 +924,13 @@ __RADAR_DATA_JSON__
           .replace(/'/g, "&#39;");
       }
 
+      function shortUrlDisplay(u) {
+        if (!u) return "—";
+        return String(u)
+          .replace(/^https?:\/\/(www\.)?/i, "")
+          .replace(/\/$/, "");
+      }
+
       function effPriceLocal(o) {
         return (o.promo_price_local !== null && o.promo_price_local !== undefined)
           ? Number(o.promo_price_local)
@@ -1254,6 +1298,24 @@ __RADAR_DATA_JSON__
             sem = '<span class="badge-warning">🟡 Reforzar Valor / Hardware</span>';
           }
 
+          // Collect unique operator -> source_url pairs in this country
+          const seenOpUrls = {};
+          const opLinksHtml = [];
+          mOffers.forEach(function (o) {
+            if (!o.source_url) return;
+            const key = o.operator;
+            if (!seenOpUrls[key]) {
+              seenOpUrls[key] = o.source_url;
+              opLinksHtml.push(
+                '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" title="' + escHtml(o.operator + ": " + o.source_url) + '" ' +
+                'class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold mr-1 mb-1" ' +
+                'style="background:' + (o.is_tigo ? "#E0F2FE;color:#001E60;border:1px solid #7DD3FC;" : "#F1F5F9;color:#334155;border:1px solid #CBD5E1;") + '">' +
+                  "🔗 " + escHtml(o.operator) + " ↗" +
+                "</a>"
+              );
+            }
+          });
+
           return (
             '<tr class="cursor-pointer" data-action="drill-country" data-code="' + escHtml(m.code) + '">' +
               '<td class="font-extrabold whitespace-nowrap">' + escHtml(m.flag + " " + m.code + " — " + m.name) + ' <span class="text-[11px] font-normal text-slate-500">(' + escHtml(m.capital) + ")</span></td>" +
@@ -1265,6 +1327,7 @@ __RADAR_DATA_JSON__
               '<td style="text-align:center;" class="font-semibold">' + mHb + " HB $0 &bull; " + mCap + " Cap. &bull; " + mPromo + " Promo</td>" +
               "<td>" + hbTag + "</td>" +
               "<td>" + sem + "</td>" +
+              "<td>" + opLinksHtml.join("") + "</td>" +
             "</tr>"
           );
         }).join("");
@@ -1312,6 +1375,7 @@ __RADAR_DATA_JSON__
                     '<th style="text-align:center;">Mix Contenido Tigo</th>' +
                     "<th>Política HB Capitalizado</th>" +
                     "<th>Estado Estratégico</th>" +
+                    "<th>Fuentes Web Oficiales (Telcos)</th>" +
                   "</tr>" +
                 "</thead>" +
                 "<tbody>" + marketRows + "</tbody>" +
@@ -1328,7 +1392,9 @@ __RADAR_DATA_JSON__
               const m = MARKETS_BY_CODE[d.country] || { flag: "", name: d.country, currency: "USD" };
               const prv = d.prev_offer;
               const cur = d.curr_offer;
-              const currCode = (cur || prv || {}).currency || m.currency;
+              const refOffer = cur || prv || {};
+              const currCode = refOffer.currency || m.currency;
+              const srcUrl = refOffer.source_url || "";
 
               const p0Text = prv ? formatPrice(effPriceLocal(prv), currCode) : "No existía ayer";
               const p1Text = cur ? formatPrice(effPriceLocal(cur), currCode) : "Retirado hoy";
@@ -1350,7 +1416,14 @@ __RADAR_DATA_JSON__
                     "</div>" +
                     '<span class="text-xs font-extrabold" style="color: var(--tigo-navy);">' + escHtml(p0Text + " → " + p1Text) + "</span>" +
                   "</div>" +
-                  '<h4 class="text-sm font-black m-0" style="color: var(--tigo-navy);">' + escHtml(d.plan_name) + "</h4>" +
+                  '<div class="flex flex-wrap items-center justify-between gap-2">' +
+                    '<h4 class="text-sm font-black m-0" style="color: var(--tigo-navy);">' + escHtml(d.plan_name) + "</h4>" +
+                    (srcUrl
+                      ? '<a href="' + escHtml(srcUrl) + '" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-extrabold" style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;">' +
+                          "🔗 Ver en Web Oficial (" + escHtml(shortUrlDisplay(srcUrl)) + ") ↗" +
+                        "</a>"
+                      : "") +
+                  "</div>" +
                   '<div class="tigo-soft-box p-3 text-xs font-semibold" style="color: var(--tigo-navy); border-left: 3px solid var(--tigo-bright-blue);">' +
                     '💬 Contexto competitivo: &ldquo;' + escHtml(d.context) + '&rdquo;' +
                   "</div>" +
@@ -1424,6 +1497,19 @@ __RADAR_DATA_JSON__
                 return '<span class="' + cls + ' mr-1 mb-1">' + escHtml(a.ott + " [" + a.model + "]" + pInfo) + "</span>";
               }).join("");
 
+          const srcBtnHtml = o.source_url
+            ? (
+                '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" title="' + escHtml(o.source_url) + '" ' +
+                'class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-extrabold whitespace-nowrap" ' +
+                'style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;">' +
+                  "🔗 Ir a la Oferta ↗" +
+                "</a>" +
+                '<div class="text-[10px] font-mono text-slate-500 mt-0.5 truncate max-w-[210px]" title="' + escHtml(o.source_url) + '">' +
+                  escHtml(shortUrlDisplay(o.source_url)) +
+                "</div>"
+              )
+            : "—";
+
           return (
             '<tr class="' + (o.is_tigo ? "is-tigo-row" : "") + '">' +
               '<td class="font-extrabold whitespace-nowrap">' + escHtml(m.flag + " " + o.country) + "</td>" +
@@ -1434,7 +1520,12 @@ __RADAR_DATA_JSON__
               '<td class="whitespace-nowrap"><span class="badge-info">' + escHtml(o.type) + "</span></td>" +
               '<td class="font-bold" style="color: var(--tigo-navy);">' +
                 escHtml(o.plan_name) +
-                '<div class="font-mono text-[10px] text-slate-400">' + escHtml(o.id) + "</div>" +
+                '<div class="flex flex-wrap items-center gap-2 mt-0.5">' +
+                  '<span class="font-mono text-[10px] text-slate-400">' + escHtml(o.id) + "</span>" +
+                  (o.source_url
+                    ? '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold underline" style="color:#0284C7;">🔗 ' + escHtml(shortUrlDisplay(o.source_url)) + " ↗</a>"
+                    : "") +
+                "</div>" +
               "</td>" +
               '<td style="text-align:right;" class="font-extrabold whitespace-nowrap">' + o.speed_mbps + " Mbps</td>" +
               '<td class="whitespace-nowrap font-medium">' + escHtml(o.hardware) + "</td>" +
@@ -1445,6 +1536,7 @@ __RADAR_DATA_JSON__
               '<td style="text-align:right;" class="whitespace-nowrap text-slate-500">' + escHtml(formatPrice(reg, o.currency)) + "</td>" +
               "<td>" + evalHtml + "</td>" +
               "<td>" + addonsHtml + "</td>" +
+              "<td>" + srcBtnHtml + "</td>" +
             "</tr>"
           );
         }).join("");
@@ -1457,13 +1549,14 @@ __RADAR_DATA_JSON__
                   "<th>País</th>" +
                   "<th>Operador</th>" +
                   "<th>Tipo</th>" +
-                  "<th>Plan Comercial (ID Estable)</th>" +
+                  "<th>Plan Comercial (ID Estable &amp; Fuente)</th>" +
                   '<th style="text-align:right;">Velocidad</th>' +
                   "<th>Hardware WiFi</th>" +
                   '<th style="text-align:right;">Precio Vigente</th>' +
                   '<th style="text-align:right;">Precio Regular</th>' +
                   "<th>Evaluación Premium con Valor (+15%)</th>" +
                   "<th>Addons OTT (HB / DESC / PROMO / SA)</th>" +
+                  "<th>Fuente Web Oficial (URL)</th>" +
                 "</tr>" +
               "</thead>" +
               "<tbody>" + rowsHtml + "</tbody>" +
@@ -1511,6 +1604,11 @@ __RADAR_DATA_JSON__
               '<td style="text-align:right;" class="font-bold">' + escHtml(a.price_local > 0 ? formatPrice(a.price_local, o.currency) : "$0 (Gratis)") + "</td>" +
               '<td style="text-align:center;">' + escHtml(a.months ? a.months + " meses" : "Permanente") + "</td>" +
               '<td class="text-xs font-semibold">' + escHtml(actionRec) + "</td>" +
+              "<td>" +
+                (o.source_url
+                  ? '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-extrabold whitespace-nowrap" style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;">🔗 ' + escHtml(shortUrlDisplay(o.source_url)) + " ↗</a>"
+                  : "—") +
+              "</td>" +
             "</tr>"
           );
         }).join("");
@@ -1528,6 +1626,7 @@ __RADAR_DATA_JSON__
                   '<th style="text-align:right;">Cargo Addon</th>' +
                   '<th style="text-align:center;">Vigencia</th>' +
                   "<th>Directriz HB Capitalizado</th>" +
+                  "<th>Fuente Web Oficial</th>" +
                 "</tr>" +
               "</thead>" +
               "<tbody>" + rowsHtml + "</tbody>" +
@@ -1566,6 +1665,7 @@ __RADAR_DATA_JSON__
       }
 
       document.addEventListener("click", function (e) {
+        if (e.target.closest("a[href]")) return;
         const btn = e.target.closest("[data-action]");
         if (!btn) return;
         const action = btn.getAttribute("data-action");

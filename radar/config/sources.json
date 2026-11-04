@@ -4,7 +4,7 @@
     "operator": "Tigo",
     "is_tigo": true,
     "urls": [
-      "https://www.tigo.com.gt/residencial/internet"
+      "https://www.tigo.com.gt/residencial"
     ]
   },
   {
@@ -20,7 +20,7 @@
     "operator": "Tigo",
     "is_tigo": true,
     "urls": [
-      "https://www.tigo.com.sv/residencial"
+      "https://www.tigo.com.sv/planes"
     ]
   },
   {
@@ -28,7 +28,9 @@
     "operator": "Claro",
     "is_tigo": false,
     "urls": [
-      "https://www.claro.com.sv/personas/servicios/servicios-hogar/"
+      "https://www.claro.com.sv/personas/servicios/servicios-hogar/internet/planes-y-precios/",
+      "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/claro-hogar-triple/planes-y-precios/",
+      "https://www.claro.com.sv/personas/servicios/servicios-hogar/claro-tv-plus/claro-hogar-doble/planes-y-precios/"
     ]
   },
   {
@@ -36,7 +38,7 @@
     "operator": "Digicel",
     "is_tigo": false,
     "urls": [
-      "https://www.digicelgroup.com/sv/es/hogar.html"
+      "https://www.digicelgroup.com/sv/es/mobile/rates.html"
     ]
   },
   {
@@ -52,7 +54,7 @@
     "operator": "Claro",
     "is_tigo": false,
     "urls": [
-      "https://www.claro.com.hn/personas/servicios/servicios-hogar/"
+      "https://www.claro.com.hn/personas/servicios/hogar/triple-play/"
     ]
   },
   {
@@ -60,7 +62,7 @@
     "operator": "Tigo",
     "is_tigo": true,
     "urls": [
-      "https://www.tigo.com.ni/residencial"
+      "https://www.tigo.com.ni/planes"
     ]
   },
   {
@@ -68,7 +70,8 @@
     "operator": "Claro",
     "is_tigo": false,
     "urls": [
-      "https://www.claro.com.ni/personas/servicios/servicios-hogar/"
+      "https://www.claro.com.ni/personas/servicios/hogar/claro-hogar-triple/",
+      "https://tiendaenlinea.claro.com.ni/tienda/planes-claro-hogar"
     ]
   },
   {
@@ -76,7 +79,7 @@
     "operator": "Tigo",
     "is_tigo": true,
     "urls": [
-      "https://www.tigo.cr/residencial"
+      "https://www.tigo.cr/hogar/internet-y-television"
     ]
   },
   {
@@ -84,7 +87,7 @@
     "operator": "Liberty",
     "is_tigo": false,
     "urls": [
-      "https://www.libertycr.com/hogar/internet"
+      "https://libertycr.com/hogar"
     ]
   },
   {
@@ -92,7 +95,8 @@
     "operator": "Claro",
     "is_tigo": false,
     "urls": [
-      "https://www.claro.cr/personas/servicios/servicios-hogar/"
+      "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/doble-play-fibra-optica",
+      "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/internet-fibra-optica"
     ]
   },
   {
@@ -100,7 +104,8 @@
     "operator": "Kölbi",
     "is_tigo": false,
     "urls": [
-      "https://www.kolbi.cr/wps/portal/kolbi_dev/personas/hogar"
+      "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/internet/fibra-optica",
+      "https://www.kolbi.cr/wps/portal/kolbi/personas/hogar/planes-duo"
     ]
   },
   {
@@ -108,7 +113,8 @@
     "operator": "Telecable",
     "is_tigo": false,
     "urls": [
-      "https://telecablecr.com/residencial/internet-fibra-optica/"
+      "https://telecablecr.com/paquete-estandar-con-tv",
+      "https://telecablecr.com/internet-fibra-optica"
     ]
   },
   {
@@ -116,7 +122,7 @@
     "operator": "Tigo",
     "is_tigo": true,
     "urls": [
-      "https://www.tigo.com.pa/residencial"
+      "https://www.tigo.com.pa/hogar/internet"
     ]
   },
   {
@@ -124,15 +130,8 @@
     "operator": "+Móvil",
     "is_tigo": false,
     "urls": [
-      "https://www.masmovilpanama.com/hogar/planes"
-    ]
-  },
-  {
-    "country": "PA",
-    "operator": "Claro",
-    "is_tigo": false,
-    "urls": [
-      "https://www.Masmovilpanama.com/hogar/fibra"
+      "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
+      "https://www.masmovilpanama.com/hogar/internet-residencial"
     ]
   },
   {
@@ -140,7 +139,9 @@
     "operator": "Tigo",
     "is_tigo": true,
     "urls": [
-      "https://www.tigo.com.co/hogar"
+      "https://www.tigo.com.co/personas/hogar/internet",
+      "https://www.tigo.com.co/personas/hogar/paquetes",
+      "https://www.tigo.com.co/personas/postpago/full-tigo"
     ]
   },
   {
@@ -148,7 +149,8 @@
     "operator": "Claro",
     "is_tigo": false,
     "urls": [
-      "https://www.claro.com.co/personas/servicios/servicios-hogar/"
+      "https://www.claro.com.co/personas/hogar/planes/internet-hogar/",
+      "https://www.claro.com.co/personas/servicios/hogar/"
     ]
   },
   {
@@ -156,7 +158,8 @@
     "operator": "Movistar",
     "is_tigo": false,
     "urls": [
-      "https://www.movistar.co/fibra-optica"
+      "https://www.movistar.co/personas/hogar/internet-bogota",
+      "https://www.movistar.co/personas/hogar"
     ]
   },
   {
@@ -164,7 +167,7 @@
     "operator": "ETB",
     "is_tigo": false,
     "urls": [
-      "https://etb.com/hogares/"
+      "https://etb.com/hogares/Bogota.aspx?plan=total"
     ]
   },
   {
@@ -172,7 +175,7 @@
     "operator": "WOM",
     "is_tigo": false,
     "urls": [
-      "https://www.wom.co/planes-pospago/"
+      "https://www.wom.co/planes"
     ]
   },
   {
@@ -188,7 +191,8 @@
     "operator": "Entel",
     "is_tigo": false,
     "urls": [
-      "https://www.entel.bo/hogar-fibra"
+      "https://www.entel.bo/hogar/fibra-optica",
+      "https://www.entel.bo/hogar/duo-pack"
     ]
   },
   {
@@ -196,7 +200,7 @@
     "operator": "Viva",
     "is_tigo": false,
     "urls": [
-      "https://www.viva.com.bo/hogar/"
+      "https://www.viva.com.bo/personas/hogar/fibra-optica/"
     ]
   },
   {
@@ -204,7 +208,9 @@
     "operator": "AXS",
     "is_tigo": false,
     "urls": [
-      "https://www.axsbolivia.com/hogar"
+      "https://www.axsbolivia.com/axs-net/",
+      "https://www.axsbolivia.com/tarifas-servicio-de-distribucion-de-senales-iptv-internet/",
+      "https://www.axsbolivia.com/tarifa/"
     ]
   },
   {
@@ -212,7 +218,7 @@
     "operator": "Tigo",
     "is_tigo": true,
     "urls": [
-      "https://www.tigo.com.py/hogar"
+      "https://www.tigo.com.py/hogar/internet"
     ]
   },
   {
@@ -228,15 +234,15 @@
     "operator": "Personal Flow",
     "is_tigo": false,
     "urls": [
-      "https://www.personal.com.py/hogar/internet/"
+      "https://www.personal.com.py/internet/hogar"
     ]
   },
   {
     "country": "UY",
-    "operator": "Tigo",
+    "operator": "Movistar",
     "is_tigo": true,
     "urls": [
-      "https://www.movistar.com.uy/particulares/planes/contrato"
+      "https://www.movistar.com.uy/productos-y-servicios/planes/contrato/"
     ]
   },
   {
@@ -244,7 +250,7 @@
     "operator": "Antel",
     "is_tigo": false,
     "urls": [
-      "https://tienda.antel.com.uy/planes/internet/hogar"
+      "https://tienda.antel.com.uy/categoria/internet/hogar"
     ]
   },
   {
@@ -252,12 +258,12 @@
     "operator": "Claro",
     "is_tigo": false,
     "urls": [
-      "https://www.claro.com.uy/personas/planes-prepago-pospago"
+      "https://www.claro.com.uy/personas/servicios/servicios-moviles/planes/"
     ]
   },
   {
     "country": "EC",
-    "operator": "Tigo",
+    "operator": "Movistar",
     "is_tigo": true,
     "urls": [
       "https://www.movistar.com.ec/productos-y-servicios/pospago/planes"
@@ -268,7 +274,7 @@
     "operator": "Netlife",
     "is_tigo": false,
     "urls": [
-      "https://www.netlife.ec/planes-hogar/"
+      "https://www.netlife.ec/planes/"
     ]
   },
   {
@@ -284,7 +290,7 @@
     "operator": "CNT",
     "is_tigo": false,
     "urls": [
-      "https://www.cnt.gob.ec/productos/internet-fijo"
+      "https://www.cnt.gob.ec/planes/internet-fijo/"
     ]
   },
   {
@@ -292,15 +298,16 @@
     "operator": "Xtrim",
     "is_tigo": false,
     "urls": [
-      "https://www.xtrim.com.ec/internet/"
+      "https://www.xtrim.com.ec/planes/"
     ]
   },
   {
     "country": "CL",
-    "operator": "Tigo",
+    "operator": "Movistar",
     "is_tigo": true,
     "urls": [
-      "https://ww2.movistar.cl/hogar/internet-hogar/"
+      "https://www.movistar.cl/hogar/fibra",
+      "https://www.movistar.cl/hogar"
     ]
   },
   {
@@ -308,15 +315,7 @@
     "operator": "WOM",
     "is_tigo": false,
     "urls": [
-      "https://www.wom.cl/fibra-optica-hogar/"
-    ]
-  },
-  {
-    "country": "CL",
-    "operator": "Movistar",
-    "is_tigo": false,
-    "urls": [
-      "https://ww2.movistar.cl/hogar/pack-duos-trios/"
+      "https://www.wom.cl/fibra-optica/"
     ]
   },
   {
@@ -324,15 +323,15 @@
     "operator": "Entel",
     "is_tigo": false,
     "urls": [
-      "https://www.entel.cl/hogar/internet-fibra-optica/"
+      "https://www.entel.cl/hogar/internet/"
     ]
   },
   {
     "country": "CL",
-    "operator": "VTR",
+    "operator": "ClaroVTR",
     "is_tigo": false,
     "urls": [
-      "https://vtr.com/productos/hogar-packs/internet-hogar"
+      "https://www.clarochile.cl/portal/cl/sc/personas/servicios-hogar/"
     ]
   },
   {
@@ -340,7 +339,7 @@
     "operator": "Mundo",
     "is_tigo": false,
     "urls": [
-      "https://www.tumundo.cl/hogar/internet-fibra-optica/"
+      "https://www.tumundo.cl/fibra-optica/"
     ]
   }
 ]

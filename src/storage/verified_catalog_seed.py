@@ -263,9 +263,9 @@ def build_verified_12_market_snapshots(
         # ---------------------------------------------------------------------
         _home_offer(
             "HN", "Tigo", "Tigo Hogar 120 Mbps + ONEtv HD", "HNL",
-            "https://www.tigo.com.hn/",
-            "Tigo Honduras: Plan Residencial 120 Mbps + decodificador Android TV Tigo ONEtv. Tarifa en HNL cotizada por cobertura; incluye Paramount+ sin costo en ONEtv y ViX Premium disponible a L165/mes.",
-            png_path, md_path, reg_price=None, taxes_incl=True, tech="HFC", dl=120, wifi="Router WiFi Dual", tv_boxes=1,
+            "https://www.tigo.com.hn/residencial",
+            "Tigo Honduras: Plan Residencial 120 Mbps + decodificador Android TV Tigo ONEtv L990.00/mes (~$39.92 USD ref). Incluye Paramount+ sin costo en ONEtv y ViX Premium disponible a L165/mes.",
+            png_path, md_path, reg_price=990.0, taxes_incl=True, tech="HFC", dl=120, wifi="Router WiFi Dual", tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.PARAMOUNT_PLUS, "Paramount+ en ONEtv", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Paramount+ incluido sin costo adicional (L0.00) en todos los planes ONEtv Hogar (ayuda.tigo.com.hn).", tier="Estándar"),
@@ -277,9 +277,9 @@ def build_verified_12_market_snapshots(
         ),
         _home_offer(
             "HN", "Tigo", "Tigo Hogar Alta Velocidad 400 Mbps + ONEtv", "HNL",
-            "https://www.tigo.com.hn/",
-            "Tigo Honduras: Plan Residencial hasta 400 Mbps + Tigo ONEtv HD (precio sujeto a validación de cobertura en tigo.com.hn). Incluye Paramount+ y canal deportivo FOX.",
-            png_path, md_path, reg_price=None, taxes_incl=True, tech="FTTH", dl=400, wifi="Router WiFi Alta Velocidad", tv_boxes=1,
+            "https://www.tigo.com.hn/residencial",
+            "Tigo Honduras: Plan Residencial 400 Mbps + Tigo ONEtv HD L1,365.00/mes (~$55.04 USD ref en tigo.com.hn). Incluye Paramount+ y canal deportivo FOX.",
+            png_path, md_path, reg_price=1365.0, taxes_incl=True, tech="FTTH", dl=400, wifi="Router WiFi Alta Velocidad", tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.PARAMOUNT_PLUS, "Paramount+ en ONEtv", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Paramount+ incluido fijo en planes ONEtv Hogar.", tier="Estándar"),
@@ -330,15 +330,15 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "NI", "Tigo", "Internet Residencial Básico 100 Mbps", "NIO",
             "https://www.tigo.com.ni/planes",
-            "Tigo Nicaragua: Plan entrada Internet Residencial ~100 Mbps desde C$700.00/mes promocional (tarifa plena sujeta a cobertura en ha.tigo.com.ni).",
-            png_path, md_path, promo_price=700.0, reg_price=None, taxes_incl=True, tech="HFC", dl=100, wifi="Router WiFi Residencial",
+            "Tigo Nicaragua: Plan entrada Internet Residencial 100 Mbps C$700.00/mes IVA incluido.",
+            png_path, md_path, reg_price=700.0, taxes_incl=True, tech="HFC", dl=100, wifi="Router WiFi Residencial",
             vas=[],
         ),
         _home_offer(
             "NI", "Tigo", "Combo Tigo Hogar 200 Mbps + One TV HD", "NIO",
             "https://www.tigo.com.ni/planes",
-            "Tigo Nicaragua: Combo Tigo Hogar 200 Mbps + 170 canales con caja interactiva Tigo One TV desde C$1,210.00/mes IVA incluido.",
-            png_path, md_path, promo_price=1210.0, reg_price=None, taxes_incl=True, tech="FTTH", dl=200, wifi="Router WiFi + One TV Box", tv_ch=170, tv_boxes=1,
+            "Tigo Nicaragua: Combo Tigo Hogar 200 Mbps + 170 canales con caja interactiva Tigo One TV C$1,210.00/mes IVA incluido.",
+            png_path, md_path, reg_price=1210.0, taxes_incl=True, tech="FTTH", dl=200, wifi="Router WiFi + One TV Box", tv_ch=170, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.TIGO_SPORTS, "FOX / Tigo Sports NI", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Canal deportivo incluido en grilla TV Digital / One TV.", tier="HD"),
@@ -361,8 +361,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "NI", "Claro", "Claro Hogar Triple 320 Mbps Fibra + Max & Universal+", "NIO",
             "https://tiendaenlinea.claro.com.ni/tienda/planes-claro-hogar",
-            "Claro Nicaragua: Claro Hogar Triple 320 Mbps Fibra Óptica + 169 canales (100 HD) + Max, Universal+ y Claro video incluidos C$1,170.00 promo / C$1,280.00 regular.",
-            png_path, md_path, promo_price=1170.0, reg_price=1280.0, taxes_incl=True, tech="FTTH", dl=320, wifi="ONT Fibra + Claro TV+ Box", tv_ch=169, tv_boxes=1,
+            "Claro Nicaragua: Claro Hogar Triple 320 Mbps Fibra Óptica + 169 canales (100 HD) + Max, Universal+ y Claro video incluidos C$1,170.00 promo online x 3 meses / C$1,280.00 regular.",
+            png_path, md_path, promo_price=1170.0, promo_months=3, reg_price=1280.0, taxes_incl=True, tech="FTTH", dl=320, wifi="ONT Fibra + Claro TV+ Box", tv_ch=169, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.MAX, "Max (HBO Max)", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Max incluido sin costo en plan Claro Hogar Triple 320 Mbps (standalone C$220.00/mes).", tier="Estándar", post_price=220.0),
@@ -409,8 +409,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CR", "Liberty", "Doble Play Mega 120 + Next TV + Pack Entretenimiento", "CRC",
             "https://libertycr.com/hogar",
-            "Liberty Costa Rica: Doble Play Mega 120 + Next TV IPTV + 2 decos ₡19,941.80 final (modalidad tractos 24m) / ₡29,080.74 modalidad alquiler. Incluye Disney+, Max y Universal+.",
-            png_path, md_path, promo_price=19941.8, reg_price=29080.74, taxes_incl=True, tech="FTTH", dl=120, wifi="Router WiFi Liberty", tv_ch=234, tv_boxes=2,
+            "Liberty Costa Rica: Doble Play Mega 120 + Next TV IPTV + 2 decos ₡19,941.80 final (modalidad tractos 24 meses) / ₡29,080.74 modalidad alquiler. Incluye Disney+, Max y Universal+.",
+            png_path, md_path, promo_price=19941.8, promo_months=24, reg_price=29080.74, taxes_incl=True, tech="FTTH", dl=120, wifi="Router WiFi Liberty", tv_ch=234, tv_boxes=2,
             vas=[
                 _vas(VASProviderEnum.DISNEY_PLUS, "Disney+ Estándar", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Incluido a ₡0 en Pack de Entretenimiento Next TV (valorado en ₡19,500/mes).", tier="Estándar"),
@@ -423,8 +423,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CR", "Liberty", "Plan 300 Megas Internet + Next TV + Pack Entretenimiento", "CRC",
             "https://libertycr.com/hogar",
-            "Liberty Costa Rica: Plan 300 Megas + Next TV (+240 canales, 2 cajas TV) ₡27,951.03 (tractos) / ₡40,200.90 (alquiler) impuestos incluidos. Incluye Disney+, Max y Universal+.",
-            png_path, md_path, promo_price=27951.03, reg_price=40200.9, taxes_incl=True, tech="FTTH", dl=300, wifi="Router WiFi + Next TV", tv_ch=240, tv_boxes=2,
+            "Liberty Costa Rica: Plan 300 Megas + Next TV (+240 canales, 2 cajas TV) ₡27,951.03 (modalidad tractos 24 meses) / ₡40,200.90 (alquiler) impuestos incluidos. Incluye Disney+, Max y Universal+.",
+            png_path, md_path, promo_price=27951.03, promo_months=24, reg_price=40200.9, taxes_incl=True, tech="FTTH", dl=300, wifi="Router WiFi + Next TV", tv_ch=240, tv_boxes=2,
             vas=[
                 _vas(VASProviderEnum.DISNEY_PLUS, "Disney+ Estándar", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Pack Entretenimiento incluido a ₡0 extra.", tier="Estándar"),
@@ -451,8 +451,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CR", "Claro", "Doble Play Fibra Simétrica 150 Mbps + TV Ultra HD", "CRC",
             "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/doble-play-fibra-optica",
-            "Claro Costa Rica: Doble Play Fibra Simétrica 150/150 Mbps + Claro TV+ (>100 canales) + Paramount+ y Claro Video incluidos ₡24,681 promo / ₡27,081 regular.",
-            png_path, md_path, promo_price=24681.0, reg_price=27081.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=150, ul=150, wifi="ONT Fibra WiFi", tv_ch=100, tv_boxes=1,
+            "Claro Costa Rica: Doble Play Fibra Simétrica 150/150 Mbps + Claro TV+ (>100 canales) + Paramount+ y Claro Video incluidos ₡24,681/mes impuestos incluidos.",
+            png_path, md_path, reg_price=24681.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=150, ul=150, wifi="ONT Fibra WiFi", tv_ch=100, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.PARAMOUNT_PLUS, "Paramount+", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Paramount+ y Claro Video incluidos sin costo adicional.", tier="Estándar"),
@@ -464,7 +464,7 @@ def build_verified_12_market_snapshots(
             "CR", "Claro", "Internet Simétrico Fibra 500 Mbps + Paramount+", "CRC",
             "https://www.claro.cr/portal/cr/sc/personas/servicios/servicios-hogar/internet-fibra-optica",
             "Claro Costa Rica: Internet Fibra Óptica Simétrica 500/500 Mbps con Paramount+ y Claro Video incluidos ₡26,495/mes impuestos incluidos.",
-            png_path, md_path, promo_price=26495.0, reg_price=29376.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=500, ul=500, wifi="ONT Fibra WiFi",
+            png_path, md_path, reg_price=26495.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=500, ul=500, wifi="ONT Fibra WiFi",
             vas=[
                 _vas(VASProviderEnum.PARAMOUNT_PLUS, "Paramount+", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Paramount+ incluido a ₡0 en Fibra Óptica Claro CR.", tier="Estándar"),
@@ -473,8 +473,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CR", "Telecable", "Paquete Estándar Fibra Simétrica 300 Mbps + TV 180 Canales", "CRC",
             "https://telecablecr.com/paquete-estandar-con-tv",
-            "Telecable Costa Rica: Fibra Simétrica 300/300 Mbps + 2 cajas digitales (180 canales: 145 HD, incluye FUTV y TD Más) ₡25,990 promo / ₡29,990 regular i.i.",
-            png_path, md_path, promo_price=25990.0, reg_price=29990.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="Módem Fibra WiFi", tv_ch=180, tv_boxes=2,
+            "Telecable Costa Rica: Paquete Estándar Fibra Simétrica 300/300 Mbps + 2 cajas digitales (180 canales: 145 HD, incluye FUTV y TD Más) ₡29,990/mes i.i. (Paquete Básico 150M + TV: ₡25,990 i.i.).",
+            png_path, md_path, reg_price=29990.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="Módem Fibra WiFi", tv_ch=180, tv_boxes=2,
             vas=[],
         ),
         _home_offer(
@@ -492,7 +492,7 @@ def build_verified_12_market_snapshots(
             "PA", "Tigo", "Internet + TV 300 Megas + Tigo Sports", "USD",
             "https://www.tigo.com.pa/hogar/internet",
             "Tigo Panamá: Plan Internet 300 Megas (15 Mbps subida) + TV HD (~150 canales incl. Tigo Sports LPF, COS, ECO) + Tigo OneTV App B/. 44.00/mes (+7% ITBMS).",
-            png_path, md_path, promo_price=44.0, reg_price=None, taxes_incl=False, tech="HFC", symmetric=False, dl=300, ul=15, wifi="Router WiFi Dual", tv_ch=150, tv_boxes=1,
+            png_path, md_path, reg_price=44.0, taxes_incl=False, tech="HFC", symmetric=False, dl=300, ul=15, wifi="Router WiFi Dual", tv_ch=150, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.TIGO_SPORTS, "Tigo Sports Panamá", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Tigo Sports con Liga Panameña de Fútbol (LPF) incluido a B/. 0.00 en planes TV.", tier="HD + OneTV App"),
@@ -514,7 +514,7 @@ def build_verified_12_market_snapshots(
             "PA", "Tigo", "Internet + TV 500 Megas + WiFi+ Mesh", "USD",
             "https://www.tigo.com.pa/hogar/internet",
             "Tigo Panamá: Internet 500 Megas (15 Mbps subida) + TV Digital (~220 canales) + extensor WiFi+ Mesh B/. 56.00/mes (+7% ITBMS). Convergente Full Tigo 500M: B/. 59.00 promo / B/. 89.00 reg.",
-            png_path, md_path, promo_price=56.0, reg_price=None, taxes_incl=False, tech="HFC", symmetric=False, dl=500, ul=15, wifi="WiFi+ con Extensor Mesh", tv_ch=220, tv_boxes=1,
+            png_path, md_path, reg_price=56.0, taxes_incl=False, tech="HFC", symmetric=False, dl=500, ul=15, wifi="WiFi+ con Extensor Mesh", tv_ch=220, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.TIGO_SPORTS, "Tigo Sports Panamá", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Tigo Sports HD incluido sin cargo extra.", tier="HD"),
@@ -526,7 +526,7 @@ def build_verified_12_market_snapshots(
             "PA", "Tigo", "Internet + TV 750 Megas + WiFi+ Mesh", "USD",
             "https://www.tigo.com.pa/hogar/internet",
             "Tigo Panamá: Internet 750 Megas (15 Mbps subida) + TV Digital (~220 canales) + WiFi+ Mesh B/. 59.00/mes (+7% ITBMS).",
-            png_path, md_path, promo_price=59.0, reg_price=None, taxes_incl=False, tech="FTTH", symmetric=False, dl=750, ul=15, wifi="WiFi+ con Extensor Mesh", tv_ch=220, tv_boxes=1,
+            png_path, md_path, reg_price=59.0, taxes_incl=False, tech="FTTH", symmetric=False, dl=750, ul=15, wifi="WiFi+ con Extensor Mesh", tv_ch=220, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.TIGO_SPORTS, "Tigo Sports Panamá", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Tigo Sports incluido en planes residenciales TV.", tier="HD"),
@@ -535,38 +535,38 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "PA", "MasMovil", "Internet +Fibra Simétrica 300 Mbps", "USD",
             "https://www.masmovilpanama.com/hogar/internet-residencial",
-            "+Móvil Panamá: Solo Internet +Fibra Simétrica 300/300 Mbps B/. 30.00/mes promo / B/. 33.00/mes regular (+7% ITBMS).",
-            png_path, md_path, promo_price=30.0, reg_price=33.0, taxes_incl=False, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="ONT +Fibra WiFi",
+            "+Móvil Panamá: Solo Internet +Fibra Simétrica 300/300 Mbps B/. 35.00/mes (+7% ITBMS). Solo Fibra 600M: B/. 38.00/mes; Un GIGA 1000M: B/. 41.00/mes.",
+            png_path, md_path, reg_price=35.0, taxes_incl=False, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="ONT +Fibra WiFi",
             vas=[],
         ),
         _home_offer(
             "PA", "MasMovil", "Paquete Hogar +Fibra 300 Megas + TV + Universal+", "USD",
             "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
-            "+Móvil Panamá: Paquete Hogar +Fibra 300/300 Mbps + +TV Total Smart HD Box (225 canales, 24h Replay) + 200 min voz fija B/. 44.00 promo / B/. 53.00 con Universal+ (+7% ITBMS).",
-            png_path, md_path, promo_price=44.0, reg_price=53.0, taxes_incl=False, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="ONT +Fibra WiFi", tv_ch=225, tv_boxes=1,
+            "+Móvil Panamá: Paquete Hogar +Fibra 300/300 Mbps + +TV Total Smart HD Box (225 canales, 24h Replay) + Universal+ + 200 min voz fija B/. 53.00/mes (+7% ITBMS; variante base sin Universal+: B/. 44.00/mes).",
+            png_path, md_path, reg_price=53.0, taxes_incl=False, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="ONT +Fibra WiFi", tv_ch=225, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.UNIVERSAL_PLUS, "Universal+ (5 Canales + App)", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
-                     "Incluido en variante Paquete Hogar +Fibra + Universal+.", tier="5 Canales HD + App"),
+                     "Incluido en Paquete Hogar +Fibra 300 Megas + TV + Universal+ (B/. 53.00/mes).", tier="5 Canales HD + App"),
             ],
         ),
         _home_offer(
             "PA", "MasMovil", "Paquete Hogar +Fibra 600 Megas + TV + Universal+", "USD",
             "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
-            "+Móvil Panamá: Paquete Hogar +Fibra Simétrica 600/600 Mbps + +TV Total Smart HD + Voz Fija B/. 52.00 promo / B/. 56.00 con Universal+ (+7% ITBMS). Solo Fibra 600M: B/. 38.00.",
-            png_path, md_path, promo_price=52.0, reg_price=56.0, taxes_incl=False, tech="FTTH", symmetric=True, dl=600, ul=600, wifi="ONT +Fibra Dual Band", tv_ch=225, tv_boxes=1,
+            "+Móvil Panamá: Paquete Hogar +Fibra Simétrica 600/600 Mbps + +TV Total Smart HD (225 canales) + Universal+ + Voz Fija B/. 56.00/mes (+7% ITBMS; variante base sin Universal+: B/. 52.00/mes).",
+            png_path, md_path, reg_price=56.0, taxes_incl=False, tech="FTTH", symmetric=True, dl=600, ul=600, wifi="ONT +Fibra Dual Band", tv_ch=225, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.UNIVERSAL_PLUS, "Universal+", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
-                     "Incluye 5 canales HD Universal+ y acceso a Universal+ App.", tier="Premium"),
+                     "Incluye 5 canales HD Universal+ y acceso a Universal+ App en el paquete de B/. 56.00/mes.", tier="Premium"),
             ],
         ),
         _home_offer(
             "PA", "MasMovil", "Paquete Hogar Un GIGA 1000 Megas + TV + Disney+ Premium", "USD",
             "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
-            "+Móvil Panamá: Paquete Hogar +Fibra Simétrica 1000/1000 Mbps + +TV Total Smart HD B/. 55.00 promo / B/. 60.00 regular (+7% ITBMS). Solo Fibra Un GIGA: B/. 41.00.",
-            png_path, md_path, promo_price=55.0, reg_price=60.0, taxes_incl=False, tech="FTTH", symmetric=True, dl=1000, ul=1000, wifi="Router +Fibra Gigabit", tv_ch=225, tv_boxes=1,
+            "+Móvil Panamá: Paquete Hogar +Fibra Simétrica 1000/1000 Mbps + +TV Total Smart HD + Universal+ / Disney+ Premium B/. 59.00/mes (+7% ITBMS). Solo Fibra Un GIGA: B/. 41.00/mes.",
+            png_path, md_path, reg_price=59.0, taxes_incl=False, tech="FTTH", symmetric=True, dl=1000, ul=1000, wifi="Router +Fibra Gigabit", tv_ch=225, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.UNIVERSAL_PLUS, "Universal+", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
-                     "Universal+ disponible en combos +TV Total Giga.", tier="Premium"),
+                     "Universal+ incluido en combos +TV Total Giga.", tier="Premium"),
                 _vas(VASProviderEnum.DISNEY_PLUS, "Disney+ Premium con ESPN", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Disney+ Premium incluido en paquetes superiores seleccionados / +Móvil Total.", tier="Premium con ESPN"),
             ],
@@ -585,8 +585,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CO", "Tigo", "Dúo Internet 500 Megas + Televisión Digital Avanzada", "COP",
             "https://www.tigo.com.co/personas/hogar/paquetes",
-            "Tigo Colombia (Bogotá Estrato 3): Dúo Internet 500 Megas + TV Digital Avanzada (>120 canales) $106.900 promo online / $109.200 regular IVA incluido.",
-            png_path, md_path, promo_price=106900.0, reg_price=109200.0, install_fee=0.0, taxes_incl=True, tech="FTTH", dl=500, wifi="Router WiFi Dual Band", tv_ch=120, tv_boxes=1,
+            "Tigo Colombia (Bogotá Estrato 3): Dúo Internet 500 Megas + TV Digital Avanzada (>120 canales) $106.900 promo online x 6 meses / $109.200 regular IVA incluido.",
+            png_path, md_path, promo_price=106900.0, promo_months=6, reg_price=109200.0, install_fee=0.0, taxes_incl=True, tech="FTTH", dl=500, wifi="Router WiFi Dual Band", tv_ch=120, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.WIN_SPORTS, "Win+ Fútbol", VASCommercialModelEnum.STANDALONE_PAID,
                      "Adiciona Win+ Fútbol (FPC en vivo) desde $33.200/mes IVA incluido.", tier="HD + Win Play", post_price=33200.0),
@@ -615,8 +615,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CO", "Movistar", "Dúo Fibra Simétrica 900 Megas + Movistar TV", "COP",
             "https://www.movistar.co/personas/hogar",
-            "Movistar Colombia (Bogotá Estrato 3): Dúo Fibra 900/900 Megas + Movistar TV IPTV (90 canales HD) $109.155/mes por 12 meses IVA incluido.",
-            png_path, md_path, promo_price=109155.0, promo_months=12, reg_price=None, install_fee=0.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=900, ul=900, wifi="Smart WiFi 6", tv_ch=90, tv_boxes=1,
+            "Movistar Colombia (Bogotá Estrato 3): Dúo Fibra 900/900 Megas + Movistar TV IPTV (90 canales HD) $109.155/mes por 12 meses, luego $136.900 IVA incluido.",
+            png_path, md_path, promo_price=109155.0, promo_months=12, reg_price=136900.0, install_fee=0.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=900, ul=900, wifi="Smart WiFi 6", tv_ch=90, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.WIN_SPORTS, "Win+ Fútbol / Win Play", VASCommercialModelEnum.DISCOUNTED_ADDON,
                      "Promoción Win+ Fútbol a $33.900/mes durante los primeros 3 meses.", tier="Win+ HD", promo_price=33900.0),
@@ -627,15 +627,15 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CO", "Claro", "Internet Hogar 300 Megas", "COP",
             "https://www.claro.com.co/personas/hogar/planes/internet-hogar/",
-            "Claro Colombia (Bogotá Estrato 3): Internet Hogar 300 Megas tarifa promocional $89.900/mes IVA incluido con Claro Video.",
-            png_path, md_path, promo_price=89900.0, reg_price=None, taxes_incl=True, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="Router WiFi Dual",
+            "Claro Colombia (Bogotá Estrato 3): Internet Hogar 300 Megas tarifa vigente $89.900/mes IVA incluido con Claro Video.",
+            png_path, md_path, reg_price=89900.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="Router WiFi Dual",
             vas=[],
         ),
         _home_offer(
             "CO", "Claro", "Tripleplay Fibra 500 Megas + Claro TV+ + Voz", "COP",
             "https://www.claro.com.co/personas/servicios/hogar/",
-            "Claro Colombia (Bogotá Estrato 3): Tripleplay 500/500 Megas + Claro TV+ (>100 canales) + Voz Fija desde $104.900/mes promo IVA incluido.",
-            png_path, md_path, promo_price=104900.0, reg_price=None, taxes_incl=True, tech="FTTH", symmetric=True, dl=500, ul=500, wifi="Router WiFi 6", tv_ch=100, tv_boxes=1,
+            "Claro Colombia (Bogotá Estrato 3): Tripleplay 500/500 Megas + Claro TV+ (>100 canales) + Voz Fija $104.900/mes IVA incluido.",
+            png_path, md_path, reg_price=104900.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=500, ul=500, wifi="Router WiFi 6", tv_ch=100, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.WIN_SPORTS, "Win+ Fútbol", VASCommercialModelEnum.DISCOUNTED_ADDON,
                      "Disponible en combos Intermedio Plus + Win (~$30.900-$32.900/mes addon).", tier="HD", promo_price=30900.0, post_price=32900.0),
@@ -644,8 +644,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CO", "Claro", "Tripleplay Fibra 900 Megas + Claro TV+", "COP",
             "https://www.claro.com.co/personas/servicios/hogar/",
-            "Claro Colombia (Bogotá Estrato 3): Tripleplay Fibra 900/900 Megas + Claro TV+ Box + Voz Fija desde $116.900/mes promo IVA incluido.",
-            png_path, md_path, promo_price=116900.0, reg_price=None, taxes_incl=True, tech="FTTH", symmetric=True, dl=900, ul=900, wifi="Router WiFi 6", tv_ch=100, tv_boxes=1,
+            "Claro Colombia (Bogotá Estrato 3): Tripleplay Fibra 900/900 Megas + Claro TV+ Box + Voz Fija $116.900/mes IVA incluido.",
+            png_path, md_path, reg_price=116900.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=900, ul=900, wifi="Router WiFi 6", tv_ch=100, tv_boxes=1,
             vas=[],
         ),
         _home_offer(
@@ -685,7 +685,7 @@ def build_verified_12_market_snapshots(
         # ---------------------------------------------------------------------
         _home_offer(
             "BO", "Tigo", "Wifi Hogar Esencial 60 Mbps", "BOB",
-            "https://www.tigo.com.bo/",
+            "https://www.tigo.com.bo/hogar",
             "Tigo Bolivia: Plan Wifi Hogar Esencial 60 Mbps ilimitado Bs. 179/mes (+2.000 MB bono móvil por pago puntual días 1-10). Addon Tigo Sports disponible a Bs. 20/mes.",
             png_path, md_path, reg_price=179.0, taxes_incl=True, tech="HFC", dl=60, wifi="Router WiFi Tigo",
             vas=[
@@ -695,7 +695,7 @@ def build_verified_12_market_snapshots(
         ),
         _home_offer(
             "BO", "Tigo", "Tigo Hogar Básico 60 Mbps", "BOB",
-            "https://www.tigo.com.bo/",
+            "https://www.tigo.com.bo/hogar",
             "Tigo Bolivia: Plan Tigo Hogar Básico 60 Mbps Bs. 249/mes IVA incluido. Addons Mi Tigo publicados: Paramount+ Bs. 41, Max Bs. 49, Disney+ Premium Bs. 132.",
             png_path, md_path, reg_price=249.0, taxes_incl=True, tech="HFC", dl=60, wifi="Router WiFi Tigo",
             vas=[
@@ -707,9 +707,9 @@ def build_verified_12_market_snapshots(
         ),
         _home_offer(
             "BO", "Tigo", "Full Tigo + TV Avanzado (129 Canales + Tigo Sports)", "BOB",
-            "https://www.tigo.com.bo/",
-            "Tigo Bolivia: Plan convergente Full Tigo + TV Avanzado (Internet Hogar + 129 canales TV + Móvil) Bs. 399/mes. Incluye Tigo Sports sin costo y promo Disney+ Premium.",
-            png_path, md_path, reg_price=399.0, taxes_incl=True, tech="FTTH", dl=None, wifi="Router WiFi Hogar", tv_ch=129, tv_boxes=1,
+            "https://www.tigo.com.bo/hogar",
+            "Tigo Bolivia: Plan convergente Full Tigo + TV Avanzado (Internet Hogar 150 Mbps + 129 canales TV + Móvil) Bs. 399/mes. Incluye Tigo Sports sin costo y promo Disney+ Premium.",
+            png_path, md_path, reg_price=399.0, taxes_incl=True, tech="FTTH", dl=150, wifi="Router WiFi Hogar", tv_ch=129, tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.TIGO_SPORTS, "Tigo Sports Bolivia", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Tigo Sports incluido a Bs. 0 en planes Full Tigo + TV Inicial / Medio / Avanzado / Ultra.", tier="HD + App"),
@@ -797,8 +797,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "PY", "Tigo", "DoblePack 300 Mbps + TV Familiar + Tigo Sports & Disney+", "PYG",
             "https://www.tigo.com.py/hogar/internet",
-            "Tigo Paraguay: DoblePack 300 Mbps + TV Familiar Gs. 215.000 promo / Gs. 255.000 regular IVA incluido. Incluye Tigo Sports fijo y 12 meses de Disney+ Estándar sin costo.",
-            png_path, md_path, promo_price=215000.0, reg_price=255000.0, taxes_incl=True, tech="FTTH", dl=300, wifi="Router WiFi Plus", tv_boxes=1,
+            "Tigo Paraguay: DoblePack 300 Mbps + TV Familiar Gs. 215.000 promo x 6 meses / Gs. 255.000 regular IVA incluido (Solo Internet 300 Mbps: Gs. 220.000). Incluye Tigo Sports fijo y 12 meses de Disney+ Estándar sin costo.",
+            png_path, md_path, promo_price=215000.0, promo_months=6, reg_price=255000.0, taxes_incl=True, tech="FTTH", dl=300, wifi="Router WiFi Plus", tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.TIGO_SPORTS, "Tigo Sports PY", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Fútbol paraguayo exclusivo en Tigo Sports incluido sin cargo adicional.", tier="HD + App"),
@@ -838,8 +838,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "PY", "Claro", "Claro Fibra Simétrica 200 Mbps + Paramount+ & Prime Video", "PYG",
             "https://www.claro.com.py/personas/servicios/servicios-hogar/",
-            "Claro Paraguay: Internet Fibra Simétrica 200/200 Mbps en promoción Gs. 95.000/mes con Paramount+ vía Claro Video y 3 meses gratis de Prime Video.",
-            png_path, md_path, promo_price=95000.0, reg_price=None, taxes_incl=True, tech="FTTH", symmetric=True, dl=200, ul=200, wifi="ONT Fibra WiFi",
+            "Claro Paraguay: Internet Fibra Simétrica 200/200 Mbps Gs. 95.000/mes IVA incluido con Paramount+ vía Claro Video y 3 meses gratis de Prime Video.",
+            png_path, md_path, reg_price=95000.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=200, ul=200, wifi="ONT Fibra WiFi",
             vas=[
                 _vas(VASProviderEnum.PARAMOUNT_PLUS, "Paramount+ vía Claro Video", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Paramount+ incluido sin costo a través de Claro Video.", tier="Estándar"),
@@ -850,8 +850,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "PY", "Claro", "Claro Fibra Simétrica 600 Mbps + Paramount+", "PYG",
             "https://www.claro.com.py/personas/servicios/servicios-hogar/",
-            "Claro Paraguay: Internet Fibra Simétrica 600/600 Mbps en promoción agresiva Gs. 120.000/mes IVA incluido con Paramount+ incluido.",
-            png_path, md_path, promo_price=120000.0, reg_price=None, taxes_incl=True, tech="FTTH", symmetric=True, dl=600, ul=600, wifi="ONT Fibra WiFi 6",
+            "Claro Paraguay: Internet Fibra Simétrica 600/600 Mbps en promoción Gs. 120.000/mes x 6 meses (tarifa regular Gs. 145.000/mes) IVA incluido con Paramount+ incluido.",
+            png_path, md_path, promo_price=120000.0, promo_months=6, reg_price=145000.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=600, ul=600, wifi="ONT Fibra WiFi 6",
             vas=[
                 _vas(VASProviderEnum.PARAMOUNT_PLUS, "Paramount+ vía Claro Video", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Paramount+ incluido vía Claro Video.", tier="Estándar"),
@@ -963,15 +963,15 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "EC", "Xtrim", "Internet Fibra 300 Mbps Simétrico WiFi 6", "USD",
             "https://www.xtrim.com.ec/planes/",
-            "Xtrim Ecuador: Plan Fibra 300/300 Mbps con Router WiFi 6 en promo $17.85/mes, tarifa regular $18.40/mes IVA 15% incluido.",
-            png_path, md_path, promo_price=17.85, reg_price=18.4, taxes_incl=True, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="Router WiFi 6",
+            "Xtrim Ecuador: Plan Fibra 300/300 Mbps con Router WiFi 6 en promo tarjeta $17.85/mes x 6 meses, tarifa regular $18.40/mes IVA 15% incluido.",
+            png_path, md_path, promo_price=17.85, promo_months=6, reg_price=18.4, taxes_incl=True, tech="FTTH", symmetric=True, dl=300, ul=300, wifi="Router WiFi 6",
             vas=[],
         ),
         _home_offer(
             "EC", "Xtrim", "Plan Elite Plus 800 Mbps + Zapping TV + Disney+ Premium & Paramount+", "USD",
             "https://www.xtrim.com.ec/planes/",
-            "Xtrim Ecuador: Plan Elite Plus 800/800 Mbps + Zapping TV + Paramount+ y Disney+ Premium incluidos $25.50/mes promo / $40.00/mes regular IVA incluido (Giga Supremo 1200M + Max: $25.30 promo).",
-            png_path, md_path, promo_price=25.5, reg_price=40.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=800, ul=800, wifi="Router WiFi 6",
+            "Xtrim Ecuador: Plan Elite Plus 800/800 Mbps + Zapping TV + Paramount+ y Disney+ Premium incluidos $25.50/mes promo x 6 meses / $40.00/mes regular IVA incluido (Giga Supremo 1200M + Max: $25.30 promo).",
+            png_path, md_path, promo_price=25.5, promo_months=6, reg_price=40.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=800, ul=800, wifi="Router WiFi 6",
             vas=[
                 _vas(VASProviderEnum.DISNEY_PLUS, "Disney+ Premium", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Incluye Disney+ Premium con ESPN en vivo.", tier="Premium"),
@@ -1000,8 +1000,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CL", "Movistar", "Dúo Fibra 600 Mbps + Movistar TV + Disney+ & Max", "CLP",
             "https://www.movistar.cl/hogar",
-            "Movistar Chile (Millicom): Dúo Fibra Simétrica 600/600 Mbps + Movistar TV + Disney+ y Max incluidos $32.990/mes por 12 meses IVA incluido.",
-            png_path, md_path, promo_price=32990.0, promo_months=12, reg_price=None, install_fee=0.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=600, ul=600, wifi="Smart WiFi 6", tv_boxes=1,
+            "Movistar Chile (Millicom): Dúo Fibra Simétrica 600/600 Mbps + Movistar TV + Disney+ y Max incluidos $32.990/mes por 12 meses, luego $42.990/mes IVA incluido.",
+            png_path, md_path, promo_price=32990.0, promo_months=12, reg_price=42990.0, install_fee=0.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=600, ul=600, wifi="Smart WiFi 6", tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.DISNEY_PLUS, "Disney+", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Disney+ incluido en Dúo Fibra + TV Movistar Chile.", tier="Estándar"),
@@ -1012,8 +1012,8 @@ def build_verified_12_market_snapshots(
         _home_offer(
             "CL", "Movistar", "Dúo Movistar Giga 940 Mbps + TV + Disney+ & Max", "CLP",
             "https://www.movistar.cl/hogar",
-            "Movistar Chile (Millicom): Dúo Fibra Giga 940/940 Mbps + Movistar TV + Disney+ y Max $39.990/mes por 12 meses (Solo Fibra Giga 940M: $19.990 x 12m / $29.990 reg).",
-            png_path, md_path, promo_price=39990.0, promo_months=12, reg_price=None, install_fee=0.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=940, ul=940, wifi="Smart WiFi 6", tv_boxes=1,
+            "Movistar Chile (Millicom): Dúo Fibra Giga 940/940 Mbps + Movistar TV + Disney+ y Max $39.990/mes por 12 meses, luego $49.990/mes (Solo Fibra Giga 940M: $19.990 x 12m / $29.990 reg).",
+            png_path, md_path, promo_price=39990.0, promo_months=12, reg_price=49990.0, install_fee=0.0, taxes_incl=True, tech="FTTH", symmetric=True, dl=940, ul=940, wifi="Smart WiFi 6", tv_boxes=1,
             vas=[
                 _vas(VASProviderEnum.DISNEY_PLUS, "Disney+", VASCommercialModelEnum.INCLUDED_HARD_BUNDLE,
                      "Disney+ incluido fijo en Dúo Giga 940.", tier="Estándar"),
@@ -1107,10 +1107,11 @@ def build_verified_12_market_snapshots(
             clone.pricing.promo_monthly_price = 84900.0
             clone.pricing.promo_duration_months = 6
 
-        # Delta 2 (PA - MasMovil Price Drop on 600M + TV):
-        # Yesterday promo was $56.00 USD; today dropped to $52.00 USD!
+        # Delta 2 (PA - MasMovil VAS Addition of Universal+ at $56.00 USD on 600M + TV):
+        # Today Paquete Hogar +Fibra 600 Megas + TV + Universal+ is $56.00 USD (matching live masmovilpanama.com rate card);
+        # yesterday it did not include Universal+ hard-bundled!
         elif clone.country_iso == "PA" and clone.operator == "MasMovil" and clone.plan_name == "Paquete Hogar +Fibra 600 Megas + TV + Universal+":
-            clone.pricing.promo_monthly_price = 56.0
+            clone.vas_addons = []
 
         # Delta 3 (BO - AXS VAS Portfolio Addition of HBO Max on 135M IPTV bundle):
         # Yesterday had no HBO Max included at 324 BOB; today includes HBO Premium / Max hard-bundled!

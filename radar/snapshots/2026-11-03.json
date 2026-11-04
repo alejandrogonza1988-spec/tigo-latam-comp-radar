@@ -349,7 +349,7 @@
     "plan_name": "Tigo Hogar 120 Mbps + ONEtv HD",
     "speed_mbps": 120,
     "currency": "HNL",
-    "price_local": 1000.0,
+    "price_local": 990.0,
     "promo_price_local": null,
     "promo_months": null,
     "addons": [
@@ -373,7 +373,7 @@
       }
     ],
     "hardware": "Router WiFi Dual",
-    "source_url": "https://www.tigo.com.hn/",
+    "source_url": "https://www.tigo.com.hn/residencial",
     "captured_at": "2026-11-03T06:00:00-05:00"
   },
   {
@@ -386,7 +386,7 @@
     "plan_name": "Tigo Hogar Alta Velocidad 400 Mbps + ONEtv",
     "speed_mbps": 400,
     "currency": "HNL",
-    "price_local": 1000.0,
+    "price_local": 1365.0,
     "promo_price_local": null,
     "promo_months": null,
     "addons": [
@@ -404,7 +404,7 @@
       }
     ],
     "hardware": "Router WiFi Alta Velocidad",
-    "source_url": "https://www.tigo.com.hn/",
+    "source_url": "https://www.tigo.com.hn/residencial",
     "captured_at": "2026-11-03T06:00:00-05:00"
   },
   {
@@ -591,7 +591,7 @@
     "currency": "NIO",
     "price_local": 1280.0,
     "promo_price_local": 1170.0,
-    "promo_months": null,
+    "promo_months": 3,
     "addons": [
       {
         "ott": "MAX",
@@ -703,7 +703,7 @@
     "currency": "CRC",
     "price_local": 29080.74,
     "promo_price_local": 19941.8,
-    "promo_months": null,
+    "promo_months": 24,
     "addons": [
       {
         "ott": "MAX",
@@ -728,7 +728,7 @@
     "currency": "CRC",
     "price_local": 40200.9,
     "promo_price_local": 27951.03,
-    "promo_months": null,
+    "promo_months": 24,
     "addons": [
       {
         "ott": "DISNEY_PLUS",
@@ -799,8 +799,8 @@
     "plan_name": "Doble Play Fibra Simétrica 150 Mbps + TV Ultra HD",
     "speed_mbps": 150,
     "currency": "CRC",
-    "price_local": 27081.0,
-    "promo_price_local": 24681.0,
+    "price_local": 24681.0,
+    "promo_price_local": null,
     "promo_months": null,
     "addons": [
       {
@@ -830,8 +830,8 @@
     "plan_name": "Internet Simétrico Fibra 500 Mbps + Paramount+",
     "speed_mbps": 500,
     "currency": "CRC",
-    "price_local": 29376.0,
-    "promo_price_local": 26495.0,
+    "price_local": 26495.0,
+    "promo_price_local": null,
     "promo_months": null,
     "addons": [
       {
@@ -856,7 +856,7 @@
     "speed_mbps": 300,
     "currency": "CRC",
     "price_local": 29990.0,
-    "promo_price_local": 25990.0,
+    "promo_price_local": null,
     "promo_months": null,
     "addons": [],
     "hardware": "Módem Fibra WiFi",
@@ -1003,8 +1003,8 @@
     "plan_name": "Internet +Fibra Simétrica 300 Mbps",
     "speed_mbps": 300,
     "currency": "USD",
-    "price_local": 33.0,
-    "promo_price_local": 30.0,
+    "price_local": 35.0,
+    "promo_price_local": null,
     "promo_months": null,
     "addons": [],
     "hardware": "ONT +Fibra WiFi",
@@ -1022,7 +1022,7 @@
     "speed_mbps": 300,
     "currency": "USD",
     "price_local": 53.0,
-    "promo_price_local": 44.0,
+    "promo_price_local": null,
     "promo_months": null,
     "addons": [
       {
@@ -1049,14 +1049,7 @@
     "price_local": 56.0,
     "promo_price_local": null,
     "promo_months": null,
-    "addons": [
-      {
-        "ott": "UNIVERSAL_PLUS",
-        "model": "HB",
-        "price_local": 0,
-        "months": null
-      }
-    ],
+    "addons": [],
     "hardware": "ONT +Fibra Dual Band",
     "source_url": "https://www.masmovilpanama.com/paquete-hogar/combos-hogar",
     "captured_at": "2026-11-03T06:00:00-05:00"
@@ -1071,8 +1064,8 @@
     "plan_name": "Paquete Hogar Un GIGA 1000 Megas + TV + Disney+ Premium",
     "speed_mbps": 1000,
     "currency": "USD",
-    "price_local": 60.0,
-    "promo_price_local": 55.0,
+    "price_local": 59.0,
+    "promo_price_local": null,
     "promo_months": null,
     "addons": [
       {
@@ -1122,7 +1115,7 @@
     "currency": "COP",
     "price_local": 109200.0,
     "promo_price_local": 106900.0,
-    "promo_months": null,
+    "promo_months": 6,
     "addons": [
       {
         "ott": "WIN_SPORTS",
@@ -1195,9 +1188,9 @@
     "plan_name": "Dúo Fibra Simétrica 900 Megas + Movistar TV",
     "speed_mbps": 900,
     "currency": "COP",
-    "price_local": 109155.0,
-    "promo_price_local": null,
-    "promo_months": null,
+    "price_local": 136900.0,
+    "promo_price_local": 109155.0,
+    "promo_months": 12,
     "addons": [
       {
         "ott": "WIN_SPORTS",
@@ -1379,7 +1372,7 @@
       }
     ],
     "hardware": "Router WiFi Tigo",
-    "source_url": "https://www.tigo.com.bo/",
+    "source_url": "https://www.tigo.com.bo/hogar",
     "captured_at": "2026-11-03T06:00:00-05:00"
   },
   {
@@ -1410,18 +1403,18 @@
       }
     ],
     "hardware": "Router WiFi Tigo",
-    "source_url": "https://www.tigo.com.bo/",
+    "source_url": "https://www.tigo.com.bo/hogar",
     "captured_at": "2026-11-03T06:00:00-05:00"
   },
   {
-    "id": "BO|TIGO|HOGAR|CONVERGENTE|100",
+    "id": "BO|TIGO|HOGAR|CONVERGENTE|150",
     "country": "BO",
     "operator": "Tigo",
     "is_tigo": true,
     "segment": "Residencial",
     "type": "Convergente",
     "plan_name": "Full Tigo + TV Avanzado (129 Canales + Tigo Sports)",
-    "speed_mbps": 100,
+    "speed_mbps": 150,
     "currency": "BOB",
     "price_local": 399.0,
     "promo_price_local": null,
@@ -1441,7 +1434,7 @@
       }
     ],
     "hardware": "Router WiFi Hogar",
-    "source_url": "https://www.tigo.com.bo/",
+    "source_url": "https://www.tigo.com.bo/hogar",
     "captured_at": "2026-11-03T06:00:00-05:00"
   },
   {
@@ -1636,7 +1629,7 @@
     "currency": "PYG",
     "price_local": 255000.0,
     "promo_price_local": 215000.0,
-    "promo_months": null,
+    "promo_months": 6,
     "addons": [
       {
         "ott": "TIGO_SPORTS",
@@ -2020,7 +2013,7 @@
     "currency": "USD",
     "price_local": 18.4,
     "promo_price_local": 17.85,
-    "promo_months": null,
+    "promo_months": 6,
     "addons": [],
     "hardware": "Router WiFi 6",
     "source_url": "https://www.xtrim.com.ec/planes/",
@@ -2038,7 +2031,7 @@
     "currency": "USD",
     "price_local": 40.0,
     "promo_price_local": 25.5,
-    "promo_months": null,
+    "promo_months": 6,
     "addons": [
       {
         "ott": "DISNEY_PLUS",
@@ -2103,9 +2096,9 @@
     "plan_name": "Dúo Fibra 600 Mbps + Movistar TV + Disney+ & Max",
     "speed_mbps": 600,
     "currency": "CLP",
-    "price_local": 32990.0,
-    "promo_price_local": null,
-    "promo_months": null,
+    "price_local": 42990.0,
+    "promo_price_local": 32990.0,
+    "promo_months": 12,
     "addons": [
       {
         "ott": "DISNEY_PLUS",
@@ -2134,9 +2127,9 @@
     "plan_name": "Dúo Movistar Giga 940 Mbps + TV + Disney+ & Max",
     "speed_mbps": 940,
     "currency": "CLP",
-    "price_local": 39990.0,
-    "promo_price_local": null,
-    "promo_months": null,
+    "price_local": 49990.0,
+    "promo_price_local": 39990.0,
+    "promo_months": 12,
     "addons": [
       {
         "ott": "DISNEY_PLUS",

@@ -2286,6 +2286,11 @@ class ReportBuilder:
         });
       }
 
+      function shortSourceUrl(u) {
+        if (!u) return "";
+        return String(u).replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, "");
+      }
+
       function renderOfferCardHtml(o) {
         const isTigo = Boolean(o.is_millicom);
         const hs = o.home_specs || {};
@@ -2360,8 +2365,16 @@ class ReportBuilder:
                     (hs.technology ? '<span class="px-2 py-0.5 rounded text-xs font-extrabold" style="background:#EEF2FF;color:var(--tigo-navy);">' + escHtml(hs.technology) + "</span>" : "") +
                   "</div>" +
                   '<h4 class="text-sm font-extrabold m-0 mt-2" style="color: var(--tigo-navy);">' + escHtml(o.plan_name) + "</h4>" +
+                  (o.source_url
+                    ? '<div class="mt-1"><a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold underline" style="color:#0284C7;">🔗 ' + escHtml(shortSourceUrl(o.source_url)) + " ↗</a></div>"
+                    : "") +
                 "</div>" +
-                '<button type="button" data-action="open-offer-evidence" data-uid="' + escHtml(o.offer_uid) + '" class="tigo-btn-evidence">Ver Evidencia</button>' +
+                '<div class="flex flex-col items-end gap-1">' +
+                  '<button type="button" data-action="open-offer-evidence" data-uid="' + escHtml(o.offer_uid) + '" class="tigo-btn-evidence">Ver Evidencia</button>' +
+                  (o.source_url
+                    ? '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-md text-[11px] font-extrabold whitespace-nowrap" style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;text-decoration:none;">🔗 Ir a Web ↗</a>'
+                    : "") +
+                "</div>" +
               "</div>" +
               gapHtml +
               '<div class="tigo-soft-box p-3 grid grid-cols-2 gap-2.5 text-xs">' +
@@ -2843,14 +2856,24 @@ class ReportBuilder:
                 (o.is_millicom ? ' <span class="badge-tigo ml-1"><span class="badge-tigo-dot"></span>TIGO</span>' : "") +
               "</td>" +
               '<td class="whitespace-nowrap font-semibold">' + escHtml(formatBundleType(o.bundle_type)) + "</td>" +
-              '<td class="font-bold" style="color: var(--tigo-navy);">' + escHtml(o.plan_name) + "</td>" +
+              '<td class="font-bold" style="color: var(--tigo-navy);">' +
+                escHtml(o.plan_name) +
+                (o.source_url
+                  ? '<div class="mt-0.5"><a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold underline" style="color:#0284C7;">🔗 ' + escHtml(shortSourceUrl(o.source_url)) + " ↗</a></div>"
+                  : "") +
+              "</td>" +
               '<td class="whitespace-nowrap"><strong>' + escHtml(hs.technology || "Móvil") + "</strong> &bull; " + escHtml(formatBandwidthFull(hs)) + "</td>" +
               "<td><div class=\"font-medium\">" + escHtml(hs.wifi_hardware || "Estándar") + '</div><div class="text-[11px]" style="color: var(--tigo-text-secondary);">' + escHtml(formatTvFull(hs)) + "</div></td>" +
               '<td style="text-align:right;" class="font-extrabold whitespace-nowrap">' + escHtml(effText) + promoTag + "</td>" +
               '<td style="text-align:right;" class="whitespace-nowrap">' + escHtml(regText) + "</td>" +
               '<td style="text-align:right;" class="whitespace-nowrap">' + gapCell + "</td>" +
               "<td>" + addonsCell + "</td>" +
-              '<td style="text-align:center;"><button type="button" data-action="open-offer-evidence" data-uid="' + escHtml(o.offer_uid) + '" class="tigo-btn-evidence">Ver Evidencia</button></td>' +
+              '<td style="text-align:center;" class="space-y-1">' +
+                '<button type="button" data-action="open-offer-evidence" data-uid="' + escHtml(o.offer_uid) + '" class="tigo-btn-evidence block w-full">Ver Evidencia</button>' +
+                (o.source_url
+                  ? '<a href="' + escHtml(o.source_url) + '" target="_blank" rel="noopener noreferrer" class="inline-block px-2.5 py-1 rounded-md text-[11px] font-extrabold whitespace-nowrap" style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;text-decoration:none;">🔗 Ir a Web ↗</a>'
+                  : "") +
+              "</td>" +
             "</tr>"
           );
         }).join("");
@@ -2872,6 +2895,7 @@ class ReportBuilder:
 
             const y = d.yesterday_offer;
             const t = d.today_offer;
+            const deltaUrl = (t && t.source_url) || (y && y.source_url) || "";
 
             const yHtml = y
               ? '<div>Promo: <strong>' + escHtml(formatMoney((y.pricing || {}).promo_monthly_price, d.currency)) + "</strong> &bull; Regular: <strong>" + escHtml(formatMoney((y.pricing || {}).regular_monthly_price, d.currency)) + "</strong></div>" +
@@ -2897,7 +2921,12 @@ class ReportBuilder:
                     '<h3 class="text-sm font-extrabold m-0 mt-1.5" style="color: var(--tigo-navy);">' + escHtml(d.plan_name) + "</h3>" +
                     '<p class="text-xs m-0 mt-0.5 font-medium" style="color: var(--tigo-text-secondary);">' + escHtml(d.summary) + "</p>" +
                   "</div>" +
-                  '<button type="button" data-action="open-delta-evidence" data-delta-idx="' + idx + '" class="tigo-btn-evidence">Ver Evidencia</button>' +
+                  '<div class="flex flex-wrap items-center gap-2">' +
+                    (deltaUrl
+                      ? '<a href="' + escHtml(deltaUrl) + '" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-md text-xs font-extrabold whitespace-nowrap" style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;text-decoration:none;">🔗 Web Oficial (' + escHtml(shortSourceUrl(deltaUrl)) + ") ↗</a>"
+                      : "") +
+                    '<button type="button" data-action="open-delta-evidence" data-delta-idx="' + idx + '" class="tigo-btn-evidence">Ver Evidencia</button>' +
+                  "</div>" +
                 "</div>" +
                 '<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">' +
                   '<div class="tigo-soft-box p-3 space-y-1">' +
@@ -2931,8 +2960,18 @@ class ReportBuilder:
                   '<td class="whitespace-nowrap"><span class="' + vasModelBadgeClass(r.commercial_model) + '">' + escHtml(r.commercial_model) + "</span></td>" +
                   '<td style="text-align:center;" class="font-extrabold">' + escHtml(r.free_months ? r.free_months + "m" : "—") + "</td>" +
                   '<td style="text-align:right;" class="whitespace-nowrap font-semibold">' + escHtml(formatVasShortCondition(r, r.currency)) + "</td>" +
-                  '<td class="font-semibold" style="color: var(--tigo-navy);">' + escHtml(r.plan_name) + "</td>" +
-                  '<td style="text-align:center;"><button type="button" data-action="open-vas-evidence" data-vas-idx="' + idx + '" class="tigo-btn-evidence">Ver Evidencia</button></td>' +
+                  '<td class="font-semibold" style="color: var(--tigo-navy);">' +
+                    escHtml(r.plan_name) +
+                    (r.source_url
+                      ? '<div class="mt-0.5"><a href="' + escHtml(r.source_url) + '" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold underline" style="color:#0284C7;">🔗 ' + escHtml(shortSourceUrl(r.source_url)) + " ↗</a></div>"
+                      : "") +
+                  "</td>" +
+                  '<td style="text-align:center;" class="space-y-1">' +
+                    '<button type="button" data-action="open-vas-evidence" data-vas-idx="' + idx + '" class="tigo-btn-evidence block w-full">Ver Evidencia</button>' +
+                    (r.source_url
+                      ? '<a href="' + escHtml(r.source_url) + '" target="_blank" rel="noopener noreferrer" class="inline-block px-2 py-0.5 rounded text-[11px] font-extrabold whitespace-nowrap" style="background:#EFF6FF;color:#003F98;border:1px solid #BFDBFE;text-decoration:none;">🔗 Ir a Web ↗</a>'
+                      : "") +
+                  "</td>" +
                 "</tr>"
               );
             }).join("");
